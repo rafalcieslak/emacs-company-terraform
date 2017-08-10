@@ -1,5 +1,20 @@
 #!/usr/bin/env python3
 
+## This file generates company-terraform-data.el.
+
+## It's basically a simple HTTP scraper. It walks through terraform
+## documentation on https://www.terraform.io/docs/ and extracts resources,
+## arguments, attributes and their documentation.
+
+## But terraform documentation formatting is quite inconsistent. So the actual
+## logic in this file is a complete mess and a ton of weird edge cases that are
+## implemented only to support some particular formatting mistakes. Oh well.
+
+## So I did not bother to write this script clearly or to document it. It will
+## need to be entirely rewritten every few weeks :(
+
+## Therefore please do not use this file to teach kids Python.
+
 import requests
 from bs4 import BeautifulSoup
 import json
