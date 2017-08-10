@@ -49,13 +49,12 @@
      ((and (eq ?{ (char-after curr-ppos))
            (save-excursion
              (goto-char curr-ppos)
-             (re-search-backward "\\(resource\\|data\\)[[:space:]\n]*\"\\([^\"]*\\)\"[[:space:]\n]*\"[^\"]*\"[[:space:]\n]*\\=" nil t)
-             ))
-           
+             (re-search-backward "\\(resource\\|data\\)[[:space:]\n]*\"\\([^\"]*\\)\"[[:space:]\n]*\"[^\"]*\"[[:space:]\n]*\\=" nil t)))
+      
       (list (match-string-no-properties 1) (match-string-no-properties 2)))
      ; top level
      ((eq 0 nest-level) 'top-level)
-    (t 'no-idea))))
+     (t 'no-idea))))
 
 (defun company-terraform-test-context ()
   "Echoes a message naming the current context in a terraform file. Useful for diagnostics."
@@ -86,7 +85,7 @@
       (dolist (item l)
         (when (string-prefix-p prefix (car item))
           (push (company-terraform-make-candidate item) res))))
-      res))
+    res))
 
 (defun company-terraform-candidates (prefix)
   (let ((context (company-terraform-get-context)))
@@ -109,18 +108,18 @@
         (cond
          ((eq (length a) 1)
           (company-terraform-filterdoc prefix (list company-terraform-interpolation-functions
-                                               company-terraform-resources-list
-                                               company-terraform-interpolation-extra) t))
+                                                    company-terraform-resources-list
+                                                    company-terraform-interpolation-extra) t))
          ((and (eq (length a) 2)
                (equal (nth 0 a) "data"))
           (company-terraform-filterdoc (nth 1 a) company-terraform-data-list))
          ((and (eq (length a) 3))
           (company-terraform-filterdoc (nth 2 a) (list (gethash (nth 0 a) company-terraform-resource-arguments-hash)
-                                                  (gethash (nth 0 a) company-terraform-resource-attributes-hash)) t))
+                                                       (gethash (nth 0 a) company-terraform-resource-attributes-hash)) t))
          ((and (eq (length a) 4)
                (equal (nth 0 a) "data"))
           (company-terraform-filterdoc (nth 3 a) (list (gethash (nth 1 a) company-terraform-data-arguments-hash)
-                                                  (gethash (nth 1 a) company-terraform-data-attributes-hash)) t))
+                                                       (gethash (nth 1 a) company-terraform-data-attributes-hash)) t))
          (t nil))))
      (t nil))))
 
