@@ -25,6 +25,7 @@
 (require 'company-terraform-data)
 
 (defun company-terraform-get-context ()
+  "Guess the context in terraform description where point is."
   (let ((nest-level (nth 0 (syntax-ppss)))
         (curr-ppos (nth 1 (syntax-ppss)))
         (string-state (nth 3 (syntax-ppss)))
@@ -62,6 +63,9 @@
   (message "company-terraform-context: %s" (company-terraform-get-context)))
 
 (defun company-terraform-prefix ()
+  "Return the text before point that is part of a completable symbol.
+Check function ‘company-mode’ docs for the details on how this
+function's result is interpreted."
   (if (eq major-mode 'terraform-mode)
       (let ((context (company-terraform-get-context)))
         (cond
@@ -74,11 +78,13 @@
     nil))
 
 (defun company-terraform-make-candidate (candidate)
+  "Annotates a completion suggestion from a name-doc list CANDIDATE."
   (let ((text (nth 0 candidate))
-        (meta (nth 1 candidate)))
-    (propertize text 'meta meta)))
+        (doc (nth 1 candidate)))
+    (propertize text 'doc doc)))
 
 (defun company-terraform-filterdoc (prefix lists &optional multi)
+  "Filters for the PREFIX a list (or a list of LISTS, if MULTI is not nil) of name-doc pairs."
   (if (not multi) (setq lists (list lists)))
   (let (res)
     (dolist (l lists)
@@ -88,16 +94,16 @@
     res))
 
 (defun company-terraform-candidates (prefix)
+  "Prepare a list of autocompletion candidates for the given PREFIX."
   (let ((context (company-terraform-get-context)))
-    ;(message "%s" context)
     (cond
      ((eq 'top-level context)
       (company-terraform-filterdoc prefix company-terraform-toplevel-keywords))
      ((and (eq    (nth 0 context) 'object-type)
-           (equal (nth 1 context) "resource ")) ; ??? Why is this space necessary?!
+           (equal (nth 1 context) "resource "))
       (company-terraform-filterdoc prefix company-terraform-resources-list))
      ((and (eq    (nth 0 context) 'object-type)
-           (equal (nth 1 context) "data ")) ; ??? Why is this space necessary?!
+           (equal (nth 1 context) "data "))
       (company-terraform-filterdoc prefix company-terraform-data-list))
      ((equal (car context) "resource")
       (company-terraform-filterdoc prefix (gethash (nth 1 context) company-terraform-resource-arguments-hash)))
@@ -123,21 +129,24 @@
          (t nil))))
      (t nil))))
 
-(defun company-terraform-meta (candidate)
-  (get-text-property 0 'meta candidate))
+(defun company-terraform-doc (candidate)
+  "Return the documentation of a completion CANDIDATE."
+  (get-text-property 0 'doc candidate))
 
-(defun company-terraform-docstring (candidate)
-  (company-doc-buffer (company-terraform-meta candidate)))
+(defun company-terraform-docbuffer (candidate)
+  "Prepare a temporary buffer with completion CANDIDATE documentation."
+  (company-doc-buffer (company-terraform-doc candidate)))
 
 ;;;###autoload
 (defun company-terraform (command &optional arg &rest ignored)
-  "Provides a company backend for terraform files."
+  "Main entry point for a company backend.
+Read `company-mode` function docs for the semantics of this function."
   (cl-case command
     (interactive (company-begin-backend 'company-test-backend))
     (prefix (company-terraform-prefix))
     (candidates (company-terraform-candidates arg))
-    (meta (company-terraform-meta arg))
-    (doc-buffer (company-terraform-docstring arg))))
+    (meta (company-terraform-doc arg))
+    (doc-buffer (company-terraform-docbuffer arg))))
 
 
 ;;;###autoload
