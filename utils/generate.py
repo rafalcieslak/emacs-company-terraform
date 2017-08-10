@@ -259,8 +259,8 @@ def prepare_file():
             'doc': func['doc']}
     data += "(defconst company-terraform-interpolation-functions  '(\n" + funclist + "   ))\n\n"
         
-    with open("data.el", "w") as file:
-        file.write(data)
+    with open("company-terraform-data.el", "w") as file:
+        file.write(header + data + footer)
     
 get_providers()
 #for p in ['rundeck']:

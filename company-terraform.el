@@ -60,7 +60,7 @@
 (defun company-terraform-test-context ()
   "Echoes a message naming the current context in a terraform file. Useful for diagnostics."
   (interactive)
-  (message "terraform-context: %s" (company-terraform-get-context)))
+  (message "company-terraform-context: %s" (company-terraform-get-context)))
 
 (defun company-terraform-prefix ()
   (if (eq major-mode 'terraform-mode)
@@ -79,7 +79,7 @@
         (meta (nth 1 candidate)))
     (propertize text 'meta meta)))
 
-(defun filter-prefix-with-doc (prefix lists &optional multi)
+(defun company-terraform-filterdoc (prefix lists &optional multi)
   (if (not multi) (setq lists (list lists)))
   (let (res)
     (dolist (l lists)
@@ -93,34 +93,34 @@
     ;(message "%s" context)
     (cond
      ((eq 'top-level context)
-      (filter-prefix-with-doc prefix terraform-toplevel-keywords))
+      (company-terraform-filterdoc prefix company-terraform-toplevel-keywords))
      ((and (eq    (nth 0 context) 'object-type)
            (equal (nth 1 context) "resource ")) ; ??? Why is this space necessary?!
-      (filter-prefix-with-doc prefix terraform-resources-list))
+      (company-terraform-filterdoc prefix company-terraform-resources-list))
      ((and (eq    (nth 0 context) 'object-type)
            (equal (nth 1 context) "data ")) ; ??? Why is this space necessary?!
-      (filter-prefix-with-doc prefix terraform-data-list))
+      (company-terraform-filterdoc prefix company-terraform-data-list))
      ((equal (car context) "resource")
-      (filter-prefix-with-doc prefix (gethash (nth 1 context) terraform-resource-arguments-hash)))
+      (company-terraform-filterdoc prefix (gethash (nth 1 context) company-terraform-resource-arguments-hash)))
      ((equal (car context) "data")
-      (filter-prefix-with-doc prefix (gethash (nth 1 context) terraform-data-arguments-hash)))
+      (company-terraform-filterdoc prefix (gethash (nth 1 context) company-terraform-data-arguments-hash)))
      ((equal (car context) 'interpolation)
       (let ((a (split-string (nth 1 context) "\\.")))
         (cond
          ((eq (length a) 1)
-          (filter-prefix-with-doc prefix (list terraform-interpolation-functions
-                                               terraform-resources-list
-                                               terraform-interpolation-extra) t))
+          (company-terraform-filterdoc prefix (list company-terraform-interpolation-functions
+                                               company-terraform-resources-list
+                                               company-terraform-interpolation-extra) t))
          ((and (eq (length a) 2)
                (equal (nth 0 a) "data"))
-          (filter-prefix-with-doc (nth 1 a) terraform-data-list))
+          (company-terraform-filterdoc (nth 1 a) company-terraform-data-list))
          ((and (eq (length a) 3))
-          (filter-prefix-with-doc (nth 2 a) (list (gethash (nth 0 a) terraform-resource-arguments-hash)
-                                                  (gethash (nth 0 a) terraform-resource-attributes-hash)) t))
+          (company-terraform-filterdoc (nth 2 a) (list (gethash (nth 0 a) company-terraform-resource-arguments-hash)
+                                                  (gethash (nth 0 a) company-terraform-resource-attributes-hash)) t))
          ((and (eq (length a) 4)
                (equal (nth 0 a) "data"))
-          (filter-prefix-with-doc (nth 3 a) (list (gethash (nth 1 a) terraform-data-arguments-hash)
-                                                  (gethash (nth 1 a) terraform-data-attributes-hash)) t))
+          (company-terraform-filterdoc (nth 3 a) (list (gethash (nth 1 a) company-terraform-data-arguments-hash)
+                                                  (gethash (nth 1 a) company-terraform-data-attributes-hash)) t))
          (t nil))))
      (t nil))))
 
@@ -132,7 +132,6 @@
 
 ;;;###autoload
 (defun company-terraform (command &optional arg &rest ignored)
-  (interactive (list 'interactive))
   (cl-case command
     (interactive (company-begin-backend 'company-test-backend))
     (prefix (company-terraform-prefix))
