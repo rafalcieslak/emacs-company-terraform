@@ -2,6 +2,8 @@
 
 Company backend for terraform files.
 
+[<img src="https://asciinema.org/a/132870.png" alt="asciinema" width="480"/>](https://asciinema.org/a/132870)
+
 ## Features
 
 Autompletes:
