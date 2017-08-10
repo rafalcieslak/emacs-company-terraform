@@ -1,5 +1,12 @@
+;;; company-terraform-data.el --- Terraform documentation as elisp lists and hashes
+
+;; Copyright (C) 2017 Rafał Cieślak
+
+;;; Commentary:
+
 ;; THIS FILE WAS AUTOMATICALLY GENERATED. DO NOT EDIT.
 
+;;; Code:
 
 (defconst terraform-resources-list '(
     ("alicloud_disk" "Provides a ECS disk resource.\n\n NOTE: One of size or snapshot_id is required when specifying an ECS disk. If all of them be specified, size must more than the size of snapshot which snapshot_id represents. Currently, alicloud_disk doesn't resize disk.")
@@ -14838,3 +14845,4 @@
     ("zipmap" "zipmap(list, list) - Creates a map from a list of keys and a list of   values. The keys must all be of type string, and the length of the lists   must be the same.   For example, to output a mapping of AWS IAM user names to the fingerprint   of the key used to encrypt their initial password, you might use:   zipmap(aws_iam_user.users.*.name, aws_iam_user_login_profile.users.*.key_fingerprint).")
    ))
 
+(provide 'company-terraform-data)

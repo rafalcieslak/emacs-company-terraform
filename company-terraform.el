@@ -1,3 +1,23 @@
+;;; company-terraform.el --- A company backend for terraform
+
+;; Copyright (C) 2017 Rafał Cieślak
+
+;; Author: Rafał Cieślak <rafalcieslak256@gmail.com>
+;; Version: 1.0
+;; Package-Requires: ((emacs "24.4") (company "0.8.12"))
+;; Created: 10 August 2017
+;; Keywords: terraform, company
+;; URL: https://github.com/rafalcieslak/company-terraform
+
+;;; Commentary:
+
+;; company-terraform provides a company backend for terraform files. It enables
+;; context-aware autocompletion for terraform sources. This includes resource
+;; and data arguments and attributes, both in resource and data blocks as well
+;; as in interpolations, built-in functions and top-level keywords.
+
+;;; Code:
+
 (require 'company)
 (require 'cl-lib)
 (require 'terraform-mode)
@@ -25,14 +45,12 @@
 (setq terraform-data-attributes-hash
       (make-hash-table :test `equal))
 
+(require 'company-terraform-data)
+
 (defun company-terraform-load-data ()
   (interactive)
   (let ((datafile (expand-file-name "data.el" (file-name-directory (or load-file-name buffer-file-name)))))
     (load-file datafile)))
-
-(defun test-parser-string ()
-  (interactive)
-  (message "%s" (nth 3 (syntax-ppss))))
 
 (defun company-terraform-get-context ()
   (let ((nest-level (nth 0 (syntax-ppss)))
@@ -146,7 +164,8 @@
 (defun company-terraform-docstring (candidate)
   (company-doc-buffer (company-terraform-meta candidate)))
 
-(defun company-terraform-backend (command &optional arg &rest ignored)
+;;;###autoload
+(defun company-terraform (command &optional arg &rest ignored)
   (interactive (list 'interactive))
   (cl-case command
     (interactive (company-begin-backend 'company-test-backend))
@@ -160,7 +179,13 @@
                 (setq company-terraform-initialized t))))))
 
 
-(add-to-list 'company-backends 'company-terraform-backend)
+;;;###autoload
+(defun company-terraform-init ()
+  "Add terraform to the company backends."
+  (interactive)
+  (message "adding")
+  (add-to-list 'company-backends 'company-terraform))
 
-(company-terraform-load-data)
-(message "eval success")
+(provide 'company-terraform)
+
+;;; company-terraform.el ends here
