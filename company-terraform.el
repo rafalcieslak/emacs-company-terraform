@@ -36,7 +36,7 @@
            (save-excursion
              (goto-char string-ppos)
              (re-search-backward "\\(resource\\|data\\)[[:space:]\n]*\\=" nil t)))
-      (list 'object-type (match-string-no-properties 0)))
+      (list 'object-type (match-string-no-properties 1)))
      ; string interpolation
      ((and (> nest-level 0)
            string-state
@@ -74,8 +74,7 @@ function's result is interpreted."
          ((eq (car context) 'object-type) (company-grab-symbol-cons "\"" 1))
          ((equal (car context) "resource") (company-grab-symbol))
          ((equal (car context) "data") (company-grab-symbol))
-         (t (company-grab-symbol))))
-    nil))
+         (t (company-grab-symbol))))))
 
 (defun company-terraform-make-candidate (candidate)
   "Annotates a completion suggestion from a name-doc list CANDIDATE."
@@ -100,10 +99,10 @@ function's result is interpreted."
      ((eq 'top-level context)
       (company-terraform-filterdoc prefix company-terraform-toplevel-keywords))
      ((and (eq    (nth 0 context) 'object-type)
-           (equal (nth 1 context) "resource "))
+           (equal (nth 1 context) "resource"))
       (company-terraform-filterdoc prefix company-terraform-resources-list))
      ((and (eq    (nth 0 context) 'object-type)
-           (equal (nth 1 context) "data "))
+           (equal (nth 1 context) "data"))
       (company-terraform-filterdoc prefix company-terraform-data-list))
      ((equal (car context) "resource")
       (company-terraform-filterdoc prefix (gethash (nth 1 context) company-terraform-resource-arguments-hash)))
