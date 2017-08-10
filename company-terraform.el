@@ -11,8 +11,8 @@
 
 ;;; Commentary:
 
-;; company-terraform provides a company backend for terraform files. It enables
-;; context-aware autocompletion for terraform sources. This includes resource
+;; company-terraform provides a company backend for terraform files.  It enables
+;; context-aware autocompletion for terraform sources.  This includes resource
 ;; and data arguments and attributes, both in resource and data blocks as well
 ;; as in interpolations, built-in functions and top-level keywords.
 
@@ -57,7 +57,7 @@
      (t 'no-idea))))
 
 (defun company-terraform-test-context ()
-  "Echoes a message naming the current context in a terraform file. Useful for diagnostics."
+  "Echoes a message naming the current context in a terraform file.  Useful for diagnostics."
   (interactive)
   (message "company-terraform-context: %s" (company-terraform-get-context)))
 
@@ -131,6 +131,7 @@
 
 ;;;###autoload
 (defun company-terraform (command &optional arg &rest ignored)
+  "Provides a company backend for terraform files."
   (cl-case command
     (interactive (company-begin-backend 'company-test-backend))
     (prefix (company-terraform-prefix))
