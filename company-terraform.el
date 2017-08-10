@@ -4,7 +4,7 @@
 
 ;; Author: Rafał Cieślak <rafalcieslak256@gmail.com>
 ;; Version: 1.0
-;; Package-Requires: ((emacs "24.4") (company "0.8.12"))
+;; Package-Requires: ((emacs "24.4") (company "0.8.12") (terraform-mode "0.06"))
 ;; Created: 10 August 2017
 ;; Keywords: terraform, company
 ;; URL: https://github.com/rafalcieslak/company-terraform
@@ -22,6 +22,15 @@
 (require 'cl-lib)
 (require 'terraform-mode)
 
+(setq terraform-resource-arguments-hash
+      (make-hash-table :test `equal))
+(setq terraform-data-arguments-hash
+      (make-hash-table :test `equal))
+(setq terraform-resource-attributes-hash
+      (make-hash-table :test `equal))
+(setq terraform-data-attributes-hash
+      (make-hash-table :test `equal))
+
 (defconst terraform-toplevel-keywords
   '(
     ("resource" "Defines a new resource")
@@ -36,21 +45,7 @@
     ("data." "References a data source")
     ))
 
-(setq terraform-resource-arguments-hash
-      (make-hash-table :test `equal))
-(setq terraform-data-arguments-hash
-      (make-hash-table :test `equal))
-(setq terraform-resource-attributes-hash
-      (make-hash-table :test `equal))
-(setq terraform-data-attributes-hash
-      (make-hash-table :test `equal))
-
 (require 'company-terraform-data)
-
-(defun company-terraform-load-data ()
-  (interactive)
-  (let ((datafile (expand-file-name "data.el" (file-name-directory (or load-file-name buffer-file-name)))))
-    (load-file datafile)))
 
 (defun company-terraform-get-context ()
   (let ((nest-level (nth 0 (syntax-ppss)))
@@ -85,9 +80,10 @@
      ((eq 0 nest-level) 'top-level)
     (t 'no-idea))))
 
-(defun test-context ()
+(defun company-terraform-test-context ()
+  "Echoes a message naming the current context in a terraform file. Useful for diagnostics."
   (interactive)
-  (message "context: %s" (company-terraform-get-context)))
+  (message "terraform-context: %s" (company-terraform-get-context)))
 
 (defun company-terraform-prefix ()
   (if (eq major-mode 'terraform-mode)
@@ -137,7 +133,7 @@
      ((equal (car context) "resource")
       (filter-prefix-with-doc prefix (gethash (nth 1 context) terraform-resource-arguments-hash)))
      ((equal (car context) "data")
-      (filter-prefix-with-doc prefix (gethash (nth 1 context) terraform-data-hash)))
+      (filter-prefix-with-doc prefix (gethash (nth 1 context) terraform-data-arguments-hash)))
      ((equal (car context) 'interpolation)
       (let ((a (split-string (nth 1 context) "\\.")))
         (cond
@@ -172,18 +168,13 @@
     (prefix (company-terraform-prefix))
     (candidates (company-terraform-candidates arg))
     (meta (company-terraform-meta arg))
-    (doc-buffer (company-terraform-docstring arg))
-    (init (if (not (bound-and-true-p company-terraform-initialized))
-              (progn
-                (company-terraform-load-data)
-                (setq company-terraform-initialized t))))))
+    (doc-buffer (company-terraform-docstring arg))))
 
 
 ;;;###autoload
 (defun company-terraform-init ()
   "Add terraform to the company backends."
   (interactive)
-  (message "adding")
   (add-to-list 'company-backends 'company-terraform))
 
 (provide 'company-terraform)
