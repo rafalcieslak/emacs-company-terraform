@@ -8,6 +8,42 @@ provider_list = []
 resource_list = []
 functions_list = []
 
+header = """
+;;; company-terraform-data.el --- Terraform documentation as elisp lists and hashes
+
+;; THIS FILE WAS AUTOMATICALLY GENERATED. DO NOT EDIT.
+
+;;; Code:
+
+(defconst company-terraform-toplevel-keywords
+  '(
+    ("resource" "Defines a new resource")
+    ("variable" "Defines a variable or module input")
+    ("data" "Defines a new data source")
+    ("output" "Defines an output value or module output")
+    ))
+
+(defconst company-terraform-interpolation-extra
+  '(("module." "References a module")
+    ("var." "References a variable")
+    ("data." "References a data source")
+    ))
+
+(defconst company-terraform-resource-arguments-hash
+      (make-hash-table :test `equal))
+(defconst company-terraform-data-arguments-hash
+      (make-hash-table :test `equal))
+(defconst company-terraform-resource-attributes-hash
+      (make-hash-table :test `equal))
+(defconst company-terraform-data-attributes-hash
+  (make-hash-table :test `equal))
+"""
+
+footer = """
+(provide 'company-terraform-data)
+;;; company-terraform-data.el ends here
+"""
+
 def get_sibling(element):
     sibling = element.next_sibling
     if not sibling:
@@ -157,7 +193,7 @@ def prepare_file():
             reslist += "    (\"%(name)s\" \"%(doc)s\")\n" % {
                 'name': resource['name'],
                 'doc': resource['doc']}
-    data += "(defconst terraform-resources-list '(\n" + reslist + "   ))\n\n"
+    data += "(defconst company-terraform-resources-list '(\n" + reslist + "   ))\n\n"
     
     # Then, resource argument hashes.
     for resource in resource_list:
@@ -167,7 +203,7 @@ def prepare_file():
                 arglist += "    (\"%(name)s\" \"%(doc)s\")\n" % {
                     'name': argument['name'],
                     'doc': argument['doc']}
-            data += "(puthash \"%(name)s\" '(\n%(arglist)s\n  ) terraform-resource-arguments-hash)\n\n" % {
+            data += "(puthash \"%(name)s\" '(\n%(arglist)s\n  ) company-terraform-resource-arguments-hash)\n\n" % {
                 'name': resource['name'],
                 'arglist': arglist}
 
@@ -179,7 +215,7 @@ def prepare_file():
                 attrlist += "    (\"%(name)s\" \"%(doc)s\")\n" % {
                     'name':attribute['name'],
                     'doc': attribute['doc']}
-            data += "(puthash \"%(name)s\" '(\n%(attrlist)s\n  ) terraform-resource-attributes-hash)\n\n" % {
+            data += "(puthash \"%(name)s\" '(\n%(attrlist)s\n  ) company-terraform-resource-attributes-hash)\n\n" % {
                 'name': resource['name'],
                 'attrlist': attrlist}
             
@@ -190,7 +226,7 @@ def prepare_file():
             reslist += "    (\"%(name)s\" \"%(doc)s\")\n" % {
                 'name': resource['name'],
                 'doc': resource['doc']}
-    data += "(defconst terraform-data-list '(\n" + reslist + "   ))\n\n"
+    data += "(defconst company-terraform-data-list '(\n" + reslist + "   ))\n\n"
     
     # Then, data argument hashes.
     for resource in resource_list:
@@ -200,7 +236,7 @@ def prepare_file():
                 arglist += "    (\"%(name)s\" \"%(doc)s\")\n" % {
                     'name': argument['name'],
                     'doc': argument['doc']}
-            data += "(puthash \"%(name)s\" '(\n%(arglist)s\n  ) terraform-data-arguments-hash)\n\n" % {
+            data += "(puthash \"%(name)s\" '(\n%(arglist)s\n  ) company-terraform-data-arguments-hash)\n\n" % {
                 'name': resource['name'],
                 'arglist': arglist}
 
@@ -212,7 +248,7 @@ def prepare_file():
                 attrlist += "    (\"%(name)s\" \"%(doc)s\")\n" % {
                     'name':attribute['name'],
                     'doc': attribute['doc']}
-            data += "(puthash \"%(name)s\" '(\n%(attrlist)s\n  ) terraform-data-attributes-hash)\n\n" % {
+            data += "(puthash \"%(name)s\" '(\n%(attrlist)s\n  ) company-terraform-data-attributes-hash)\n\n" % {
                 'name': resource['name'],
                 'attrlist': attrlist}
 
@@ -221,7 +257,7 @@ def prepare_file():
         funclist += "    (\"%(name)s\" \"%(doc)s\")\n" % {
             'name':func['name'],
             'doc': func['doc']}
-    data += "(defconst terraform-interpolation-functions  '(\n" + funclist + "   ))\n\n"
+    data += "(defconst company-terraform-interpolation-functions  '(\n" + funclist + "   ))\n\n"
         
     with open("data.el", "w") as file:
         file.write(data)

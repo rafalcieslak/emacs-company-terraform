@@ -1,12 +1,17 @@
 ;;; company-terraform-data.el --- Terraform documentation as elisp lists and hashes
 
-;; Copyright (C) 2017 Rafał Cieślak
-
-;;; Commentary:
-
 ;; THIS FILE WAS AUTOMATICALLY GENERATED. DO NOT EDIT.
 
 ;;; Code:
+
+(defconst terraform-resource-arguments-hash
+      (make-hash-table :test `equal))
+(defconst terraform-data-arguments-hash
+      (make-hash-table :test `equal))
+(defconst terraform-resource-attributes-hash
+      (make-hash-table :test `equal))
+(defconst terraform-data-attributes-hash
+  (make-hash-table :test `equal))
 
 (defconst terraform-resources-list '(
     ("alicloud_disk" "Provides a ECS disk resource.\n\n NOTE: One of size or snapshot_id is required when specifying an ECS disk. If all of them be specified, size must more than the size of snapshot which snapshot_id represents. Currently, alicloud_disk doesn't resize disk.")

@@ -22,29 +22,6 @@
 (require 'cl-lib)
 (require 'terraform-mode)
 
-(setq terraform-resource-arguments-hash
-      (make-hash-table :test `equal))
-(setq terraform-data-arguments-hash
-      (make-hash-table :test `equal))
-(setq terraform-resource-attributes-hash
-      (make-hash-table :test `equal))
-(setq terraform-data-attributes-hash
-      (make-hash-table :test `equal))
-
-(defconst terraform-toplevel-keywords
-  '(
-    ("resource" "Defines a new resource")
-    ("variable" "Defines a variable or module input")
-    ("data" "Defines a new data source")
-    ("output" "Defines an output value or module output")
-    ))
-
-(defconst terraform-interpolation-extra
-  '(("module." "References a module")
-    ("var." "References a variable")
-    ("data." "References a data source")
-    ))
-
 (require 'company-terraform-data)
 
 (defun company-terraform-get-context ()
@@ -101,13 +78,6 @@
   (let ((text (nth 0 candidate))
         (meta (nth 1 candidate)))
     (propertize text 'meta meta)))
-
-(defun filter-prefix (prefix list)
-  (let (res)
-    (dolist (item list)
-      (when (string-prefix-p prefix item)
-        (push item res)))
-    res))
 
 (defun filter-prefix-with-doc (prefix lists &optional multi)
   (if (not multi) (setq lists (list lists)))
