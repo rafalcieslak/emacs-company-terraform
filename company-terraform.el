@@ -57,7 +57,7 @@
          (resource-data (cdr v)))
     (if (and v
              (< (- (float-time) cache-time) 20))
-        resdata
+        resource-data
       (progn
         (message "Regenerating company-terraform resource cache for %s..." dir)
         (let ((resource-data (company-terraform-scan-resources dir)))
@@ -85,9 +85,10 @@
       (list 'interpolation (buffer-substring (point)
                                              (save-excursion
                                                (with-syntax-table (make-syntax-table (syntax-table))
-                                                 ; Minus and dot characters are part of the object path.
+                                                 ; Minus, asterisk and dot characters are part of the object path.
                                                  (modify-syntax-entry ?- "w")
                                                  (modify-syntax-entry ?. "w")
+                                                 (modify-syntax-entry ?* "w")
                                                  (skip-syntax-backward "w")
                                                  (point))))))
      ; resource/data block
@@ -113,6 +114,7 @@ function's result is interpreted."
   (if (eq major-mode 'terraform-mode)
       (let ((context (company-terraform-get-context)))
         (cond
+         ((eq 'no-idea context) nil)
          ((eq 'top-level context) (company-grab-symbol))
          ((eq (car context) 'interpolation) (cons (car (last (split-string (nth 1 context) "\\."))) t))
          ((eq (car context) 'object-type) (company-grab-symbol-cons "\"" 1))
@@ -146,6 +148,10 @@ function's result is interpreted."
           (push item res))))
     res))
 
+(defun company-terraform-is-resource-n (string)
+  "True IFF the string is an integer or a literal * character."
+  (if (string-match "\\`\\([0-9]+\\)\\|*\\'" string) t nil))
+
 (defun company-terraform-candidates (prefix)
   "Prepare a list of autocompletion candidates for the given PREFIX."
   (let ((context (company-terraform-get-context)))
@@ -165,54 +171,63 @@ function's result is interpreted."
       (company-terraform-filterdoc prefix (list (gethash (nth 1 context) company-terraform-data-arguments-hash)
                                                 company-terraform-data-extra) t))
      ((equal (car context) 'interpolation)
-      (let* ((a (split-string (nth 1 context) "\\."))
-             (last (nth (- (length a) 1) a)))
+      (let* ((path (split-string (nth 1 context) "\\."))
+             (pathlen (length path))
+             (head (nth 0 path))
+             (last (nth (- pathlen 1) path)))
         (cond
-         ; Complete function name or resource type.
-         ((eq (length a) 1)
+         ((eq pathlen 1)
+          ;; Complete function name or resource type.
           (company-terraform-filterdoc prefix (list company-terraform-interpolation-functions
                                                     company-terraform-resources-list
                                                     company-terraform-interpolation-extra) t))
-         ; Complete count metadata
-         ((and (eq (length a) 2)
-               (equal (nth 0 a) "count"))
-          (company-terraform-filterdoc last company-terraform-count-extra))
-         ; Complete data source type.
-         ((and (eq (length a) 2)
-               (equal (nth 0 a) "data"))
-          (company-terraform-filterdoc last company-terraform-data-list))
-         ; Complete variable name.
-         ((and (eq (length a) 2)
-               (equal (nth 0 a) "var"))
-          (company-terraform-filter
-           last
-           (nth 2 (company-terraform-get-resource-cache
-                   (file-name-directory (buffer-file-name))))))
-         ; Complete resource name.
-         ((and (eq (length a) 2))
-          (company-terraform-filter
-           last
-           (gethash (nth 0 a)
-                    (nth 1 (company-terraform-get-resource-cache
-                            (file-name-directory (buffer-file-name)))))))
-         ; Complete data name.
-         ((and (eq (length a) 3)
-               (equal (nth 0 a) "data"))
-          (company-terraform-filter
-           last
-           (gethash (nth 1 a)
-                    (nth 0 (company-terraform-get-resource-cache
-                            (file-name-directory (buffer-file-name)))))))
-         ; Complete resource arguments/attributes
-         ((and (eq (length a) 3))
-          (company-terraform-filterdoc last (list (gethash (nth 0 a) company-terraform-resource-arguments-hash)
-                                                  (gethash (nth 0 a) company-terraform-resource-attributes-hash)) t))
-         ; Complete data arguments/attributes
-         ((and (eq (length a) 4)
-               (equal (nth 0 a) "data"))
-          (company-terraform-filterdoc last (list (gethash (nth 1 a) company-terraform-data-arguments-hash)
-                                                  (gethash (nth 1 a) company-terraform-data-attributes-hash)) t))
-         (t nil))))
+         ((equal head "count")
+          (if (eq pathlen 2)
+              ;; Complete count metadata
+              (company-terraform-filterdoc last company-terraform-count-extra)))
+         ((equal head "data")
+          (let ((data-type (nth 1 path)))
+            (cond ((eq pathlen 2)
+                   ;; Complete data source type.
+                   (company-terraform-filterdoc last company-terraform-data-list))
+                  ((eq pathlen 3)
+                   ;; Complete data name.
+                   (company-terraform-filter
+                    last
+                    (gethash data-type
+                             (nth 0 (company-terraform-get-resource-cache
+                                     (file-name-directory (buffer-file-name)))))))
+                  ;; Complete data arguments/attributes
+                  ((or (eq pathlen 4)
+                       (and (eq pathlen 5)
+                            (company-terraform-is-resource-n (nth 3 path))))
+                   (company-terraform-filterdoc
+                    last
+                    (list (gethash data-type company-terraform-data-arguments-hash)
+                          (gethash data-type company-terraform-data-attributes-hash)) t)))))
+         ((equal head "var")
+          (if (eq pathlen 2)
+              ;; Complete variable name.
+              (company-terraform-filter last
+                                        (nth 2 (company-terraform-get-resource-cache
+                                                (file-name-directory (buffer-file-name)))))))
+         (t ; This path is directly referencing a standard resource
+          (let ((resource-type (nth 0 path)))
+            (cond ((eq pathlen 2)
+                   ;; Complete resource name.
+                   (company-terraform-filter
+                    last
+                    (gethash resource-type
+                             (nth 1 (company-terraform-get-resource-cache
+                                     (file-name-directory (buffer-file-name)))))))
+                  ((or (eq pathlen 3)
+                       (and (eq pathlen 4)
+                            (company-terraform-is-resource-n (nth 2 path))))
+                   ;; Complete resource arguments/attributes
+                   (company-terraform-filterdoc
+                    last
+                    (list (gethash resource-type company-terraform-resource-arguments-hash)
+                          (gethash resource-type company-terraform-resource-attributes-hash)) t))))))))
      (t nil))))
 
 (defun company-terraform-doc (candidate)
