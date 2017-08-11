@@ -30,13 +30,13 @@ header = """
     ))
 
 (defconst company-terraform-resource-arguments-hash
-      (make-hash-table :test `equal))
+      (make-hash-table :test 'equal))
 (defconst company-terraform-data-arguments-hash
-      (make-hash-table :test `equal))
+      (make-hash-table :test 'equal))
 (defconst company-terraform-resource-attributes-hash
-      (make-hash-table :test `equal))
+      (make-hash-table :test 'equal))
 (defconst company-terraform-data-attributes-hash
-  (make-hash-table :test `equal))
+  (make-hash-table :test 'equal))
 """
 
 footer = """

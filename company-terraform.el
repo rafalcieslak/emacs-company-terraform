@@ -24,6 +24,52 @@
 
 (require 'company-terraform-data)
 
+(defun company-terraform-scan-resources (dir)
+  (let* ((files (directory-files dir t "\\.tf$"))
+         (datas (make-hash-table :test 'equal))
+         (resources (make-hash-table :test 'equal)))
+    (dolist (file files)
+      (message "processing file %s" file)
+      (with-temp-buffer
+        (ignore-errors
+          (insert-file-contents file))
+        (goto-char 1)
+        (while (re-search-forward "\\(resource\\|data\\)[[:space:]\n]*\"\\([^\"]*\\)\"[[:space:]\n]*\"\\([^\"]*\\)\"[[:space:]\n]*{" nil t)
+          (let ((kind (match-string-no-properties 1))
+                (type (match-string-no-properties 2))
+                (name (match-string-no-properties 3)))
+            (cond
+             ((equal kind "data")
+              (message "data"))
+                                        ;TODO: Data scanning
+             ((equal kind "resource")
+              (message "resource" )
+              (when (eq 'empty (gethash type resources 'empty))
+                (puthash type '() resources))
+              (push name (gethash type resources))))))))
+    (list datas resources)))
+
+(defconst company-terraform-perdir-resource-cache
+  (make-hash-table :test 'equal))
+
+(defun company-terraform-get-resource-cache (dir)
+  (let* ((v (gethash dir company-terraform-perdir-resource-cache))
+         (cache-time (car v))
+         (resdata (cdr v)))
+    (if (and v
+             (< (- (float-time) cache-time) 20))
+        resdata
+      (progn
+        (message "cache invalid")
+        (let ((resdata (company-terraform-scan-resources dir)))
+          (puthash dir (cons (float-time) resdata) company-terraform-perdir-resource-cache)
+          resdata)))))
+
+(defun company-terraform-get-resources ()
+  (interactive)
+  (message "%S" (company-terraform-get-resource-cache (file-name-directory (buffer-file-name)))))
+
+
 (defun company-terraform-get-context ()
   "Guess the context in terraform description where point is."
   (let ((nest-level (nth 0 (syntax-ppss)))
@@ -92,6 +138,16 @@ function's result is interpreted."
           (push (company-terraform-make-candidate item) res))))
     res))
 
+(defun company-terraform-filter (prefix lists &optional multi)
+  "Filters for the PREFIX a list (or a list of LISTS, if MULTI is not nil) of candidates."
+  (if (not multi) (setq lists (list lists)))
+  (let (res)
+    (dolist (l lists)
+      (dolist (item l)
+        (when (string-prefix-p prefix item)
+          (push item res))))
+    res))
+
 (defun company-terraform-candidates (prefix)
   "Prepare a list of autocompletion candidates for the given PREFIX."
   (let ((context (company-terraform-get-context)))
@@ -118,6 +174,12 @@ function's result is interpreted."
          ((and (eq (length a) 2)
                (equal (nth 0 a) "data"))
           (company-terraform-filterdoc (nth 1 a) company-terraform-data-list))
+         ((and (eq (length a) 2))
+          (company-terraform-filter
+           (nth 1 a)
+           (gethash (nth 0 a)
+                    (nth 1 (company-terraform-get-resource-cache
+                            (file-name-directory (buffer-file-name)))))))
          ((and (eq (length a) 3))
           (company-terraform-filterdoc (nth 2 a) (list (gethash (nth 0 a) company-terraform-resource-arguments-hash)
                                                        (gethash (nth 0 a) company-terraform-resource-attributes-hash)) t))
