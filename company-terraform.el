@@ -173,7 +173,7 @@ function's result is interpreted."
     (cond
      ((eq 'top-level context)
       (company-terraform--filterdoc prefix company-terraform-toplevel-keywords))
-     ((equal context '(object-type reference))
+     ((equal context '(object-type resource))
       (company-terraform--filterdoc prefix company-terraform-resources-list))
      ((equal context '(object-type data))
       (company-terraform--filterdoc prefix company-terraform-data-list))
