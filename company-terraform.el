@@ -90,8 +90,10 @@
              (re-search-backward "\\${[^\"]*\\=" nil t)))
       (list 'interpolation (buffer-substring (point)
                                              (save-excursion
-                                               (skip-syntax-backward "w.")
-                                               (point)))))
+                                               (with-syntax-table (make-syntax-table (syntax-table))
+                                                 (modify-syntax-entry ?- "w")
+                                                 (skip-syntax-backward "w.")
+                                                 (point))))))
      ; resource/data block
      ((and (eq ?{ (char-after curr-ppos))
            (save-excursion
