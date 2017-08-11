@@ -26,6 +26,7 @@
 (require 'company-terraform-data)
 
 (defun company-terraform--scan-resources (dir)
+  "Search .tf files in DIR for resource data and variable blocks."
   (let* ((files (directory-files dir t "\\.tf$"))
          (datas     (make-hash-table :test 'equal))
          (resources (make-hash-table :test 'equal))
@@ -141,8 +142,10 @@ function's result is interpreted."
   (let (res)
     (dolist (l lists)
       (dolist (item l)
-        (when (string-prefix-p prefix (car item))
-          (push (company-terraform--make-candidate item) res))))
+        (if (stringp item)
+            (push item res)
+          (when (string-prefix-p prefix (car item))
+            (push (company-terraform--make-candidate item) res)))))
     res))
 
 (defun company-terraform--filter (prefix lists &optional multi)
@@ -156,7 +159,7 @@ function's result is interpreted."
     res))
 
 (defun company-terraform-is-resource-n (string)
-  "True IFF the string is an integer or a literal * character."
+  "True iff STRING is an integer or a literal * character."
   (if (string-match "\\`\\([0-9]+\\)\\|*\\'" string) t nil))
 
 (defun company-terraform-candidates (prefix)
@@ -174,10 +177,10 @@ function's result is interpreted."
       (cond
        ((eq (nth 1 context) 'resource)
         (company-terraform--filterdoc prefix (list (gethash (nth 2 context) company-terraform-resource-arguments-hash)
-                                                  company-terraform-resource-extra) t))
+                                                   company-terraform-resource-extra) t))
        ((eq (nth 1 context) 'data)
         (company-terraform--filterdoc prefix (list (gethash (nth 2 context) company-terraform-data-arguments-hash)
-                                                  company-terraform-data-extra) t))))
+                                                   company-terraform-data-extra) t))))
      ((equal (car context) 'interpolation)
        ;; Within interpolation
       (let* ((path (split-string (nth 1 context) "\\."))
@@ -188,8 +191,8 @@ function's result is interpreted."
          ((eq pathlen 1)
           ;; Complete function name or resource type.
           (company-terraform--filterdoc prefix (list company-terraform-interpolation-functions
-                                                    company-terraform-resources-list
-                                                    company-terraform-interpolation-extra) t))
+                                                     (hash-table-keys (nth 1 (company-terraform-get-resource-cache)))
+                                                     company-terraform-interpolation-extra) t))
          ((equal head "count")
           (if (eq pathlen 2)
               ;; Complete count metadata
@@ -198,7 +201,7 @@ function's result is interpreted."
           (let ((data-type (nth 1 path)))
             (cond ((eq pathlen 2)
                    ;; Complete data source type.
-                   (company-terraform--filterdoc last company-terraform-data-list))
+                   (company-terraform--filter last (hash-table-keys (nth 0 (company-terraform-get-resource-cache)))))
                   ((eq pathlen 3)
                    ;; Complete data name.
                    (company-terraform--filter
@@ -217,7 +220,7 @@ function's result is interpreted."
           (if (eq pathlen 2)
               ;; Complete variable name.
               (company-terraform--filter last
-                                        (nth 2 (company-terraform-get-resource-cache)))))
+                                         (nth 2 (company-terraform-get-resource-cache)))))
          (t ; This path is directly referencing a standard resource
           (let ((resource-type (nth 0 path)))
             (cond ((eq pathlen 2)
