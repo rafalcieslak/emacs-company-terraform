@@ -30,28 +30,45 @@ header = """
 
 ;;; Code:
 
-(defconst company-terraform-toplevel-keywords
-  '(
+(defconst company-terraform-toplevel-keywords '(
     ("resource" "Defines a new resource")
     ("variable" "Defines a variable or module input")
     ("data" "Defines a new data source")
     ("output" "Defines an output value or module output")
     ))
 
-(defconst company-terraform-interpolation-extra
-  '(("module." "References a module")
+(defconst company-terraform-interpolation-extra '(
+    ("module." "References a module")
     ("var." "References a variable")
     ("data." "References a data source")
+    ("count." "Resource index metadata")
+    ))
+
+(defconst company-terraform-resource-extra '(
+    ("count" "count (int) - The number of identical resources to create. This doesn't apply to all resources.")
+    ("depends_on" "depends_on (list of strings) - Explicit dependencies that this resource has. These dependencies will be created before this resource.")
+    ("provider" "provider (string) - The name of a specific provider to use for this resource. The name is in the format of TYPE.ALIAS, for example, aws.west. Where west is set using the alias attribute in a provider.")
+    ("lifecycle" "Customizes the lifecycle behavior of the resource.")
+    ))
+
+(defconst company-terraform-data-extra '(
+    ("count" "count (int) - The number of identical resources to create. This doesn't apply to all resources.")
+    ("depends_on" "depends_on (list of strings) - Explicit dependencies that this resource has. These dependencies will be created before this resource.")
+    ("provider" "provider (string) - The name of a specific provider to use for this resource. The name is in the format of TYPE.ALIAS, for example, aws.west. Where west is set using the alias attribute in a provider.")
+    ))
+
+(defconst company-terraform-count-extra '(
+    ("index" "index (int) - Current counted resource index.")
     ))
 
 (defconst company-terraform-resource-arguments-hash
-      (make-hash-table :test `equal))
+      (make-hash-table :test 'equal))
 (defconst company-terraform-data-arguments-hash
-      (make-hash-table :test `equal))
+      (make-hash-table :test 'equal))
 (defconst company-terraform-resource-attributes-hash
-      (make-hash-table :test `equal))
+      (make-hash-table :test 'equal))
 (defconst company-terraform-data-attributes-hash
-  (make-hash-table :test `equal))
+  (make-hash-table :test 'equal))
 """
 
 footer = """
@@ -92,6 +109,35 @@ def get_resources_by_provider(provider):
     uls = soup.find_all('ul', class_='nav-visible')
     return [(a.get_text(), a['href']) for ul in uls for a in ul.find_all('a')]
 
+def arghelper(kind, soup):
+    arglist = []
+    argumentrefs = soup.find_all('h2', id='%s-reference' % kind)
+    if len(argumentrefs) > 0:
+        argumentref = argumentrefs[0]
+        ul = get_sibling(argumentref)
+        while ul is not None:
+            if ul.name == 'ul':
+                lis = ul.find_all('li', recursive=False)
+                for li in lis:
+                    codes = li.find_all('code')
+                    if len(codes) > 0:
+                        argname = codes[0].get_text()
+                    else:
+                        aas = li.find_all('a')
+                        if len(aas) is 0:
+                            continue
+                        if aas[0].get('name') is not None:
+                            argname = aas[0]['name']
+                        else:
+                            argname = li.get_text().split('-')[0].strip()
+                    argdoc = li.get_text().replace("\n", " ").strip()
+                    arglist.append({'name': argname, 'doc': argdoc.translate(escaping)})
+                break
+            if ul.name == 'h2':
+                break
+            ul = get_sibling(ul)
+    return arglist
+
 def get_resource_params(name, docpath):
     page = s.get("https://www.terraform.io%s" % docpath)
     kind = {'r': 'resource', 'd': 'data', 'external': 'data', 'http': 'data'}[docpath.split('/')[-2]]
@@ -108,60 +154,9 @@ def get_resource_params(name, docpath):
         maindoc += p.get_text().replace("\n", " ") + "\n\n"
         p = get_sibling(p)
     maindoc = maindoc.strip()
-    
-    arglist = []
-    argumentrefs = soup.find_all('h2', id='argument-reference')
-    if len(argumentrefs) > 0:
-        argumentref = argumentrefs[0]
-        ul = get_sibling(argumentref)
-        while ul is not None:
-            if ul.name == 'ul':
-                lis = ul.find_all('li', recursive=False)
-                for li in lis:
-                    code = li.find_all('code')
-                    if len(code) > 0:
-                        argname = code[0].get_text()
-                    else:
-                        aas = li.find_all('a')
-                        if len(aas) is 0:
-                            continue
-                        if aas[0].get('name') is not None:
-                            argname = aas[0]['name']
-                        else:
-                            argname = li.get_text().split('-')[0].strip()
-                    argdoc = li.get_text().replace("\n", " ").strip()
-                    arglist.append({'name': argname, 'doc': argdoc.translate(escaping)})
-                break
-            if ul.name == 'h2':
-                break
-            ul = get_sibling(ul)
-    
-    attrlist = []
-    attributerefs = soup.find_all('h2', id='attributes-reference')
-    if len(attributerefs) > 0:
-        attributeref = attributerefs[0]
-        ul = get_sibling(attributeref)
-        while ul is not None:
-            if ul.name == 'ul':
-                lis = ul.find_all('li', recursive=False)
-                for li in lis:
-                    code = li.find_all('code')
-                    if len(code) > 0:
-                        attrname = code[0].get_text()
-                    else:
-                        aas = li.find_all('a')
-                        if len(aas) is 0:
-                            continue
-                        if aas[0].get('name') is not None:
-                            attrname = aas[0]['name']
-                        else:
-                            attrname = li.get_text().split('-')[0].strip()
-                    attrdoc = li.get_text().replace("\n", " ").strip()
-                    attrlist.append({'name': attrname, 'doc': attrdoc.translate(escaping)})
-                break
-            if ul.name == 'h2':
-                break
-            ul = get_sibling(ul)
+
+    arglist  = arghelper('argument', soup)
+    attrlist = arghelper('attributes', soup)
 
     return {
         'name': name,
@@ -195,19 +190,14 @@ def gather_all_by_provider(provider):
     global resource_list
     print("Gathering resources for %s" % provider)
     resources = get_resources_by_provider(provider)
-    i = 0
     for name, docpath in resources:
         print(name)
         params = get_resource_params(name, docpath)
-        #print(json.dumps(params,indent=2,sort_keys=True))
         resource_list.append(params)
-        #if i > 10:
-        #    break
-        i += 1
 
 def prepare_file():
     print("Generating file...")
-    data = ";; THIS FILE WAS AUTOMATICALLY GENERATED. DO NOT EDIT.\n\n\n"
+    data = ""
     
     # First, build up bare resource list.
     reslist = ""
@@ -286,7 +276,6 @@ def prepare_file():
         file.write(header + data + footer)
     
 get_providers()
-#for p in ['aws']:
 for p in provider_list:
     gather_all_by_provider(p)
 get_interpolation_functions()

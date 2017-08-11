@@ -20,9 +20,60 @@
 
 (require 'company)
 (require 'cl-lib)
+(require 'subr-x)
 (require 'terraform-mode)
 
 (require 'company-terraform-data)
+
+(defun company-terraform--scan-resources (dir)
+  "Search .tf files in DIR for resource data and variable blocks."
+  (let* ((files (directory-files dir t "\\.tf$"))
+         (datas     (make-hash-table :test 'equal))
+         (resources (make-hash-table :test 'equal))
+         (variables '()))
+    (dolist (file files)
+      (with-temp-buffer
+        (ignore-errors
+          (insert-file-contents file))
+        (goto-char 1) ; Start by searching for data and resource blocks.
+        (while (re-search-forward "\\(resource\\|data\\)[[:space:]\n]*\"\\([^\"]*\\)\"[[:space:]\n]*\"\\([^\"]*\\)\"[[:space:]\n]*{" nil t)
+          (let* ((kind (match-string-no-properties 1))
+                 (hash-to-use (cond ((equal kind "data") datas)
+                                    ((equal kind "resource") resources)))
+                 (type (match-string-no-properties 2))
+                 (name (match-string-no-properties 3)))
+            (when (eq 'empty (gethash type hash-to-use 'empty))
+              (puthash type '() hash-to-use))
+            (push name (gethash type hash-to-use))))
+        (goto-char 1) ; Then search for variable blocks.
+        (while (re-search-forward "variable[[:space:]\n]*\"\\([^\"]*\\)\"[[:space:]\n]*{" nil t)
+          (push (match-string-no-properties 1) variables))))
+    (list datas resources variables)))
+
+(defconst company-terraform-perdir-resource-cache
+  (make-hash-table :test 'equal))
+
+(defun company-terraform-get-resource-cache (kind &optional dir)
+  "Return several dictionaries gathering names used in the project.
+KIND specifies the block type requested and mey be 'resource,
+'data or 'variable.  Searches for blocks in DIR or buffer's
+directory if DIR is nil.  If available, uses a cached version
+which lasts serval seconds."
+  (nth (cond ((eq kind 'data) 0)
+             ((eq kind 'resource) 1)
+             ((eq kind 'variable) 2))
+       (let* ((dir (or dir (file-name-directory (buffer-file-name))))
+              (v (gethash dir company-terraform-perdir-resource-cache))
+              (cache-time (car v))
+              (resource-data (cdr v)))
+         (if (and v
+                  (< (- (float-time) cache-time) 20))
+             resource-data
+           (progn
+             (message "Regenerating company-terraform resource cache for %s..." dir)
+             (let ((resource-data (company-terraform--scan-resources dir)))
+               (puthash dir (cons (float-time) resource-data) company-terraform-perdir-resource-cache)
+               resource-data))))))
 
 (defun company-terraform-get-context ()
   "Guess the context in terraform description where point is."
@@ -31,31 +82,36 @@
         (string-state (nth 3 (syntax-ppss)))
         (string-ppos (nth 8 (syntax-ppss))))
     (cond
-     ; object kind
+     ;; Resource/data type
      ((and string-state
            (save-excursion
              (goto-char string-ppos)
              (re-search-backward "\\(resource\\|data\\)[[:space:]\n]*\\=" nil t)))
-      (list 'object-type (match-string-no-properties 0)))
-     ; string interpolation
+      (list 'object-type (intern (match-string-no-properties 1))))
+     ;; String interpolation
      ((and (> nest-level 0)
            string-state
            (save-excursion
              (re-search-backward "\\${[^\"]*\\=" nil t)))
-      (list 'interpolation (buffer-substring (point)
-                                             (save-excursion
-                                               (with-syntax-table (make-syntax-table (syntax-table))
-                                                 (modify-syntax-entry ?- "w")
-                                                 (skip-syntax-backward "w.")
-                                                 (point))))))
-     ; resource/data block
+      (list 'interpolation
+            (buffer-substring
+             (point)
+             (save-excursion
+               (with-syntax-table (make-syntax-table (syntax-table))
+                 ;; Minus, asterisk and dot characters are part of the object path.
+                 (modify-syntax-entry ?- "w")
+                 (modify-syntax-entry ?. "w")
+                 (modify-syntax-entry ?* "w")
+                 (skip-syntax-backward "w")
+                 (point))))))
+     ;; Inside resource/data block
      ((and (eq ?{ (char-after curr-ppos))
            (save-excursion
              (goto-char curr-ppos)
              (re-search-backward "\\(resource\\|data\\)[[:space:]\n]*\"\\([^\"]*\\)\"[[:space:]\n]*\"[^\"]*\"[[:space:]\n]*\\=" nil t)))
       
-      (list (match-string-no-properties 1) (match-string-no-properties 2)))
-     ; top level
+      (list 'block (intern (match-string-no-properties 1)) (match-string-no-properties 2)))
+     ;; Top level
      ((eq 0 nest-level) 'top-level)
      (t 'no-idea))))
 
@@ -64,72 +120,125 @@
   (interactive)
   (message "company-terraform-context: %s" (company-terraform-get-context)))
 
-(defun company-terraform-prefix ()
+(defun company-terraform--prefix ()
   "Return the text before point that is part of a completable symbol.
 Check function ‘company-mode’ docs for the details on how this
 function's result is interpreted."
   (if (eq major-mode 'terraform-mode)
       (let ((context (company-terraform-get-context)))
         (cond
+         ((eq 'no-idea context) nil)
          ((eq 'top-level context) (company-grab-symbol))
          ((eq (car context) 'interpolation) (cons (car (last (split-string (nth 1 context) "\\."))) t))
          ((eq (car context) 'object-type) (company-grab-symbol-cons "\"" 1))
-         ((equal (car context) "resource") (company-grab-symbol))
-         ((equal (car context) "data") (company-grab-symbol))
-         (t (company-grab-symbol))))
-    nil))
+         ((equal (car context) 'resource) (company-grab-symbol))
+         ((equal (car context) 'data) (company-grab-symbol))
+         (t (company-grab-symbol))))))
 
-(defun company-terraform-make-candidate (candidate)
+(defun company-terraform--make-candidate (candidate)
   "Annotates a completion suggestion from a name-doc list CANDIDATE."
   (let ((text (nth 0 candidate))
         (doc (nth 1 candidate)))
     (propertize text 'doc doc)))
 
-(defun company-terraform-filterdoc (prefix lists &optional multi)
+(defun company-terraform--filterdoc (prefix lists &optional multi)
   "Filters for the PREFIX a list (or a list of LISTS, if MULTI is not nil) of name-doc pairs."
   (if (not multi) (setq lists (list lists)))
   (let (res)
     (dolist (l lists)
       (dolist (item l)
-        (when (string-prefix-p prefix (car item))
-          (push (company-terraform-make-candidate item) res))))
+        (if (stringp item)
+            (push item res)
+          (when (string-prefix-p prefix (car item))
+            (push (company-terraform--make-candidate item) res)))))
     res))
+
+(defun company-terraform--filter (prefix lists &optional multi)
+  "Filters for the PREFIX a list (or a list of LISTS, if MULTI is not nil) of candidates."
+  (if (not multi) (setq lists (list lists)))
+  (let (res)
+    (dolist (l lists)
+      (dolist (item l)
+        (when (string-prefix-p prefix item)
+          (push item res))))
+    res))
+
+(defun company-terraform-is-resource-n (string)
+  "True iff STRING is an integer or a literal * character."
+  (if (string-match "\\`\\([0-9]+\\)\\|*\\'" string) t nil))
 
 (defun company-terraform-candidates (prefix)
   "Prepare a list of autocompletion candidates for the given PREFIX."
   (let ((context (company-terraform-get-context)))
     (cond
      ((eq 'top-level context)
-      (company-terraform-filterdoc prefix company-terraform-toplevel-keywords))
-     ((and (eq    (nth 0 context) 'object-type)
-           (equal (nth 1 context) "resource "))
-      (company-terraform-filterdoc prefix company-terraform-resources-list))
-     ((and (eq    (nth 0 context) 'object-type)
-           (equal (nth 1 context) "data "))
-      (company-terraform-filterdoc prefix company-terraform-data-list))
-     ((equal (car context) "resource")
-      (company-terraform-filterdoc prefix (gethash (nth 1 context) company-terraform-resource-arguments-hash)))
-     ((equal (car context) "data")
-      (company-terraform-filterdoc prefix (gethash (nth 1 context) company-terraform-data-arguments-hash)))
+      (company-terraform--filterdoc prefix company-terraform-toplevel-keywords))
+     ((equal context '(object-type resource))
+      (company-terraform--filterdoc prefix company-terraform-resources-list))
+     ((equal context '(object-type data))
+      (company-terraform--filterdoc prefix company-terraform-data-list))
+     ((eq (car context) 'block)
+      ;; Inside a block
+      (cond
+       ((eq (nth 1 context) 'resource)
+        (company-terraform--filterdoc prefix (list (gethash (nth 2 context) company-terraform-resource-arguments-hash)
+                                                   company-terraform-resource-extra) t))
+       ((eq (nth 1 context) 'data)
+        (company-terraform--filterdoc prefix (list (gethash (nth 2 context) company-terraform-data-arguments-hash)
+                                                   company-terraform-data-extra) t))))
      ((equal (car context) 'interpolation)
-      (let ((a (split-string (nth 1 context) "\\.")))
+       ;; Within interpolation
+      (let* ((path (split-string (nth 1 context) "\\."))
+             (pathlen (length path))
+             (head (nth 0 path))
+             (last (nth (- pathlen 1) path)))
         (cond
-         ((eq (length a) 1)
-          (company-terraform-filterdoc prefix (list company-terraform-interpolation-functions
-                                                    company-terraform-resources-list
-                                                    company-terraform-interpolation-extra) t))
-         ((and (eq (length a) 2)
-               (equal (nth 0 a) "data"))
-          (company-terraform-filterdoc (nth 1 a) company-terraform-data-list))
-         ((and (eq (length a) 3))
-          (company-terraform-filterdoc (nth 2 a) (list (gethash (nth 0 a) company-terraform-resource-arguments-hash)
-                                                       (gethash (nth 0 a) company-terraform-resource-attributes-hash)) t))
-         ((and (eq (length a) 4)
-               (equal (nth 0 a) "data"))
-          (company-terraform-filterdoc (nth 3 a) (list (gethash (nth 1 a) company-terraform-data-arguments-hash)
-                                                       (gethash (nth 1 a) company-terraform-data-attributes-hash)) t))
-         (t nil))))
-     (t nil))))
+         ((eq pathlen 1)
+          ;; Complete function name or resource type.
+          (company-terraform--filterdoc prefix (list company-terraform-interpolation-functions
+                                                     (hash-table-keys (company-terraform-get-resource-cache 'resource))
+                                                     company-terraform-interpolation-extra) t))
+         ((equal head "count")
+          (if (eq pathlen 2)
+              ;; Complete count metadata
+              (company-terraform--filterdoc last company-terraform-count-extra)))
+         ((equal head "data")
+          (let ((data-type (nth 1 path)))
+            (cond ((eq pathlen 2)
+                   ;; Complete data source type.
+                   (company-terraform--filter last (hash-table-keys (company-terraform-get-resource-cache 'data))))
+                  ((eq pathlen 3)
+                   ;; Complete data name.
+                   (company-terraform--filter
+                    last
+                    (gethash data-type (company-terraform-get-resource-cache 'data))))
+                  ;; Complete data arguments/attributes
+                  ((or (eq pathlen 4)
+                       (and (eq pathlen 5)
+                            (company-terraform-is-resource-n (nth 3 path))))
+                   (company-terraform--filterdoc
+                    last
+                    (list (gethash data-type company-terraform-data-arguments-hash)
+                          (gethash data-type company-terraform-data-attributes-hash)) t)))))
+         ((equal head "var")
+          (if (eq pathlen 2)
+              ;; Complete variable name.
+              (company-terraform--filter last (company-terraform-get-resource-cache 'variable))))
+         (t ; This path is directly referencing a standard resource
+          (let ((resource-type (nth 0 path)))
+            (cond ((eq pathlen 2)
+                   ;; Complete resource name.
+                   (company-terraform--filter
+                    last
+                    (gethash resource-type (company-terraform-get-resource-cache 'resource))))
+                  ((or (eq pathlen 3)
+                       (and (eq pathlen 4)
+                            (company-terraform-is-resource-n (nth 2 path))))
+                   ;; Complete resource arguments/attributes
+                   (company-terraform--filterdoc
+                    last
+                    (list (gethash resource-type company-terraform-resource-arguments-hash)
+                          (gethash resource-type company-terraform-resource-attributes-hash)) t)))))))))))
 
 (defun company-terraform-doc (candidate)
   "Return the documentation of a completion CANDIDATE."
@@ -145,7 +254,7 @@ function's result is interpreted."
 Read `company-mode` function docs for the semantics of this function."
   (cl-case command
     (interactive (company-begin-backend 'company-test-backend))
-    (prefix (company-terraform-prefix))
+    (prefix (company-terraform--prefix))
     (candidates (company-terraform-candidates arg))
     (meta (company-terraform-doc arg))
     (doc-buffer (company-terraform-docbuffer arg))))
