@@ -26,24 +26,27 @@
 
 (defun company-terraform-scan-resources (dir)
   (let* ((files (directory-files dir t "\\.tf$"))
-         (datas (make-hash-table :test 'equal))
-         (resources (make-hash-table :test 'equal)))
+         (datas     (make-hash-table :test 'equal))
+         (resources (make-hash-table :test 'equal))
+         (variables '()))
     (dolist (file files)
-      (message "processing file %s" file)
       (with-temp-buffer
         (ignore-errors
           (insert-file-contents file))
         (goto-char 1)
         (while (re-search-forward "\\(resource\\|data\\)[[:space:]\n]*\"\\([^\"]*\\)\"[[:space:]\n]*\"\\([^\"]*\\)\"[[:space:]\n]*{" nil t)
           (let* ((kind (match-string-no-properties 1))
-                 (type (match-string-no-properties 2))
-                 (name (match-string-no-properties 3))
                  (hash (cond ((equal kind "data") datas)
-                             ((equal kind "resource") resources))))
+                             ((equal kind "resource") resources)))
+                 (type (match-string-no-properties 2))
+                 (name (match-string-no-properties 3)))
             (when (eq 'empty (gethash type hash 'empty))
               (puthash type '() hash))
-            (push name (gethash type hash))))))
-    (list datas resources)))
+            (push name (gethash type hash))))
+        (goto-char 1)
+        (while (re-search-forward "variable[[:space:]\n]*\"\\([^\"]*\\)\"[[:space:]\n]*{" nil t)
+          (push (match-string-no-properties 1) variables))))
+    (list datas resources variables)))
 
 (defconst company-terraform-perdir-resource-cache
   (make-hash-table :test 'equal))
@@ -174,6 +177,13 @@ function's result is interpreted."
          ((and (eq (length a) 2)
                (equal (nth 0 a) "data"))
           (company-terraform-filterdoc (nth 1 a) company-terraform-data-list))
+         ; Complete variable name.
+         ((and (eq (length a) 2)
+               (equal (nth 0 a) "var"))
+          (company-terraform-filter
+           (nth 1 a)
+           (nth 2 (company-terraform-get-resource-cache
+                   (file-name-directory (buffer-file-name))))))
          ; Complete resource name.
          ((and (eq (length a) 2))
           (company-terraform-filter
