@@ -5,18 +5,35 @@
 
 ;;; Code:
 
-(defconst company-terraform-toplevel-keywords
-  '(
+(defconst company-terraform-toplevel-keywords '(
     ("resource" "Defines a new resource")
     ("variable" "Defines a variable or module input")
     ("data" "Defines a new data source")
     ("output" "Defines an output value or module output")
     ))
 
-(defconst company-terraform-interpolation-extra
-  '(("module." "References a module")
+(defconst company-terraform-interpolation-extra '(
+    ("module." "References a module")
     ("var." "References a variable")
     ("data." "References a data source")
+    ("count." "Resource index metadata")
+    ))
+
+(defconst company-terraform-resource-extra '(
+    ("count" "count (int) - The number of identical resources to create. This doesn't apply to all resources.")
+    ("depends_on" "depends_on (list of strings) - Explicit dependencies that this resource has. These dependencies will be created before this resource.")
+    ("provider" "provider (string) - The name of a specific provider to use for this resource. The name is in the format of TYPE.ALIAS, for example, aws.west. Where west is set using the alias attribute in a provider.")
+    ("lifecycle" "Customizes the lifecycle behavior of the resource.")
+    ))
+
+(defconst company-terraform-data-extra '(
+    ("count" "count (int) - The number of identical resources to create. This doesn't apply to all resources.")
+    ("depends_on" "depends_on (list of strings) - Explicit dependencies that this resource has. These dependencies will be created before this resource.")
+    ("provider" "provider (string) - The name of a specific provider to use for this resource. The name is in the format of TYPE.ALIAS, for example, aws.west. Where west is set using the alias attribute in a provider.")
+    ))
+
+(defconst company-terraform-count-extra '(
+    ("index" "index (int) - Current counted resource index.")
     ))
 
 (defconst company-terraform-resource-arguments-hash
@@ -27,9 +44,6 @@
       (make-hash-table :test 'equal))
 (defconst company-terraform-data-attributes-hash
   (make-hash-table :test 'equal))
-;; THIS FILE WAS AUTOMATICALLY GENERATED. DO NOT EDIT.
-
-
 (defconst company-terraform-resources-list '(
     ("alicloud_disk" "Provides a ECS disk resource.\n\n NOTE: One of size or snapshot_id is required when specifying an ECS disk. If all of them be specified, size must more than the size of snapshot which snapshot_id represents. Currently, alicloud_disk doesn't resize disk.")
     ("alicloud_disk_attachment" "Provides an Alicloud ECS Disk Attachment as a resource, to attach and detach disks from ECS Instances.")

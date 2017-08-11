@@ -15,18 +15,35 @@ header = """
 
 ;;; Code:
 
-(defconst company-terraform-toplevel-keywords
-  '(
+(defconst company-terraform-toplevel-keywords '(
     ("resource" "Defines a new resource")
     ("variable" "Defines a variable or module input")
     ("data" "Defines a new data source")
     ("output" "Defines an output value or module output")
     ))
 
-(defconst company-terraform-interpolation-extra
-  '(("module." "References a module")
+(defconst company-terraform-interpolation-extra '(
+    ("module." "References a module")
     ("var." "References a variable")
     ("data." "References a data source")
+    ("count." "Resource index metadata")
+    ))
+
+(defconst company-terraform-resource-extra '(
+    ("count" "count (int) - The number of identical resources to create. This doesn't apply to all resources.")
+    ("depends_on" "depends_on (list of strings) - Explicit dependencies that this resource has. These dependencies will be created before this resource.")
+    ("provider" "provider (string) - The name of a specific provider to use for this resource. The name is in the format of TYPE.ALIAS, for example, aws.west. Where west is set using the alias attribute in a provider.")
+    ("lifecycle" "Customizes the lifecycle behavior of the resource.")
+    ))
+
+(defconst company-terraform-data-extra '(
+    ("count" "count (int) - The number of identical resources to create. This doesn't apply to all resources.")
+    ("depends_on" "depends_on (list of strings) - Explicit dependencies that this resource has. These dependencies will be created before this resource.")
+    ("provider" "provider (string) - The name of a specific provider to use for this resource. The name is in the format of TYPE.ALIAS, for example, aws.west. Where west is set using the alias attribute in a provider.")
+    ))
+
+(defconst company-terraform-count-extra '(
+    ("index" "index (int) - Current counted resource index.")
     ))
 
 (defconst company-terraform-resource-arguments-hash
@@ -133,6 +150,7 @@ def get_resource_params(name, docpath):
                         attrname = aas[0]['name']
                     else:
                         attrname = li.get_text().split('-')[0].strip()
+                    assert(attrname != "Data Source")
                     attrdoc = li.get_text().replace("\n", " ").strip()
                     attrlist.append({'name': attrname, 'doc': attrdoc.translate(escaping)})
                 break
@@ -184,7 +202,7 @@ def gather_all_by_provider(provider):
 
 def prepare_file():
     print("Generating file...")
-    data = ";; THIS FILE WAS AUTOMATICALLY GENERATED. DO NOT EDIT.\n\n\n"
+    data = ""
     
     # First, build up bare resource list.
     reslist = ""
