@@ -2761,7 +2761,7 @@
     ("use_custom_cookbooks" "use_custom_cookbooks - (Optional) Boolean value controlling whether the custom cookbook settings are enabled.")
     ("use_opsworks_security_groups" "use_opsworks_security_groups - (Optional) Boolean value controlling whether the standard OpsWorks security groups apply to created instances.")
     ("vpc_id" "vpc_id - (Optional) The id of the VPC that this stack belongs to.")
-    ("custom_json-1" "custom_json - (Optional) Custom JSON attributes to apply to the entire stack.")
+    ("custom_json" "custom_json - (Optional) Custom JSON attributes to apply to the entire stack.")
 
   ) company-terraform-resource-arguments-hash)
 
@@ -4485,6 +4485,7 @@
 (puthash "dme_record" '(
     ("domainid" "domainid - (String, Required) The domain id to add the record to")
     ("name" "name - (Required) The name of the record type - (Required) The type of")
+    ("value" "the record value - (Required) The value of the record; its usage will depend on the type (see below)")
     ("ttl" "ttl - (Integer, Optional) The TTL of the record gtdLocation - (String, Optional) The GTD Location of the record on Global Traffic Director enabled domains; Unless GTD is enabled this should either be omitted or set to \"DEFAULT\"")
 
   ) company-terraform-resource-arguments-hash)
@@ -5616,7 +5617,7 @@
     ("name" "name - (Required) The name of the DNS A Record.")
     ("resource_group_name" "resource_group_name - (Required) Specifies the resource group where the resource exists. Changing this forces a new resource to be created.")
     ("zone_name" "zone_name - (Required) Specifies the DNS Zone where the resource exists. Changing this forces a new resource to be created.")
-    ("ttl" "TTL - (Required) The Time To Live (TTL) of the DNS record.")
+    ("TTL" "TTL - (Required) The Time To Live (TTL) of the DNS record.")
     ("records" "records - (Required) List of IPv4 Addresses.")
     ("tags" "tags - (Optional) A mapping of tags to assign to the resource.")
 
@@ -5626,7 +5627,7 @@
     ("name" "name - (Required) The name of the DNS AAAA Record.")
     ("resource_group_name" "resource_group_name - (Required) Specifies the resource group where the resource exists. Changing this forces a new resource to be created.")
     ("zone_name" "zone_name - (Required) Specifies the DNS Zone where the resource exists. Changing this forces a new resource to be created.")
-    ("ttl" "TTL - (Required) The Time To Live (TTL) of the DNS record.")
+    ("TTL" "TTL - (Required) The Time To Live (TTL) of the DNS record.")
     ("records" "records - (Required) List of IPv6 Addresses.")
     ("tags" "tags - (Optional) A mapping of tags to assign to the resource.")
 
@@ -5636,7 +5637,7 @@
     ("name" "name - (Required) The name of the DNS CNAME Record.")
     ("resource_group_name" "resource_group_name - (Required) Specifies the resource group where the resource exists. Changing this forces a new resource to be created.")
     ("zone_name" "zone_name - (Required) Specifies the DNS Zone where the resource exists. Changing this forces a new resource to be created.")
-    ("ttl" "TTL - (Required) The Time To Live (TTL) of the DNS record.")
+    ("TTL" "TTL - (Required) The Time To Live (TTL) of the DNS record.")
     ("record" "record - (Required) The target of the CNAME.")
     ("tags" "tags - (Optional) A mapping of tags to assign to the resource.")
 
@@ -6497,8 +6498,8 @@
     ("description" "description - (Optional) Description of the server")
     ("firewall_policy_id" "firewall_policy_id - (Optional) ID of firewall policy")
     ("hdds" "hdds - (Required) List of HDDs. One HDD must be main.")
-    ("disk_size" "*disk_size -(Required) The size of HDD")
-    ("is_main" "*is_main - (Optional) Indicates if HDD is to be used as main hard disk of the server")
+    ("*disk_size" "*disk_size -(Required) The size of HDD")
+    ("*is_main" "*is_main - (Optional) Indicates if HDD is to be used as main hard disk of the server")
     ("image" "image -(Required) The name of a desired image to be provisioned with the server")
     ("ip" "ip - (Optional) IP address for the server")
     ("loadbalancer_id" "loadbalancer_id - (Optional) ID of the load balancer")
@@ -8068,46 +8069,46 @@
 
 (puthash "alicloud_disk" '(
     ("id" "id - The disk ID.")
-    ("availability_zone-1" "availability_zone - The Zone to create the disk in.")
-    ("name-1" "name - The disk name.")
-    ("description-1" "description - The disk description.")
+    ("availability_zone" "availability_zone - The Zone to create the disk in.")
+    ("name" "name - The disk name.")
+    ("description" "description - The disk description.")
     ("status" "status - The disk status.")
-    ("category-1" "category - The disk category.")
-    ("size-1" "size - The disk size.")
-    ("snapshot_id-1" "snapshot_id - The disk snapshot ID.")
-    ("tags-1" "tags - The disk tags.")
+    ("category" "category - The disk category.")
+    ("size" "size - The disk size.")
+    ("snapshot_id" "snapshot_id - The disk snapshot ID.")
+    ("tags" "tags - The disk tags.")
 
   ) company-terraform-resource-attributes-hash)
 
 (puthash "alicloud_disk_attachment" '(
-    ("instance_id-1" "instance_id - ID of the Instance.")
-    ("disk_id-1" "disk_id - ID of the Disk.")
-    ("device_name-1" "device_name - The device name exposed to the instance.")
+    ("instance_id" "instance_id - ID of the Instance.")
+    ("disk_id" "disk_id - ID of the Disk.")
+    ("device_name" "device_name - The device name exposed to the instance.")
 
   ) company-terraform-resource-attributes-hash)
 
 (puthash "alicloud_instance" '(
     ("id" "id - The instance ID.")
-    ("availability_zone-1" "availability_zone - The Zone to start the instance in.")
-    ("instance_name-1" "instance_name - The instance name.")
-    ("host_name-1" "host_name - The instance host name.")
-    ("description-1" "description - The instance description.")
+    ("availability_zone" "availability_zone - The Zone to start the instance in.")
+    ("instance_name" "instance_name - The instance name.")
+    ("host_name" "host_name - The instance host name.")
+    ("description" "description - The instance description.")
     ("status" "status - The instance status.")
-    ("image_id-1" "image_id - The instance Image Id.")
-    ("instance_type-1" "instance_type - The instance type.")
+    ("image_id" "image_id - The instance Image Id.")
+    ("instance_type" "instance_type - The instance type.")
     ("instance_network_type" "instance_network_type - The instance network type and it has two values: vpc and classic.")
-    ("io_optimized-1" "io_optimized - The instance whether I/O optimized.")
+    ("io_optimized" "io_optimized - The instance whether I/O optimized.")
     ("private_ip" "private_ip - The instance private ip.")
     ("public_ip" "public_ip - The instance public ip.")
-    ("vswitch_id-1" "vswitch_id - If the instance created in VPC, then this value is  virtual switch ID.")
-    ("tags-1" "tags - The instance tags, use jsonencode(item) to display the value.")
+    ("vswitch_id" "vswitch_id - If the instance created in VPC, then this value is  virtual switch ID.")
+    ("tags" "tags - The instance tags, use jsonencode(item) to display the value.")
 
   ) company-terraform-resource-attributes-hash)
 
 (puthash "alicloud_eip" '(
     ("id" "id - The EIP ID.")
-    ("bandwidth-1" "bandwidth - The elastic public network bandwidth.")
-    ("internet_charge_type-1" "internet_charge_type - The EIP internet charge type.")
+    ("bandwidth" "bandwidth - The elastic public network bandwidth.")
+    ("internet_charge_type" "internet_charge_type - The EIP internet charge type.")
     ("status" "status - The EIP current status.")
     ("ip_address" "ip_address - The elastic ip address")
     ("instance" "instance - The ID of the instance which is associated with the EIP.")
@@ -8115,18 +8116,18 @@
   ) company-terraform-resource-attributes-hash)
 
 (puthash "alicloud_eip_association" '(
-    ("allocation_id-1" "allocation_id - As above.")
-    ("instance_id-1" "instance_id - As above.")
+    ("allocation_id" "allocation_id - As above.")
+    ("instance_id" "instance_id - As above.")
 
   ) company-terraform-resource-attributes-hash)
 
 (puthash "alicloud_slb" '(
     ("id" "id - The ID of the load balancer.")
-    ("name-1" "name - The name of the load balancer.")
-    ("internet-1" "internet - The internet of the load balancer.")
-    ("internet_charge_type-1" "internet_charge_type - The internet_charge_type of the load balancer.")
-    ("bandwidth-2" "bandwidth - The bandwidth of the load balancer.")
-    ("vswitch_id-1" "vswitch_id - The VSwitch ID of the load balancer. Only available on SLB launched in a VPC.")
+    ("name" "name - The name of the load balancer.")
+    ("internet" "internet - The internet of the load balancer.")
+    ("internet_charge_type" "internet_charge_type - The internet_charge_type of the load balancer.")
+    ("bandwidth" "bandwidth - The bandwidth of the load balancer.")
+    ("vswitch_id" "vswitch_id - The VSwitch ID of the load balancer. Only available on SLB launched in a VPC.")
     ("address" "address - The IP address of the load balancer.")
 
   ) company-terraform-resource-attributes-hash)
@@ -8138,55 +8139,55 @@
 
 (puthash "alicloud_vpc" '(
     ("id" "id - The ID of the VPC.")
-    ("cidr_block-1" "cidr_block - The CIDR block for the VPC.")
-    ("name-1" "name - The name of the VPC.")
-    ("description-1" "description - The description of the VPC.")
+    ("cidr_block" "cidr_block - The CIDR block for the VPC.")
+    ("name" "name - The name of the VPC.")
+    ("description" "description - The description of the VPC.")
     ("router_id" "router_id - The ID of the router created by default on VPC creation.")
 
   ) company-terraform-resource-attributes-hash)
 
 (puthash "alicloud_vswitch" '(
     ("id" "id - The ID of the switch.")
-    ("availability_zone-1" "availability_zone The AZ for the switch.")
-    ("cidr_block-1" "cidr_block - The CIDR block for the switch.")
-    ("vpc_id-1" "vpc_id - The VPC ID.")
-    ("name-1" "name - The name of the switch.")
-    ("description-1" "description - The description of the switch.")
+    ("availability_zone" "availability_zone The AZ for the switch.")
+    ("cidr_block" "cidr_block - The CIDR block for the switch.")
+    ("vpc_id" "vpc_id - The VPC ID.")
+    ("name" "name - The name of the switch.")
+    ("description" "description - The description of the switch.")
 
   ) company-terraform-resource-attributes-hash)
 
 (puthash "alicloud_route_entry" '(
-    ("router_id-1" "router_id - (Required, Forces new resource) The ID of the virtual router attached to Vpc.")
-    ("route_table_id-1" "route_table_id - (Required, Forces new resource) The ID of the route table.")
-    ("destination_cidrblock-1" "destination_cidrblock - (Required, Forces new resource) The RouteEntry's target network segment.")
-    ("nexthop_type-1" "nexthop_type - (Required, Forces new resource) The next hop type. Available value is Instance.")
-    ("nexthop_id-1" "nexthop_id - (Required, Forces new resource) The route entry's next hop.")
+    ("router_id" "router_id - (Required, Forces new resource) The ID of the virtual router attached to Vpc.")
+    ("route_table_id" "route_table_id - (Required, Forces new resource) The ID of the route table.")
+    ("destination_cidrblock" "destination_cidrblock - (Required, Forces new resource) The RouteEntry's target network segment.")
+    ("nexthop_type" "nexthop_type - (Required, Forces new resource) The next hop type. Available value is Instance.")
+    ("nexthop_id" "nexthop_id - (Required, Forces new resource) The route entry's next hop.")
 
   ) company-terraform-resource-attributes-hash)
 
 (puthash "alicloud_security_group" '(
     ("id" "id - The ID of the security group")
-    ("vpc_id-1" "vpc_id - The VPC ID.")
-    ("name-1" "name - The name of the security group")
-    ("description-1" "description - The description of the security group")
+    ("vpc_id" "vpc_id - The VPC ID.")
+    ("name" "name - The name of the security group")
+    ("description" "description - The description of the security group")
 
   ) company-terraform-resource-attributes-hash)
 
 (puthash "alicloud_security_group_rule" '(
     ("id" "id - The ID of the security group rule")
-    ("type-1" "type - The type of rule, ingress or egress")
+    ("type" "type - The type of rule, ingress or egress")
     ("name" "name - The name of the security group")
-    ("port_range-1" "port_range - The range of port numbers")
-    ("ip_protocol-1" "ip_protocol - The protocol of the security group rule")
+    ("port_range" "port_range - The range of port numbers")
+    ("ip_protocol" "ip_protocol - The protocol of the security group rule")
 
   ) company-terraform-resource-attributes-hash)
 
 (puthash "alicloud_nat_gateway" '(
     ("id" "id - The ID of the nat gateway.")
-    ("name-1" "name - The name of the nat gateway.")
-    ("description-1" "description - The description of the nat gateway.")
-    ("spec-1" "spec - The specification of the nat gateway.")
-    ("vpc_id-1" "vpc_id - The VPC ID for the nat gateway.")
+    ("name" "name - The name of the nat gateway.")
+    ("description" "description - The description of the nat gateway.")
+    ("spec" "spec - The specification of the nat gateway.")
+    ("vpc_id" "vpc_id - The VPC ID for the nat gateway.")
     ("bandwidth_package_ids" "bandwidth_package_ids - A list ID of the bandwidth packages, and split them with commas")
     ("snat_table_ids" "snat_table_ids - The nat gateway will auto create a snap and forward item, the snat_table_ids is the created one.")
     ("forward_table_ids" "forward_table_ids - The nat gateway will auto create a snap and forward item, the forward_table_ids is the created one.")
@@ -8195,81 +8196,81 @@
 
 (puthash "alicloud_rds" '(
     ("id" "id - The RDS instance ID.")
-    ("instance_charge_type-1" "instance_charge_type - The instance charge type.")
-    ("period-1" "period - The time that you have bought the resource.")
-    ("engine-1" "engine - Database type.")
-    ("engine_version-1" "engine_version - The database engine version.")
-    ("db_instance_class-1" "db_instance_class - The RDS instance class.")
-    ("db_instance_storage-1" "db_instance_storage - The amount of allocated storage.")
+    ("instance_charge_type" "instance_charge_type - The instance charge type.")
+    ("period" "period - The time that you have bought the resource.")
+    ("engine" "engine - Database type.")
+    ("engine_version" "engine_version - The database engine version.")
+    ("db_instance_class" "db_instance_class - The RDS instance class.")
+    ("db_instance_storage" "db_instance_storage - The amount of allocated storage.")
     ("port" "port - The database port.")
-    ("zone_id-1" "zone_id - The zone ID of the DB instance.")
-    ("db_instance_net_type-1" "db_instance_net_type - Network connection type of an instance, Internet or Intranet.")
-    ("instance_network_type-1" "instance_network_type - The instance network type and it has two values: vpc and classic.")
-    ("db_mappings-1" "db_mappings - Database mappings attached to db instance.")
-    ("preferred_backup_period-1" "preferred_backup_period - Backup period.")
-    ("preferred_backup_time-1" "preferred_backup_time - Backup time.")
-    ("backup_retention_period-1" "backup_retention_period - Retention days of the backup.")
-    ("security_ips-1" "security_ips - Security ips of instance whitelist.")
+    ("zone_id" "zone_id - The zone ID of the DB instance.")
+    ("db_instance_net_type" "db_instance_net_type - Network connection type of an instance, Internet or Intranet.")
+    ("instance_network_type" "instance_network_type - The instance network type and it has two values: vpc and classic.")
+    ("db_mappings" "db_mappings - Database mappings attached to db instance.")
+    ("preferred_backup_period" "preferred_backup_period - Backup period.")
+    ("preferred_backup_time" "preferred_backup_time - Backup time.")
+    ("backup_retention_period" "backup_retention_period - Retention days of the backup.")
+    ("security_ips" "security_ips - Security ips of instance whitelist.")
     ("connections" "connections - Views all the connection information of a specified instance.")
 
   ) company-terraform-resource-attributes-hash)
 
 (puthash "alicloud_ess_scaling_group" '(
     ("id" "id - The scaling group ID.")
-    ("min_size-1" "min_size - The minimum number of ECS instances.")
-    ("max_size-1" "max_size - The maximum number of ECS instances.")
-    ("scaling_group_name-1" "scaling_group_name - The name of the scaling group.")
-    ("default_cooldown-1" "default_cooldown - The default cool-down of the scaling group.")
-    ("removal_policies-1" "removal_policies - The removal policy used to select the ECS instance to remove from the scaling group.")
-    ("db_instance_ids-1" "db_instance_ids - The db instance id which the ECS instance attached to.")
-    ("loadbalancer_ids-1" "loadbalancer_ids - The slb instance id which the ECS instance attached to.")
+    ("min_size" "min_size - The minimum number of ECS instances.")
+    ("max_size" "max_size - The maximum number of ECS instances.")
+    ("scaling_group_name" "scaling_group_name - The name of the scaling group.")
+    ("default_cooldown" "default_cooldown - The default cool-down of the scaling group.")
+    ("removal_policies" "removal_policies - The removal policy used to select the ECS instance to remove from the scaling group.")
+    ("db_instance_ids" "db_instance_ids - The db instance id which the ECS instance attached to.")
+    ("loadbalancer_ids" "loadbalancer_ids - The slb instance id which the ECS instance attached to.")
 
   ) company-terraform-resource-attributes-hash)
 
 (puthash "alicloud_ess_scaling_configuration" '(
     ("id" "id - The scaling configuration ID.")
-    ("active-1" "active - Wether the current scaling configuration is actived.")
-    ("image_id-1" "image_id - The ecs instance Image id.")
-    ("instance_type-1" "instance_type - The ecs instance type.")
-    ("io_optimized-1" "io_optimized - The ecs instance whether I/O optimized.")
-    ("security_group_id-1" "security_group_id - ID of the security group to which a newly created instance belongs.")
-    ("scaling_configuration_name-1" "scaling_configuration_name - Name of scaling configuration.")
-    ("internet_charge_type-1" "internet_charge_type - Internet charge type of ecs instance.")
+    ("active" "active - Wether the current scaling configuration is actived.")
+    ("image_id" "image_id - The ecs instance Image id.")
+    ("instance_type" "instance_type - The ecs instance type.")
+    ("io_optimized" "io_optimized - The ecs instance whether I/O optimized.")
+    ("security_group_id" "security_group_id - ID of the security group to which a newly created instance belongs.")
+    ("scaling_configuration_name" "scaling_configuration_name - Name of scaling configuration.")
+    ("internet_charge_type" "internet_charge_type - Internet charge type of ecs instance.")
 
   ) company-terraform-resource-attributes-hash)
 
 (puthash "alicloud_ess_scaling_rule" '(
     ("id" "id - The scaling rule ID.")
-    ("scaling_group_id-1" "scaling_group_id - The id of scaling group.")
+    ("scaling_group_id" "scaling_group_id - The id of scaling group.")
     ("ari" "ari - Unique identifier of a scaling rule.")
-    ("adjustment_type-1" "adjustment_type - Adjustment mode of a scaling rule.")
-    ("adjustment_value-1" "adjustment_value - Adjustment value of a scaling rule.")
-    ("scaling_rule_name-1" "scaling_rule_name - Name of a scaling rule.")
-    ("cooldown-1" "cooldown - Cool-down time of a scaling rule.")
+    ("adjustment_type" "adjustment_type - Adjustment mode of a scaling rule.")
+    ("adjustment_value" "adjustment_value - Adjustment value of a scaling rule.")
+    ("scaling_rule_name" "scaling_rule_name - Name of a scaling rule.")
+    ("cooldown" "cooldown - Cool-down time of a scaling rule.")
 
   ) company-terraform-resource-attributes-hash)
 
 (puthash "alicloud_ess_schedule" '(
     ("id" "id - The schedule task ID.")
-    ("scheduled_action-1" "scheduled_action - The action of schedule task.")
-    ("launch_time-1" "launch_time - The time of schedule task be triggered.")
-    ("scheduled_task_name-1" "scheduled_task_name - The name of schedule task.")
-    ("description-1" "description - The description of schedule task.")
-    ("task_enabled-1" "task_enabled - Wether the task is enabled.")
+    ("scheduled_action" "scheduled_action - The action of schedule task.")
+    ("launch_time" "launch_time - The time of schedule task be triggered.")
+    ("scheduled_task_name" "scheduled_task_name - The name of schedule task.")
+    ("description" "description - The description of schedule task.")
+    ("task_enabled" "task_enabled - Wether the task is enabled.")
 
   ) company-terraform-resource-attributes-hash)
 
 (puthash "arukas_container" '(
     ("id" "id - The ID of the container.")
     ("app_id" "app_id - The ID of the Arukas application to which the container belongs.")
-    ("name-1" "name - The name of the container.")
-    ("image-1" "image - The ID of the image to back this container.")
-    ("instances-1" "instances - The count of the instance.")
-    ("memory-1" "memory - The size of the instance RAM.")
-    ("endpoint-1" "endpoint - The subdomain part of the endpoint assigned by Arukas.")
-    ("ports-2" "ports - See Ports below for details.")
-    ("environments-2" "environments - See Environments below for details.")
-    ("cmd-1" "cmd - The command of the container.")
+    ("name" "name - The name of the container.")
+    ("image" "image - The ID of the image to back this container.")
+    ("instances" "instances - The count of the instance.")
+    ("memory" "memory - The size of the instance RAM.")
+    ("endpoint" "endpoint - The subdomain part of the endpoint assigned by Arukas.")
+    ("ports" "ports - See Ports below for details.")
+    ("environments" "environments - See Environments below for details.")
+    ("cmd" "cmd - The command of the container.")
     ("port_mappings" "port_mappings - See PortMappings below for details.")
     ("endpoint_full_url" "endpoint_full_url - The URL of endpoint.")
     ("endpoint_full_hostname" "endpoint_full_hostname - The Hostname of endpoint.")
@@ -8356,20 +8357,20 @@
 
 (puthash "aws_api_gateway_usage_plan" '(
     ("id" "id - The ID of the API resource")
-    ("name-1" "name - The name of the usage plan.")
-    ("description-1" "description - The description of a usage plan.")
-    ("api_stages-1" "api_stages - The associated API stages of the usage plan.")
-    ("quota_settings-1" "quota_settings - The quota of the usage plan.")
-    ("throttle_settings-1" "throttle_settings - The throttling limits of the usage plan.")
-    ("product_code-1" "product_code - The AWS Markeplace product identifier to associate with the usage plan as a SaaS product on AWS Marketplace.")
+    ("name" "name - The name of the usage plan.")
+    ("description" "description - The description of a usage plan.")
+    ("api_stages" "api_stages - The associated API stages of the usage plan.")
+    ("quota_settings" "quota_settings - The quota of the usage plan.")
+    ("throttle_settings" "throttle_settings - The throttling limits of the usage plan.")
+    ("product_code" "product_code - The AWS Markeplace product identifier to associate with the usage plan as a SaaS product on AWS Marketplace.")
 
   ) company-terraform-resource-attributes-hash)
 
 (puthash "aws_api_gateway_usage_plan_key" '(
     ("id" "id - The Id of a usage plan key.")
-    ("key_id-1" "key_id - The type of a usage plan key. Currently, the valid key type is API_KEY.")
-    ("key_type-1" "key_type - The ID of the API resource")
-    ("usage_plan_id-1" "usage_plan_id - The ID of the API resource")
+    ("key_id" "key_id - The type of a usage plan key. Currently, the valid key type is API_KEY.")
+    ("key_type" "key_type - The ID of the API resource")
+    ("usage_plan_id" "usage_plan_id - The ID of the API resource")
     ("name" "name - The name of a usage plan key.")
     ("value" "value - The value of a usage plan key.")
 
@@ -8450,10 +8451,10 @@
 
 (puthash "aws_codebuild_project" '(
     ("id" "id - The ARN of the CodeBuild project.")
-    ("description-1" "description - A short description of the project.")
-    ("encryption_key-1" "encryption_key - The AWS Key Management Service (AWS KMS) customer master key (CMK) that was used for encrypting the build project's build output artifacts.")
-    ("name-2" "name - The projects name.")
-    ("service_role-1" "service_role - The ARN of the IAM service role.")
+    ("description" "description - A short description of the project.")
+    ("encryption_key" "encryption_key - The AWS Key Management Service (AWS KMS) customer master key (CMK) that was used for encrypting the build project's build output artifacts.")
+    ("name" "name - The projects name.")
+    ("service_role" "service_role - The ARN of the IAM service role.")
 
   ) company-terraform-resource-attributes-hash)
 
@@ -8481,11 +8482,11 @@
 
 (puthash "aws_codedeploy_deployment_group" '(
     ("id" "id - The deployment group's ID.")
-    ("app_name-1" "app_name - The group's assigned application.")
-    ("deployment_group_name-1" "deployment_group_name - The group's name.")
-    ("service_role_arn-1" "service_role_arn - The group's service role ARN.")
-    ("autoscaling_groups-1" "autoscaling_groups - The autoscaling groups associated with the deployment group.")
-    ("deployment_config_name-1" "deployment_config_name - The name of the group's deployment config.")
+    ("app_name" "app_name - The group's assigned application.")
+    ("deployment_group_name" "deployment_group_name - The group's name.")
+    ("service_role_arn" "service_role_arn - The group's service role ARN.")
+    ("autoscaling_groups" "autoscaling_groups - The autoscaling groups associated with the deployment group.")
+    ("deployment_config_name" "deployment_config_name - The name of the group's deployment config.")
 
   ) company-terraform-resource-attributes-hash)
 
@@ -8622,10 +8623,10 @@
 
 (puthash "aws_app_cookie_stickiness_policy" '(
     ("id" "id - The ID of the policy.")
-    ("name-1" "name - The name of the stickiness policy.")
-    ("load_balancer-1" "load_balancer - The name of load balancer to which the policy is attached.")
-    ("lb_port-1" "lb_port - The load balancer port to which the policy is applied.")
-    ("cookie_name-1" "cookie_name - The application cookie whose lifetime the ELB's cookie should follow.")
+    ("name" "name - The name of the stickiness policy.")
+    ("load_balancer" "load_balancer - The name of load balancer to which the policy is attached.")
+    ("lb_port" "lb_port - The load balancer port to which the policy is applied.")
+    ("cookie_name" "cookie_name - The application cookie whose lifetime the ELB's cookie should follow.")
 
   ) company-terraform-resource-attributes-hash)
 
@@ -8636,18 +8637,18 @@
 (puthash "aws_autoscaling_group" '(
     ("id" "id - The autoscaling group id.")
     ("arn" "arn - The ARN for this AutoScaling Group")
-    ("availability_zones-1" "availability_zones - The availability zones of the autoscale group.")
-    ("min_size-1" "min_size - The minimum size of the autoscale group")
-    ("max_size-1" "max_size - The maximum size of the autoscale group")
-    ("default_cooldown-1" "default_cooldown - Time between a scaling activity and the succeeding scaling activity.")
-    ("name-1" "name - The name of the autoscale group")
-    ("health_check_grace_period-1" "health_check_grace_period - Time after instance comes into service before checking health.")
-    ("health_check_type-1" "health_check_type - \"EC2\" or \"ELB\". Controls how health checking is done.")
-    ("desired_capacity-1" "desired_capacity -The number of Amazon EC2 instances that should be running in the group.")
-    ("launch_configuration-1" "launch_configuration - The launch configuration of the autoscale group")
-    ("vpc_zone_identifier-1" "vpc_zone_identifier (Optional) - The VPC zone identifier")
-    ("load_balancers-1" "load_balancers (Optional) The load balancer names associated with the autoscaling group.")
-    ("target_group_arns-1" "target_group_arns (Optional) list of Target Group ARNs that apply to this AutoScaling Group")
+    ("availability_zones" "availability_zones - The availability zones of the autoscale group.")
+    ("min_size" "min_size - The minimum size of the autoscale group")
+    ("max_size" "max_size - The maximum size of the autoscale group")
+    ("default_cooldown" "default_cooldown - Time between a scaling activity and the succeeding scaling activity.")
+    ("name" "name - The name of the autoscale group")
+    ("health_check_grace_period" "health_check_grace_period - Time after instance comes into service before checking health.")
+    ("health_check_type" "health_check_type - \"EC2\" or \"ELB\". Controls how health checking is done.")
+    ("desired_capacity" "desired_capacity -The number of Amazon EC2 instances that should be running in the group.")
+    ("launch_configuration" "launch_configuration - The launch configuration of the autoscale group")
+    ("vpc_zone_identifier" "vpc_zone_identifier (Optional) - The VPC zone identifier")
+    ("load_balancers" "load_balancers (Optional) The load balancer names associated with the autoscaling group.")
+    ("target_group_arns" "target_group_arns (Optional) list of Target Group ARNs that apply to this AutoScaling Group")
 
   ) company-terraform-resource-attributes-hash)
 
@@ -8656,9 +8657,9 @@
   ) company-terraform-resource-attributes-hash)
 
 (puthash "aws_autoscaling_notification" '(
-    ("group_names-1" "group_names")
-    ("notifications-1" "notifications")
-    ("topic_arn-1" "topic_arn")
+    ("group_names" "group_names")
+    ("notifications" "notifications")
+    ("topic_arn" "topic_arn")
 
   ) company-terraform-resource-attributes-hash)
 
@@ -8683,7 +8684,7 @@
     ("volume_size" "volume_size - The size of the drive in GiBs.")
     ("kms_key_id" "kms_key_id - The ARN for the KMS encryption key.")
     ("data_encryption_key_id" "data_encryption_key_id - The data encryption key identifier for the snapshot.")
-    ("tags-1" "tags - A mapping of tags for the snapshot.")
+    ("tags" "tags - A mapping of tags for the snapshot.")
 
   ) company-terraform-resource-attributes-hash)
 
@@ -8695,28 +8696,28 @@
 (puthash "aws_eip" '(
     ("id" "id - Contains the EIP allocation ID.")
     ("private_ip" "private_ip - Contains the private IP address (if in VPC).")
-    ("associate_with_private_ip-1" "associate_with_private_ip - Contains the user specified private IP address (if in VPC).")
+    ("associate_with_private_ip" "associate_with_private_ip - Contains the user specified private IP address (if in VPC).")
     ("public_ip" "public_ip - Contains the public IP address.")
-    ("instance-1" "instance - Contains the ID of the attached instance.")
-    ("network_interface-1" "network_interface - Contains the ID of the attached network interface.")
+    ("instance" "instance - Contains the ID of the attached instance.")
+    ("network_interface" "network_interface - Contains the ID of the attached network interface.")
 
   ) company-terraform-resource-attributes-hash)
 
 (puthash "aws_eip_association" '(
     ("association_id" "association_id - The ID that represents the association of the Elastic IP address with an instance.")
-    ("allocation_id-1" "allocation_id - As above")
-    ("instance_id-1" "instance_id - As above")
-    ("network_interface_id-1" "network_interface_id - As above")
-    ("private_ip_address-1" "private_ip_address - As above")
-    ("public_ip-1" "public_ip - As above")
+    ("allocation_id" "allocation_id - As above")
+    ("instance_id" "instance_id - As above")
+    ("network_interface_id" "network_interface_id - As above")
+    ("private_ip_address" "private_ip_address - As above")
+    ("public_ip" "public_ip - As above")
 
   ) company-terraform-resource-attributes-hash)
 
 (puthash "aws_elb" '(
     ("id" "id - The name of the ELB")
-    ("name-1" "name - The name of the ELB")
+    ("name" "name - The name of the ELB")
     ("dns_name" "dns_name - The DNS name of the ELB")
-    ("instances-1" "instances - The list of instances in the ELB")
+    ("instances" "instances - The list of instances in the ELB")
     ("source_security_group" "source_security_group - The name of the security group that you can use as part of your inbound rules for your load balancer's back-end application instances. Use this for Classic or Default VPC only.")
     ("source_security_group_id" "source_security_group_id - The ID of the security group that you can use as part of your inbound rules for your load balancer's back-end application instances. Only available on ELBs launched in a VPC.")
     ("zone_id" "zone_id - The canonical hosted zone ID of the ELB (to be used in a Route 53 Alias record)")
@@ -8729,70 +8730,70 @@
 
 (puthash "aws_instance" '(
     ("id" "id - The instance ID.")
-    ("availability_zone-1" "availability_zone - The availability zone of the instance.")
-    ("placement_group-1" "placement_group - The placement group of the instance.")
-    ("key_name-1" "key_name - The key name of the instance")
+    ("availability_zone" "availability_zone - The availability zone of the instance.")
+    ("placement_group" "placement_group - The placement group of the instance.")
+    ("key_name" "key_name - The key name of the instance")
     ("public_dns" "public_dns - The public DNS name assigned to the instance. For EC2-VPC, this is only available if you've enabled DNS hostnames for your VPC")
     ("public_ip" "public_ip - The public IP address assigned to the instance, if applicable. NOTE: If you are using an aws_eip with your instance, you should refer to the EIP's address directly and not use public_ip, as this field will change after the EIP is attached.")
-    ("network_interface_id-1" "network_interface_id - The ID of the network interface that was created with the instance.")
+    ("network_interface_id" "network_interface_id - The ID of the network interface that was created with the instance.")
     ("primary_network_interface_id" "primary_network_interface_id - The ID of the instance's primary network interface.")
     ("private_dns" "private_dns - The private DNS name assigned to the instance. Can only be used inside the Amazon EC2, and only available if you've enabled DNS hostnames for your VPC")
-    ("private_ip-1" "private_ip - The private IP address assigned to the instance")
-    ("security_groups-1" "security_groups - The associated security groups.")
-    ("vpc_security_group_ids-1" "vpc_security_group_ids - The associated security groups in non-default VPC")
-    ("subnet_id-1" "subnet_id - The VPC subnet ID.")
+    ("private_ip" "private_ip - The private IP address assigned to the instance")
+    ("security_groups" "security_groups - The associated security groups.")
+    ("vpc_security_group_ids" "vpc_security_group_ids - The associated security groups in non-default VPC")
+    ("subnet_id" "subnet_id - The VPC subnet ID.")
 
   ) company-terraform-resource-attributes-hash)
 
 (puthash "aws_key_pair" '(
-    ("key_name-1" "key_name - The key pair name.")
+    ("key_name" "key_name - The key pair name.")
     ("fingerprint" "fingerprint - The MD5 public key fingerprint as specified in section 4 of RFC 4716.")
 
   ) company-terraform-resource-attributes-hash)
 
 (puthash "aws_launch_configuration" '(
     ("id" "id - The ID of the launch configuration.")
-    ("name-1" "name - The name of the launch configuration.")
+    ("name" "name - The name of the launch configuration.")
 
   ) company-terraform-resource-attributes-hash)
 
 (puthash "aws_lb_cookie_stickiness_policy" '(
     ("id" "id - The ID of the policy.")
-    ("name-1" "name - The name of the stickiness policy.")
-    ("load_balancer-1" "load_balancer - The load balancer to which the policy is attached.")
-    ("lb_port-1" "lb_port - The load balancer port to which the policy is applied.")
-    ("cookie_expiration_period-1" "cookie_expiration_period - The time period after which the session cookie is considered stale, expressed in seconds.")
+    ("name" "name - The name of the stickiness policy.")
+    ("load_balancer" "load_balancer - The load balancer to which the policy is attached.")
+    ("lb_port" "lb_port - The load balancer port to which the policy is applied.")
+    ("cookie_expiration_period" "cookie_expiration_period - The time period after which the session cookie is considered stale, expressed in seconds.")
 
   ) company-terraform-resource-attributes-hash)
 
 (puthash "aws_lb_ssl_negotiation_policy" '(
     ("id" "id - The ID of the policy.")
-    ("name-2" "name - The name of the stickiness policy.")
-    ("load_balancer-1" "load_balancer - The load balancer to which the policy is attached.")
-    ("lb_port-1" "lb_port - The load balancer port to which the policy is applied.")
-    ("attribute-1" "attribute - The SSL Negotiation policy attributes.")
+    ("name" "name - The name of the stickiness policy.")
+    ("load_balancer" "load_balancer - The load balancer to which the policy is attached.")
+    ("lb_port" "lb_port - The load balancer port to which the policy is applied.")
+    ("attribute" "attribute - The SSL Negotiation policy attributes.")
 
   ) company-terraform-resource-attributes-hash)
 
 (puthash "aws_load_balancer_backend_server_policy" '(
     ("id" "id - The ID of the policy.")
-    ("load_balancer_name-1" "load_balancer_name - The load balancer on which the policy is defined.")
-    ("instance_port-1" "instance_port - The backend port the policies are applied to")
+    ("load_balancer_name" "load_balancer_name - The load balancer on which the policy is defined.")
+    ("instance_port" "instance_port - The backend port the policies are applied to")
 
   ) company-terraform-resource-attributes-hash)
 
 (puthash "aws_load_balancer_listener_policy" '(
     ("id" "id - The ID of the policy.")
-    ("load_balancer_name-1" "load_balancer_name - The load balancer on which the policy is defined.")
-    ("load_balancer_port-1" "load_balancer_port - The load balancer listener port the policies are applied to")
+    ("load_balancer_name" "load_balancer_name - The load balancer on which the policy is defined.")
+    ("load_balancer_port" "load_balancer_port - The load balancer listener port the policies are applied to")
 
   ) company-terraform-resource-attributes-hash)
 
 (puthash "aws_load_balancer_policy" '(
     ("id" "id - The ID of the policy.")
-    ("policy_name-1" "policy_name - The name of the stickiness policy.")
-    ("policy_type_name-1" "policy_type_name - The policy type of the policy.")
-    ("load_balancer_name-1" "load_balancer_name - The load balancer on which the policy is defined.")
+    ("policy_name" "policy_name - The name of the stickiness policy.")
+    ("policy_type_name" "policy_type_name - The policy type of the policy.")
+    ("load_balancer_name" "load_balancer_name - The load balancer on which the policy is defined.")
 
   ) company-terraform-resource-attributes-hash)
 
@@ -8803,7 +8804,7 @@
 
 (puthash "aws_proxy_protocol_policy" '(
     ("id" "id - The ID of the policy.")
-    ("load_balancer-1" "load_balancer - The load balancer to which the policy is attached.")
+    ("load_balancer" "load_balancer - The load balancer to which the policy is attached.")
 
   ) company-terraform-resource-attributes-hash)
 
@@ -8823,44 +8824,44 @@
   ) company-terraform-resource-attributes-hash)
 
 (puthash "aws_volume_attachment" '(
-    ("device_name-1" "device_name - The device name exposed to the instance")
-    ("instance_id-1" "instance_id - ID of the Instance")
-    ("volume_id-1" "volume_id - ID of the Volume")
+    ("device_name" "device_name - The device name exposed to the instance")
+    ("instance_id" "instance_id - ID of the Instance")
+    ("volume_id" "volume_id - ID of the Volume")
 
   ) company-terraform-resource-attributes-hash)
 
 (puthash "aws_ecr_repository" '(
     ("arn" "arn - Full ARN of the repository.")
-    ("name-1" "name - The name of the repository.")
+    ("name" "name - The name of the repository.")
     ("registry_id" "registry_id - The registry ID where the repository was created.")
     ("repository_url" "repository_url - The URL of the repository (in the form aws_account_id.dkr.ecr.region.amazonaws.com/repositoryName")
 
   ) company-terraform-resource-attributes-hash)
 
 (puthash "aws_ecr_repository_policy" '(
-    ("repository-1" "repository - The name of the repository.")
+    ("repository" "repository - The name of the repository.")
     ("registry_id" "registry_id - The registry ID where the repository was created.")
 
   ) company-terraform-resource-attributes-hash)
 
 (puthash "aws_ecs_cluster" '(
-    ("name-1" "name - The name of the cluster")
+    ("name" "name - The name of the cluster")
     ("id" "id - The Amazon Resource Name (ARN) that identifies the cluster")
 
   ) company-terraform-resource-attributes-hash)
 
 (puthash "aws_ecs_service" '(
     ("id" "id - The Amazon Resource Name (ARN) that identifies the service")
-    ("name-1" "name - The name of the service")
-    ("cluster-1" "cluster - The Amazon Resource Name (ARN) of cluster which the service runs on")
-    ("iam_role-1" "iam_role - The ARN of IAM role used for ELB")
-    ("desired_count-1" "desired_count - The number of instances of the task definition")
+    ("name" "name - The name of the service")
+    ("cluster" "cluster - The Amazon Resource Name (ARN) of cluster which the service runs on")
+    ("iam_role" "iam_role - The ARN of IAM role used for ELB")
+    ("desired_count" "desired_count - The number of instances of the task definition")
 
   ) company-terraform-resource-attributes-hash)
 
 (puthash "aws_ecs_task_definition" '(
     ("arn" "arn - Full ARN of the Task Definition (including both family and revision).")
-    ("family-1" "family - The family of the Task Definition.")
+    ("family" "family - The family of the Task Definition.")
     ("revision" "revision - The revision of the task in a particular family.")
 
   ) company-terraform-resource-attributes-hash)
@@ -8897,47 +8898,47 @@
   ) company-terraform-resource-attributes-hash)
 
 (puthash "aws_elasticache_security_group" '(
-    ("description-1" "description")
-    ("name-1" "name")
-    ("security_group_names-1" "security_group_names")
+    ("description" "description")
+    ("name" "name")
+    ("security_group_names" "security_group_names")
 
   ) company-terraform-resource-attributes-hash)
 
 (puthash "aws_elasticache_subnet_group" '(
-    ("description-1" "description")
-    ("name-1" "name")
-    ("subnet_ids-1" "subnet_ids")
+    ("description" "description")
+    ("name" "name")
+    ("subnet_ids" "subnet_ids")
 
   ) company-terraform-resource-attributes-hash)
 
 (puthash "aws_elastic_beanstalk_application" '(
-    ("name-1" "name")
-    ("description-1" "description")
+    ("name" "name")
+    ("description" "description")
 
   ) company-terraform-resource-attributes-hash)
 
 (puthash "aws_elastic_beanstalk_application_version" '(
-    ("name-1" "name - The Application Version name.")
+    ("name" "name - The Application Version name.")
 
   ) company-terraform-resource-attributes-hash)
 
 (puthash "aws_elastic_beanstalk_configuration_template" '(
-    ("name-2" "name")
-    ("application-1" "application")
-    ("description-1" "description")
-    ("environment_id-1" "environment_id")
+    ("name" "name")
+    ("application" "application")
+    ("description" "description")
+    ("environment_id" "environment_id")
     ("option_settings" "option_settings")
-    ("solution_stack_name-1" "solution_stack_name")
+    ("solution_stack_name" "solution_stack_name")
 
   ) company-terraform-resource-attributes-hash)
 
 (puthash "aws_elastic_beanstalk_environment" '(
     ("id" "id - ID of the Elastic Beanstalk Environment.")
-    ("name-2" "name - Name of the Elastic Beanstalk Environment.")
-    ("description-1" "description - Description of the Elastic Beanstalk Environment.")
-    ("tier-1" "tier - The environment tier specified.")
-    ("application-1" "application – The Elastic Beanstalk Application specified for this environment.")
-    ("setting-1" "setting – Settings specifically set for this Environment.")
+    ("name" "name - Name of the Elastic Beanstalk Environment.")
+    ("description" "description - Description of the Elastic Beanstalk Environment.")
+    ("tier" "tier - The environment tier specified.")
+    ("application" "application – The Elastic Beanstalk Application specified for this environment.")
+    ("setting" "setting – Settings specifically set for this Environment.")
     ("all_settings" "all_settings – List of all option settings configured in the Environment. These are a combination of default settings and their overrides from setting in the configuration.")
     ("cname" "cname - Fully qualified DNS name for the Environment.")
     ("autoscaling_groups" "autoscaling_groups - The autoscaling groups used by this environment.")
@@ -8951,20 +8952,20 @@
 
 (puthash "aws_emr_cluster" '(
     ("id" "id - The ID of the EMR Cluster")
-    ("name-2" "name - The name of the cluster.")
-    ("release_label-1" "release_label - The release label for the Amazon EMR release.")
-    ("master_instance_type-1" "master_instance_type - The EC2 instance type of the master node.")
+    ("name" "name - The name of the cluster.")
+    ("release_label" "release_label - The release label for the Amazon EMR release.")
+    ("master_instance_type" "master_instance_type - The EC2 instance type of the master node.")
     ("master_public_dns" "master_public_dns - The public DNS name of the master EC2 instance.")
-    ("core_instance_type-1" "core_instance_type - The EC2 instance type of the slave nodes.")
-    ("core_instance_count-1" "core_instance_count The number of slave nodes, i.e. EC2 instance nodes.")
-    ("log_uri-1" "log_uri - The path to the Amazon S3 location where logs for this cluster are stored.")
-    ("applications-1" "applications - The applications installed on this cluster.")
-    ("ec2_attributes-2" "ec2_attributes - Provides information about the EC2 instances in a cluster grouped by category: key name, subnet ID, IAM instance profile, and so on.")
-    ("bootstrap_action-2" "bootstrap_action - A list of bootstrap actions that will be run before Hadoop is started on the cluster nodes.")
-    ("configurations-1" "configurations - The list of Configurations supplied to the EMR cluster.")
-    ("service_role-1" "service_role - The IAM role that will be assumed by the Amazon EMR service to access AWS resources on your behalf.")
-    ("visible_to_all_users-1" "visible_to_all_users - Indicates whether the job flow is visible to all IAM users of the AWS account associated with the job flow.")
-    ("tags-1" "tags - The list of tags associated with a cluster.")
+    ("core_instance_type" "core_instance_type - The EC2 instance type of the slave nodes.")
+    ("core_instance_count" "core_instance_count The number of slave nodes, i.e. EC2 instance nodes.")
+    ("log_uri" "log_uri - The path to the Amazon S3 location where logs for this cluster are stored.")
+    ("applications" "applications - The applications installed on this cluster.")
+    ("ec2_attributes" "ec2_attributes - Provides information about the EC2 instances in a cluster grouped by category: key name, subnet ID, IAM instance profile, and so on.")
+    ("bootstrap_action" "bootstrap_action - A list of bootstrap actions that will be run before Hadoop is started on the cluster nodes.")
+    ("configurations" "configurations - The list of Configurations supplied to the EMR cluster.")
+    ("service_role" "service_role - The IAM role that will be assumed by the Amazon EMR service to access AWS resources on your behalf.")
+    ("visible_to_all_users" "visible_to_all_users - Indicates whether the job flow is visible to all IAM users of the AWS account associated with the job flow.")
+    ("tags" "tags - The list of tags associated with a cluster.")
 
   ) company-terraform-resource-attributes-hash)
 
@@ -8977,8 +8978,8 @@
 
 (puthash "aws_emr_security_configuration" '(
     ("id" "id - The ID of the EMR Security Configuration (Same as the name)")
-    ("name-1" "name - The Name of the EMR Security Configuration")
-    ("configuration-1" "configuration - The JSON formatted Security Configuration")
+    ("name" "name - The Name of the EMR Security Configuration")
+    ("configuration" "configuration - The JSON formatted Security Configuration")
     ("creation_date" "creation_date - Date the Security Configuration was created")
 
   ) company-terraform-resource-attributes-hash)
@@ -9010,7 +9011,7 @@
 
 (puthash "aws_iam_access_key" '(
     ("id" "id - The access key ID.")
-    ("user-1" "user - The IAM user associated with this access key.")
+    ("user" "user - The IAM user associated with this access key.")
     ("key_fingerprint" "key_fingerprint - The fingerprint of the PGP key used to encrypt the secret")
     ("secret" "secret - The secret access key. Note that this will be written to the state file. Please supply a pgp_key instead, which will prevent the secret from being stored in plain text")
     ("encrypted_secret" "encrypted_secret - The encrypted secret, base64 encoded. ~> NOTE: The encrypted secret may be decrypted using the command line, for example: terraform output secret | base64 --decode | keybase pgp decrypt.")
@@ -9031,24 +9032,24 @@
 (puthash "aws_iam_group" '(
     ("id" "id - The group's ID.")
     ("arn" "arn - The ARN assigned by AWS for this group.")
-    ("name-1" "name - The group's name.")
-    ("path-1" "path - The path of the group in IAM.")
+    ("name" "name - The group's name.")
+    ("path" "path - The path of the group in IAM.")
     ("unique_id" "unique_id - The unique ID assigned by AWS.")
 
   ) company-terraform-resource-attributes-hash)
 
 (puthash "aws_iam_group_membership" '(
-    ("name-1" "name - The name to identifing the Group Membership")
-    ("users-1" "users - list of IAM User names")
-    ("group-1" "group – IAM Group name")
+    ("name" "name - The name to identifing the Group Membership")
+    ("users" "users - list of IAM User names")
+    ("group" "group – IAM Group name")
 
   ) company-terraform-resource-attributes-hash)
 
 (puthash "aws_iam_group_policy" '(
     ("id" "id - The group policy ID.")
-    ("group-1" "group - The group to which this policy applies.")
-    ("name-1" "name - The name of the policy.")
-    ("policy-1" "policy - The policy document attached to the group.")
+    ("group" "group - The group to which this policy applies.")
+    ("name" "name - The name of the policy.")
+    ("policy" "policy - The policy document attached to the group.")
 
   ) company-terraform-resource-attributes-hash)
 
@@ -9068,16 +9069,16 @@
 (puthash "aws_iam_policy" '(
     ("id" "id - The policy's ID.")
     ("arn" "arn - The ARN assigned by AWS to this policy.")
-    ("description-1" "description - The description of the policy.")
-    ("name-1" "name - The name of the policy.")
-    ("path-1" "path - The path of the policy in IAM.")
-    ("policy-1" "policy - The policy document.")
+    ("description" "description - The description of the policy.")
+    ("name" "name - The name of the policy.")
+    ("path" "path - The path of the policy in IAM.")
+    ("policy" "policy - The policy document.")
 
   ) company-terraform-resource-attributes-hash)
 
 (puthash "aws_iam_policy_attachment" '(
     ("id" "id - The policy's ID.")
-    ("name-1" "name - The name of the policy.")
+    ("name" "name - The name of the policy.")
 
   ) company-terraform-resource-attributes-hash)
 
@@ -9085,16 +9086,16 @@
     ("arn" "arn - The Amazon Resource Name (ARN) specifying the role.")
     ("create_date" "create_date - The creation date of the IAM role.")
     ("unique_id" "unique_id - The stable and unique string identifying the role.")
-    ("name-1" "name - The name of the role.")
-    ("description-1" "description - The description of the role.")
+    ("name" "name - The name of the role.")
+    ("description" "description - The description of the role.")
 
   ) company-terraform-resource-attributes-hash)
 
 (puthash "aws_iam_role_policy" '(
     ("id" "id - The role policy ID, in the form of role_name:role_policy_name.")
-    ("name-1" "name - The name of the policy.")
-    ("policy-1" "policy - The policy document attached to the role.")
-    ("role-1" "role - The name of the role associated with the policy.")
+    ("name" "name - The name of the policy.")
+    ("policy" "policy - The policy document attached to the role.")
+    ("role" "role - The name of the role associated with the policy.")
 
   ) company-terraform-resource-attributes-hash)
 
@@ -9110,14 +9111,14 @@
 
 (puthash "aws_iam_server_certificate" '(
     ("id" "id - The unique Server Certificate name")
-    ("name-1" "name - The name of the Server Certificate")
+    ("name" "name - The name of the Server Certificate")
     ("arn" "arn - The Amazon Resource Name (ARN) specifying the server certificate.")
 
   ) company-terraform-resource-attributes-hash)
 
 (puthash "aws_iam_user" '(
     ("arn" "arn - The ARN assigned by AWS for this user.")
-    ("name-1" "name - The user's name.")
+    ("name" "name - The user's name.")
     ("unique_id" "unique_id - The unique ID assigned by AWS.")
 
   ) company-terraform-resource-attributes-hash)
@@ -9149,9 +9150,9 @@
 
 (puthash "aws_iot_policy" '(
     ("arn" "arn - The ARN assigned by AWS to this policy.")
-    ("name-1" "name - The name of this policy.")
+    ("name" "name - The name of this policy.")
     ("default_version_id" "default_version_id - The default version of this policy.")
-    ("policy-1" "policy - The policy document.")
+    ("policy" "policy - The policy document.")
 
   ) company-terraform-resource-attributes-hash)
 
@@ -9172,8 +9173,8 @@
 
 (puthash "aws_kinesis_stream" '(
     ("id" "id - The unique Stream id")
-    ("name-1" "name - The unique Stream name")
-    ("shard_count-1" "shard_count - The count of Shards for this Stream")
+    ("name" "name - The unique Stream name")
+    ("shard_count" "shard_count - The count of Shards for this Stream")
     ("arn" "arn - The Amazon Resource Name (ARN) specifying the Stream (same as id)")
 
   ) company-terraform-resource-attributes-hash)
@@ -9215,8 +9216,8 @@
     ("invoke_arn" "invoke_arn - The ARN to be used for invoking Lambda Function from API Gateway - to be used in aws_api_gateway_integration's uri")
     ("version" "version - Latest published version of your Lambda Function.")
     ("last_modified" "last_modified - The date this resource was last modified.")
-    ("kms_key_arn-1" "kms_key_arn - (Optional) The ARN for the KMS encryption key.")
-    ("source_code_hash-1" "source_code_hash - Base64-encoded representation of raw SHA-256 sum of the zip file provided either via filename or s3_* parameters.")
+    ("kms_key_arn" "kms_key_arn - (Optional) The ARN for the KMS encryption key.")
+    ("source_code_hash" "source_code_hash - Base64-encoded representation of raw SHA-256 sum of the zip file provided either via filename or s3_* parameters.")
 
   ) company-terraform-resource-attributes-hash)
 
@@ -9233,11 +9234,11 @@
 (puthash "aws_lightsail_instance" '(
     ("id" "id - The ARN of the Lightsail instance (matches arn).")
     ("arn" "arn - The ARN of the Lightsail instance (matches id).")
-    ("availability_zone-1" "availability_zone")
-    ("blueprint_id-1" "blueprint_id")
-    ("bundle_id-1" "bundle_id")
-    ("key_pair_name-1" "key_pair_name")
-    ("user_data-1" "user_data")
+    ("availability_zone" "availability_zone")
+    ("blueprint_id" "blueprint_id")
+    ("bundle_id" "bundle_id")
+    ("key_pair_name" "key_pair_name")
+    ("user_data" "user_data")
 
   ) company-terraform-resource-attributes-hash)
 
@@ -9245,7 +9246,7 @@
     ("id" "id - The name used for this key pair")
     ("arn" "arn - The ARN of the Lightsail key pair")
     ("fingerprint" "fingerprint - The MD5 public key fingerprint as specified in section 4 of RFC 4716.")
-    ("public_key-1" "public_key - the public key, base64 encoded")
+    ("public_key" "public_key - the public key, base64 encoded")
     ("private_key" "private_key - the private key, base64 encoded. This is only populated when creating a new key, and when no pgp_key is provided")
     ("encrypted_private_key" "encrypted_private_key – the private key material, base 64 encoded and encrypted with the given pgp_key. This is only populated when creating a new key and pgp_key is supplied")
     ("encrypted_fingerprint" "encrypted_fingerprint - The MD5 public key fingerprint for the encrypted private key")
@@ -9288,15 +9289,15 @@
 
 (puthash "aws_opsworks_instance" '(
     ("id" "id - The id of the OpsWorks instance.")
-    ("agent_version-1" "agent_version - The AWS OpsWorks agent version.")
-    ("availability_zone-1" "availability_zone - The availability zone of the instance.")
-    ("ssh_key_name-1" "ssh_key_name - The key name of the instance")
+    ("agent_version" "agent_version - The AWS OpsWorks agent version.")
+    ("availability_zone" "availability_zone - The availability zone of the instance.")
+    ("ssh_key_name" "ssh_key_name - The key name of the instance")
     ("public_dns" "public_dns - The public DNS name assigned to the instance. For EC2-VPC, this is only available if you've enabled DNS hostnames for your VPC")
     ("public_ip" "public_ip - The public IP address assigned to the instance, if applicable.")
     ("private_dns" "private_dns - The private DNS name assigned to the instance. Can only be used inside the Amazon EC2, and only available if you've enabled DNS hostnames for your VPC")
     ("private_ip" "private_ip - The private IP address assigned to the instance")
-    ("subnet_id-1" "subnet_id - The VPC subnet ID.")
-    ("tenancy-1" "tenancy - The Instance tenancy")
+    ("subnet_id" "subnet_id - The VPC subnet ID.")
+    ("tenancy" "tenancy - The Instance tenancy")
     ("security_group_ids" "security_group_ids - The associated security groups.")
 
   ) company-terraform-resource-attributes-hash)
@@ -9365,21 +9366,21 @@
     ("resource_id" "resource_id - The RDS Resource ID of this instance.")
     ("address" "address - The address of the RDS instance.")
     ("arn" "arn - The ARN of the RDS instance.")
-    ("allocated_storage-1" "allocated_storage - The amount of allocated storage")
-    ("availability_zone-1" "availability_zone - The availability zone of the instance")
-    ("backup_retention_period-1" "backup_retention_period - The backup retention period")
-    ("backup_window-1" "backup_window - The backup window")
+    ("allocated_storage" "allocated_storage - The amount of allocated storage")
+    ("availability_zone" "availability_zone - The availability zone of the instance")
+    ("backup_retention_period" "backup_retention_period - The backup retention period")
+    ("backup_window" "backup_window - The backup window")
     ("endpoint" "endpoint - The connection endpoint")
-    ("engine-1" "engine - The database engine")
-    ("engine_version-1" "engine_version - The database engine version")
-    ("instance_class-1" "instance_class- The RDS instance class")
-    ("maintenance_window-1" "maintenance_window - The instance maintenance window")
-    ("multi_az-1" "multi_az - If the RDS instance is multi AZ enabled")
-    ("name-1" "name - The database name")
-    ("port-1" "port - The database port")
+    ("engine" "engine - The database engine")
+    ("engine_version" "engine_version - The database engine version")
+    ("instance_class" "instance_class- The RDS instance class")
+    ("maintenance_window" "maintenance_window - The instance maintenance window")
+    ("multi_az" "multi_az - If the RDS instance is multi AZ enabled")
+    ("name" "name - The database name")
+    ("port" "port - The database port")
     ("status" "status - The RDS instance status")
-    ("username-1" "username - The master username for the database")
-    ("storage_encrypted-1" "storage_encrypted - Specifies whether the DB instance is encrypted")
+    ("username" "username - The master username for the database")
+    ("storage_encrypted" "storage_encrypted - Specifies whether the DB instance is encrypted")
     ("hosted_zone_id" "hosted_zone_id - The canonical hosted zone ID of the DB instance (to be used in a Route 53 Alias record)")
     ("ca_cert_identifier" "ca_cert_identifier - Specifies the identifier of the CA certificate for the DB instance.")
 
@@ -9429,32 +9430,32 @@
 
 (puthash "aws_rds_cluster" '(
     ("id" "id - The RDS Cluster Identifier")
-    ("cluster_identifier-1" "cluster_identifier - The RDS Cluster Identifier")
+    ("cluster_identifier" "cluster_identifier - The RDS Cluster Identifier")
     ("cluster_resource_id" "cluster_resource_id - The RDS Cluster Resource ID")
     ("cluster_members" "cluster_members – List of RDS Instances that are a part of this cluster")
     ("allocated_storage" "allocated_storage - The amount of allocated storage")
-    ("availability_zones-1" "availability_zones - The availability zone of the instance")
-    ("backup_retention_period-1" "backup_retention_period - The backup retention period")
-    ("preferred_backup_window-1" "preferred_backup_window - The backup window")
-    ("preferred_maintenance_window-1" "preferred_maintenance_window - The maintenance window")
+    ("availability_zones" "availability_zones - The availability zone of the instance")
+    ("backup_retention_period" "backup_retention_period - The backup retention period")
+    ("preferred_backup_window" "preferred_backup_window - The backup window")
+    ("preferred_maintenance_window" "preferred_maintenance_window - The maintenance window")
     ("endpoint" "endpoint - The DNS address of the RDS instance")
     ("reader_endpoint" "reader_endpoint - A read-only endpoint for the Aurora cluster, automatically load-balanced across replicas")
     ("engine" "engine - The database engine")
     ("engine_version" "engine_version - The database engine version")
     ("maintenance_window" "maintenance_window - The instance maintenance window")
-    ("database_name-1" "database_name - The database name")
-    ("port-1" "port - The database port")
+    ("database_name" "database_name - The database name")
+    ("port" "port - The database port")
     ("status" "status - The RDS instance status")
-    ("master_username-1" "master_username - The master username for the database")
-    ("storage_encrypted-1" "storage_encrypted - Specifies whether the DB cluster is encrypted")
-    ("preferred_backup_window-2" "preferred_backup_window - The daily time range during which the backups happen")
+    ("master_username" "master_username - The master username for the database")
+    ("storage_encrypted" "storage_encrypted - Specifies whether the DB cluster is encrypted")
+    ("preferred_backup_window" "preferred_backup_window - The daily time range during which the backups happen")
     ("replication_source_identifier" "replication_source_identifier - ARN  of the source DB cluster if this DB cluster is created as a Read Replica.")
 
   ) company-terraform-resource-attributes-hash)
 
 (puthash "aws_rds_cluster_instance" '(
-    ("cluster_identifier-1" "cluster_identifier - The RDS Cluster Identifier")
-    ("identifier-1" "identifier - The Instance identifier")
+    ("cluster_identifier" "cluster_identifier - The RDS Cluster Identifier")
+    ("identifier" "identifier - The Instance identifier")
     ("id" "id - The Instance identifier")
     ("writer" "writer – Boolean indicating if this instance is writable. False indicates this instance is a read replica")
     ("allocated_storage" "allocated_storage - The amount of allocated storage")
@@ -9479,21 +9480,21 @@
 
 (puthash "aws_redshift_cluster" '(
     ("id" "id - The Redshift Cluster ID.")
-    ("cluster_identifier-1" "cluster_identifier - The Cluster Identifier")
-    ("cluster_type-1" "cluster_type - The cluster type")
-    ("node_type-1" "node_type - The type of nodes in the cluster")
-    ("database_name-1" "database_name - The name of the default database in the Cluster")
-    ("availability_zone-1" "availability_zone - The availability zone of the Cluster")
-    ("automated_snapshot_retention_period-1" "automated_snapshot_retention_period - The backup retention period")
-    ("preferred_maintenance_window-1" "preferred_maintenance_window - The backup window")
+    ("cluster_identifier" "cluster_identifier - The Cluster Identifier")
+    ("cluster_type" "cluster_type - The cluster type")
+    ("node_type" "node_type - The type of nodes in the cluster")
+    ("database_name" "database_name - The name of the default database in the Cluster")
+    ("availability_zone" "availability_zone - The availability zone of the Cluster")
+    ("automated_snapshot_retention_period" "automated_snapshot_retention_period - The backup retention period")
+    ("preferred_maintenance_window" "preferred_maintenance_window - The backup window")
     ("endpoint" "endpoint - The connection endpoint")
-    ("encrypted-1" "encrypted - Whether the data in the cluster is encrypted")
-    ("cluster_security_groups-1" "cluster_security_groups - The security groups associated with the cluster")
-    ("vpc_security_group_ids-1" "vpc_security_group_ids - The VPC security group Ids associated with the cluster")
-    ("port-1" "port - The Port the cluster responds on")
-    ("cluster_version-1" "cluster_version - The version of Redshift engine software")
-    ("cluster_parameter_group_name-1" "cluster_parameter_group_name - The name of the parameter group to be associated with this cluster")
-    ("cluster_subnet_group_name-1" "cluster_subnet_group_name - The name of a cluster subnet group to be associated with this cluster")
+    ("encrypted" "encrypted - Whether the data in the cluster is encrypted")
+    ("cluster_security_groups" "cluster_security_groups - The security groups associated with the cluster")
+    ("vpc_security_group_ids" "vpc_security_group_ids - The VPC security group Ids associated with the cluster")
+    ("port" "port - The Port the cluster responds on")
+    ("cluster_version" "cluster_version - The version of Redshift engine software")
+    ("cluster_parameter_group_name" "cluster_parameter_group_name - The name of the parameter group to be associated with this cluster")
+    ("cluster_subnet_group_name" "cluster_subnet_group_name - The name of a cluster subnet group to be associated with this cluster")
     ("cluster_public_key" "cluster_public_key - The public key for the cluster")
     ("cluster_revision_number" "cluster_revision_number - The specific revision number of the database in the cluster")
 
@@ -9582,18 +9583,18 @@
 
 (puthash "aws_route53_zone_association" '(
     ("id" "id - The calculated unique identifier for the association.")
-    ("zone_id-1" "zone_id - The ID of the hosted zone for the association.")
-    ("vpc_id-1" "vpc_id - The ID of the VPC for the association.")
-    ("vpc_region-1" "vpc_region - The region in which the VPC identified by vpc_id was created.")
+    ("zone_id" "zone_id - The ID of the hosted zone for the association.")
+    ("vpc_id" "vpc_id - The ID of the VPC for the association.")
+    ("vpc_region" "vpc_region - The region in which the VPC identified by vpc_id was created.")
 
   ) company-terraform-resource-attributes-hash)
 
 (puthash "aws_s3_bucket" '(
-    ("id-2" "id - The name of the bucket.")
+    ("id" "id - The name of the bucket.")
     ("arn" "arn - The ARN of the bucket. Will be of format arn:aws:s3:::bucketname.")
     ("bucket_domain_name" "bucket_domain_name - The bucket domain name. Will be of format bucketname.s3.amazonaws.com.")
     ("hosted_zone_id" "hosted_zone_id - The Route 53 Hosted Zone ID for this bucket's region.")
-    ("region-1" "region - The AWS region this bucket resides in.")
+    ("region" "region - The AWS region this bucket resides in.")
     ("website_endpoint" "website_endpoint - The website endpoint, if the bucket is configured with a website. If not, this will be an empty string.")
     ("website_domain" "website_domain - The domain of the website endpoint, if the bucket is configured with a website. If not, this will be an empty string. This is used to create Route 53 alias records.")
 
@@ -9605,7 +9606,7 @@
 
 (puthash "aws_s3_bucket_object" '(
     ("id" "id - the key of the resource supplied above")
-    ("etag-1" "etag - the ETag generated for the object (an MD5 sum of the object content).")
+    ("etag" "etag - the ETag generated for the object (an MD5 sum of the object content).")
     ("version_id" "version_id - A unique version ID value for the object, if bucket versioning is enabled.")
 
   ) company-terraform-resource-attributes-hash)
@@ -9646,7 +9647,7 @@
 
 (puthash "aws_sfn_activity" '(
     ("id" "id - The Amazon Resource Name (ARN) that identifies the created activity.")
-    ("name-1" "name - The name of the activity.")
+    ("name" "name - The name of the activity.")
     ("creation_date" "creation_date - The date the activity was created.")
 
   ) company-terraform-resource-attributes-hash)
@@ -9675,38 +9676,38 @@
 
 (puthash "aws_sns_topic_subscription" '(
     ("id" "id - The ARN of the subscription")
-    ("topic_arn-1" "topic_arn - The ARN of the topic the subscription belongs to")
-    ("protocol-1" "protocol - The protocol being used")
-    ("endpoint-1" "endpoint - The full endpoint to send data to (SQS ARN, HTTP(S) URL, Application ARN, SMS number, etc.)")
+    ("topic_arn" "topic_arn - The ARN of the topic the subscription belongs to")
+    ("protocol" "protocol - The protocol being used")
+    ("endpoint" "endpoint - The full endpoint to send data to (SQS ARN, HTTP(S) URL, Application ARN, SMS number, etc.)")
     ("arn" "arn - The ARN of the subscription stored as a more user-friendly property")
 
   ) company-terraform-resource-attributes-hash)
 
 (puthash "aws_ssm_association" '(
-    ("name-1" "name - The name of the SSM document to apply.")
+    ("name" "name - The name of the SSM document to apply.")
     ("instance_ids" "instance_ids - The instance id that the SSM document was applied to.")
-    ("parameters-1" "parameters - Additional parameters passed to the SSM document.")
+    ("parameters" "parameters - Additional parameters passed to the SSM document.")
 
   ) company-terraform-resource-attributes-hash)
 
 (puthash "aws_ssm_activation" '(
-    ("name-1" "name - The default name of the registerd managed instance.")
-    ("description-1" "description - The description of the resource that was registered.")
+    ("name" "name - The default name of the registerd managed instance.")
+    ("description" "description - The description of the resource that was registered.")
     ("expired" "expired - If the current activation has expired.")
-    ("expiration_date-1" "expiration_date - The date by which this activation request should expire. The default value is 24 hours.")
-    ("iam_role-1" "iam_role - The IAM Role attached to the managed instance.")
-    ("registration_limit-1" "registration_limit - The maximum number of managed instances you want to be registered. The default value is 1 instance.")
+    ("expiration_date" "expiration_date - The date by which this activation request should expire. The default value is 24 hours.")
+    ("iam_role" "iam_role - The IAM Role attached to the managed instance.")
+    ("registration_limit" "registration_limit - The maximum number of managed instances you want to be registered. The default value is 1 instance.")
     ("registration_count" "registration_count - The number of managed instances that are currently registered using this activation.")
 
   ) company-terraform-resource-attributes-hash)
 
 (puthash "aws_ssm_document" '(
-    ("name-1" "name - The name of the document.")
-    ("content-1" "content -  The json content of the document.")
+    ("name" "name - The name of the document.")
+    ("content" "content -  The json content of the document.")
     ("created_date" "created_date - The date the document was created.")
     ("description" "description - The description of the document.")
     ("schema_version" "schema_version - The schema version of the document.")
-    ("document_type-1" "document_type - The type of document created.")
+    ("document_type" "document_type - The type of document created.")
     ("default_version" "default_version - The default version of the document.")
     ("hash" "hash - The sha1 or sha256 of the document content")
     ("hash_type" "hash_type - \"Sha1\" \"Sha256\". The hashing algorithm used when hashing the content.")
@@ -9714,7 +9715,7 @@
     ("owner" "owner - The AWS user account of the person who created the document.")
     ("status" "status - \"Creating\", \"Active\" or \"Deleting\". The current status of the document.")
     ("parameter" "parameter - The parameters that are available to this document.")
-    ("permissions-1" "permissions - The permissions of how this document should be shared.")
+    ("permissions" "permissions - The permissions of how this document should be shared.")
     ("platform_types" "platform_types - A list of OS platforms compatible with this SSM document, either \"Windows\" or \"Linux\".")
 
   ) company-terraform-resource-attributes-hash)
@@ -9744,9 +9745,9 @@
   ) company-terraform-resource-attributes-hash)
 
 (puthash "aws_ssm_parameter" '(
-    ("name-1" "name - (Required) The name of the parameter.")
-    ("type-1" "type - (Required) The type of the parameter. Valid types are String, StringList and SecureString.")
-    ("value-1" "value - (Required) The value of the parameter.")
+    ("name" "name - (Required) The name of the parameter.")
+    ("type" "type - (Required) The type of the parameter. Valid types are String, StringList and SecureString.")
+    ("value" "value - (Required) The value of the parameter.")
 
   ) company-terraform-resource-attributes-hash)
 
@@ -9767,9 +9768,9 @@
 (puthash "aws_default_network_acl" '(
     ("id" "id - The ID of the Default Network ACL")
     ("vpc_id" "vpc_id -  The ID of the associated VPC")
-    ("ingress-1" "ingress - Set of ingress rules")
-    ("egress-1" "egress - Set of egress rules")
-    ("subnet_ids-1" "subnet_ids – IDs of associated Subnets")
+    ("ingress" "ingress - Set of ingress rules")
+    ("egress" "egress - Set of egress rules")
+    ("subnet_ids" "subnet_ids – IDs of associated Subnets")
 
   ) company-terraform-resource-attributes-hash)
 
@@ -9780,12 +9781,12 @@
 
 (puthash "aws_default_security_group" '(
     ("id" "id - The ID of the security group")
-    ("vpc_id-1" "vpc_id - The VPC ID.")
+    ("vpc_id" "vpc_id - The VPC ID.")
     ("owner_id" "owner_id - The owner ID.")
     ("name" "name - The name of the security group")
     ("description" "description - The description of the security group")
-    ("ingress-1" "ingress - The ingress rules. See above for more.")
-    ("egress-1" "egress - The egress rules. See above for more.")
+    ("ingress" "ingress - The ingress rules. See above for more.")
+    ("egress" "egress - The egress rules. See above for more.")
 
   ) company-terraform-resource-attributes-hash)
 
@@ -9803,9 +9804,9 @@
     ("id" "id - The ID of the VPC")
     ("cidr_block" "cidr_block - The CIDR block of the VPC")
     ("instance_tenancy" "instance_tenancy - Tenancy of instances spin up within VPC.")
-    ("enable_dns_support-1" "enable_dns_support - Whether or not the VPC has DNS support")
-    ("enable_dns_hostnames-1" "enable_dns_hostnames - Whether or not the VPC has DNS hostname support")
-    ("enable_classiclink-1" "enable_classiclink - Whether or not the VPC has Classiclink enabled")
+    ("enable_dns_support" "enable_dns_support - Whether or not the VPC has DNS support")
+    ("enable_dns_hostnames" "enable_dns_hostnames - Whether or not the VPC has DNS hostname support")
+    ("enable_classiclink" "enable_classiclink - Whether or not the VPC has Classiclink enabled")
     ("assign_generated_ipv6_cidr_block" "assign_generated_ipv6_cidr_block - Whether or not an Amazon-provided IPv6 CIDR  block with a /56 prefix length for the VPC was assigned")
     ("main_route_table_id" "main_route_table_id - The ID of the main route table associated with  this VPC. Note that you can change a VPC's main route table by using an  aws_main_route_table_association")
     ("default_network_acl_id" "default_network_acl_id - The ID of the network ACL created by default on VPC creation")
@@ -9844,8 +9845,8 @@
 
 (puthash "aws_nat_gateway" '(
     ("id" "id - The ID of the NAT Gateway.")
-    ("allocation_id-1" "allocation_id - The Allocation ID of the Elastic IP address for the gateway.")
-    ("subnet_id-1" "subnet_id - The Subnet ID of the subnet in which the NAT gateway is placed.")
+    ("allocation_id" "allocation_id - The Allocation ID of the Elastic IP address for the gateway.")
+    ("subnet_id" "subnet_id - The Subnet ID of the subnet in which the NAT gateway is placed.")
     ("network_interface_id" "network_interface_id - The ENI ID of the network interface created by the NAT gateway.")
     ("private_ip" "private_ip - The private IP address of the NAT Gateway.")
     ("public_ip" "public_ip - The public IP address of the NAT Gateway.")
@@ -9863,34 +9864,34 @@
   ) company-terraform-resource-attributes-hash)
 
 (puthash "aws_network_interface" '(
-    ("subnet_id-1" "subnet_id - Subnet ID the ENI is in.")
-    ("description-1" "description - A description for the network interface.")
-    ("private_ips-1" "private_ips - List of private IPs assigned to the ENI.")
-    ("security_groups-1" "security_groups - List of security groups attached to the ENI.")
-    ("attachment-1" "attachment - Block defining the attachment of the ENI.")
-    ("source_dest_check-1" "source_dest_check - Whether source destination checking is enabled")
-    ("tags-1" "tags - Tags assigned to the ENI.")
+    ("subnet_id" "subnet_id - Subnet ID the ENI is in.")
+    ("description" "description - A description for the network interface.")
+    ("private_ips" "private_ips - List of private IPs assigned to the ENI.")
+    ("security_groups" "security_groups - List of security groups attached to the ENI.")
+    ("attachment" "attachment - Block defining the attachment of the ENI.")
+    ("source_dest_check" "source_dest_check - Whether source destination checking is enabled")
+    ("tags" "tags - Tags assigned to the ENI.")
 
   ) company-terraform-resource-attributes-hash)
 
 (puthash "aws_network_interface_attachment" '(
-    ("instance_id-1" "instance_id - Instance ID.")
-    ("network_interface_id-1" "network_interface_id - Network interface ID.")
+    ("instance_id" "instance_id - Instance ID.")
+    ("network_interface_id" "network_interface_id - Network interface ID.")
     ("attachment_id" "attachment_id - The ENI Attachment ID.")
     ("status" "status - The status of the Network Interface Attachment.")
 
   ) company-terraform-resource-attributes-hash)
 
 (puthash "aws_route" '(
-    ("route_table_id-1" "route_table_id - The ID of the routing table.")
-    ("destination_cidr_block-1" "destination_cidr_block - The destination CIDR block.")
-    ("destination_ipv6_cidr_block-1" "destination_ipv6_cidr_block - The destination IPv6 CIDR block.")
-    ("vpc_peering_connection_id-1" "vpc_peering_connection_id - An ID of a VPC peering connection.")
-    ("egress_only_gateway_id-1" "egress_only_gateway_id - An ID of a VPC Egress Only Internet Gateway.")
-    ("gateway_id-1" "gateway_id - An ID of a VPC internet gateway or a virtual private gateway.")
-    ("nat_gateway_id-1" "nat_gateway_id - An ID of a VPC NAT gateway.")
-    ("instance_id-1" "instance_id - An ID of a NAT instance.")
-    ("network_interface_id-1" "network_interface_id - An ID of a network interface.")
+    ("route_table_id" "route_table_id - The ID of the routing table.")
+    ("destination_cidr_block" "destination_cidr_block - The destination CIDR block.")
+    ("destination_ipv6_cidr_block" "destination_ipv6_cidr_block - The destination IPv6 CIDR block.")
+    ("vpc_peering_connection_id" "vpc_peering_connection_id - An ID of a VPC peering connection.")
+    ("egress_only_gateway_id" "egress_only_gateway_id - An ID of a VPC Egress Only Internet Gateway.")
+    ("gateway_id" "gateway_id - An ID of a VPC internet gateway or a virtual private gateway.")
+    ("nat_gateway_id" "nat_gateway_id - An ID of a VPC NAT gateway.")
+    ("instance_id" "instance_id - An ID of a NAT instance.")
+    ("network_interface_id" "network_interface_id - An ID of a network interface.")
 
   ) company-terraform-resource-attributes-hash)
 
@@ -9906,12 +9907,12 @@
 
 (puthash "aws_security_group" '(
     ("id" "id - The ID of the security group")
-    ("vpc_id-1" "vpc_id - The VPC ID.")
+    ("vpc_id" "vpc_id - The VPC ID.")
     ("owner_id" "owner_id - The owner ID.")
-    ("name-1" "name - The name of the security group")
-    ("description-1" "description - The description of the security group")
-    ("ingress-1" "ingress - The ingress rules. See above for more.")
-    ("egress-1" "egress - The egress rules. See above for more.")
+    ("name" "name - The name of the security group")
+    ("description" "description - The description of the security group")
+    ("ingress" "ingress - The ingress rules. See above for more.")
+    ("egress" "egress - The egress rules. See above for more.")
 
   ) company-terraform-resource-attributes-hash)
 
@@ -9921,30 +9922,30 @@
 
 (puthash "aws_security_group_rule" '(
     ("id" "id - The ID of the security group rule")
-    ("type-1" "type - The type of rule, ingress or egress")
-    ("from_port-1" "from_port - The start port (or ICMP type number if protocol is \"icmp\")")
-    ("to_port-1" "to_port - The end port (or ICMP code if protocol is \"icmp\")")
-    ("protocol-1" "protocol – The protocol used")
+    ("type" "type - The type of rule, ingress or egress")
+    ("from_port" "from_port - The start port (or ICMP type number if protocol is \"icmp\")")
+    ("to_port" "to_port - The end port (or ICMP code if protocol is \"icmp\")")
+    ("protocol" "protocol – The protocol used")
 
   ) company-terraform-resource-attributes-hash)
 
 (puthash "aws_subnet" '(
     ("id" "id - The ID of the subnet")
-    ("availability_zone-1" "availability_zone- The AZ for the subnet.")
-    ("cidr_block-1" "cidr_block - The CIDR block for the subnet.")
-    ("vpc_id-1" "vpc_id - The VPC ID.")
+    ("availability_zone" "availability_zone- The AZ for the subnet.")
+    ("cidr_block" "cidr_block - The CIDR block for the subnet.")
+    ("vpc_id" "vpc_id - The VPC ID.")
     ("ipv6_association_id" "ipv6_association_id - The association ID for the IPv6 CIDR block.")
-    ("ipv6_cidr_block-1" "ipv6_cidr_block - The IPv6 CIDR block.")
+    ("ipv6_cidr_block" "ipv6_cidr_block - The IPv6 CIDR block.")
 
   ) company-terraform-resource-attributes-hash)
 
 (puthash "aws_vpc" '(
     ("id" "id - The ID of the VPC")
-    ("cidr_block-1" "cidr_block - The CIDR block of the VPC")
-    ("instance_tenancy-1" "instance_tenancy - Tenancy of instances spin up within VPC.")
-    ("enable_dns_support-1" "enable_dns_support - Whether or not the VPC has DNS support")
-    ("enable_dns_hostnames-1" "enable_dns_hostnames - Whether or not the VPC has DNS hostname support")
-    ("enable_classiclink-1" "enable_classiclink - Whether or not the VPC has Classiclink enabled")
+    ("cidr_block" "cidr_block - The CIDR block of the VPC")
+    ("instance_tenancy" "instance_tenancy - Tenancy of instances spin up within VPC.")
+    ("enable_dns_support" "enable_dns_support - Whether or not the VPC has DNS support")
+    ("enable_dns_hostnames" "enable_dns_hostnames - Whether or not the VPC has DNS hostname support")
+    ("enable_classiclink" "enable_classiclink - Whether or not the VPC has Classiclink enabled")
     ("main_route_table_id" "main_route_table_id - The ID of the main route table associated with  this VPC. Note that you can change a VPC's main route table by using an  aws_main_route_table_association.")
     ("default_network_acl_id" "default_network_acl_id - The ID of the network ACL created by default on VPC creation")
     ("default_security_group_id" "default_security_group_id - The ID of the security group created by default on VPC creation")
@@ -10007,8 +10008,8 @@
   ) company-terraform-resource-attributes-hash)
 
 (puthash "aws_vpn_gateway_attachment" '(
-    ("vpc_id-1" "vpc_id - The ID of the VPC that Virtual Private Gateway is attached to.")
-    ("vpn_gateway_id-1" "vpn_gateway_id - The ID of the Virtual Private Gateway.")
+    ("vpc_id" "vpc_id - The ID of the VPC that Virtual Private Gateway is attached to.")
+    ("vpn_gateway_id" "vpn_gateway_id - The ID of the Virtual Private Gateway.")
 
   ) company-terraform-resource-attributes-hash)
 
@@ -10096,25 +10097,25 @@
 
 (puthash "cloudflare_record" '(
     ("id" "id - The record ID")
-    ("name-1" "name - The name of the record")
-    ("value-1" "value - The value of the record")
-    ("type-1" "type - The type of the record")
-    ("ttl-1" "ttl - The TTL of the record")
-    ("priority-1" "priority - The priority of the record")
+    ("name" "name - The name of the record")
+    ("value" "value - The value of the record")
+    ("type" "type - The type of the record")
+    ("ttl" "ttl - The TTL of the record")
+    ("priority" "priority - The priority of the record")
     ("hostname" "hostname - The FQDN of the record")
-    ("proxied-1" "proxied - (Optional) Whether the record gets Cloudflare's origin protection.")
+    ("proxied" "proxied - (Optional) Whether the record gets Cloudflare's origin protection.")
 
   ) company-terraform-resource-attributes-hash)
 
 (puthash "cloudstack_affinity_group" '(
     ("id" "id - The id of the affinity group.")
-    ("description-1" "description - The description of the affinity group.")
+    ("description" "description - The description of the affinity group.")
 
   ) company-terraform-resource-attributes-hash)
 
 (puthash "cloudstack_disk" '(
     ("id" "id - The ID of the disk volume.")
-    ("device_id-1" "device_id - The device ID the disk volume is mapped to within the guest OS.")
+    ("device_id" "device_id - The device ID the disk volume is mapped to within the guest OS.")
 
   ) company-terraform-resource-attributes-hash)
 
@@ -10130,7 +10131,7 @@
 
 (puthash "cloudstack_instance" '(
     ("id" "id - The instance ID.")
-    ("display_name-1" "display_name - The display name of the instance.")
+    ("display_name" "display_name - The display name of the instance.")
 
   ) company-terraform-resource-attributes-hash)
 
@@ -10142,14 +10143,14 @@
 
 (puthash "cloudstack_loadbalancer_rule" '(
     ("id" "id - The load balancer rule ID.")
-    ("description-1" "description - The description of the load balancer rule.")
+    ("description" "description - The description of the load balancer rule.")
 
   ) company-terraform-resource-attributes-hash)
 
 (puthash "cloudstack_network" '(
     ("id" "id - The ID of the network.")
-    ("display_text-1" "display_text - The display text of the network.")
-    ("network_domain-1" "network_domain - DNS domain for the network.")
+    ("display_text" "display_text - The display text of the network.")
+    ("network_domain" "network_domain - DNS domain for the network.")
 
   ) company-terraform-resource-attributes-hash)
 
@@ -10165,13 +10166,13 @@
 
 (puthash "cloudstack_nic" '(
     ("id" "id - The ID of the NIC.")
-    ("ip_address-1" "ip_address - The assigned IP address.")
+    ("ip_address" "ip_address - The assigned IP address.")
 
   ) company-terraform-resource-attributes-hash)
 
 (puthash "cloudstack_port_forward" '(
     ("id" "id - The ID of the IP address for which the port forwards are created.")
-    ("vm_guest_ip-1" "vm_guest_ip - The IP address of the virtual machine that is used for the port forwarding rule.")
+    ("vm_guest_ip" "vm_guest_ip - The IP address of the virtual machine that is used for the port forwarding rule.")
 
   ) company-terraform-resource-attributes-hash)
 
@@ -10204,7 +10205,7 @@
 
 (puthash "cloudstack_static_nat" '(
     ("id" "id - The static nat ID.")
-    ("vm_guest_ip-1" "vm_guest_ip - The IP address of the virtual machine that is used to forward the static NAT traffic to.")
+    ("vm_guest_ip" "vm_guest_ip - The IP address of the virtual machine that is used to forward the static NAT traffic to.")
 
   ) company-terraform-resource-attributes-hash)
 
@@ -10215,19 +10216,19 @@
 
 (puthash "cloudstack_template" '(
     ("id" "id - The template ID.")
-    ("display_text-1" "display_text - The display text of the template.")
-    ("is_dynamically_scalable-1" "is_dynamically_scalable - Set to \"true\" if the template is dynamically scalable.")
-    ("is_extractable-1" "is_extractable - Set to \"true\" if the template is extractable.")
-    ("is_featured-1" "is_featured - Set to \"true\" if the template is featured.")
-    ("is_public-1" "is_public - Set to \"true\" if the template is public.")
-    ("password_enabled-1" "password_enabled - Set to \"true\" if the template is password enabled.")
+    ("display_text" "display_text - The display text of the template.")
+    ("is_dynamically_scalable" "is_dynamically_scalable - Set to \"true\" if the template is dynamically scalable.")
+    ("is_extractable" "is_extractable - Set to \"true\" if the template is extractable.")
+    ("is_featured" "is_featured - Set to \"true\" if the template is featured.")
+    ("is_public" "is_public - Set to \"true\" if the template is public.")
+    ("password_enabled" "password_enabled - Set to \"true\" if the template is password enabled.")
     ("is_ready" "is_ready - Set to \"true\" once the template is ready for use.")
 
   ) company-terraform-resource-attributes-hash)
 
 (puthash "cloudstack_vpc" '(
     ("id" "id - The ID of the VPC.")
-    ("display_text-1" "display_text - The display text of the VPC.")
+    ("display_text" "display_text - The display text of the VPC.")
     ("source_nat_ip" "source_nat_ip - The source NAT IP assigned to the VPC.")
 
   ) company-terraform-resource-attributes-hash)
@@ -10240,9 +10241,9 @@
 
 (puthash "cloudstack_vpn_customer_gateway" '(
     ("id" "id - The ID of the VPN Customer Gateway.")
-    ("dpd-1" "dpd - Enable or disable DPD is enabled for the related VPN connection.")
-    ("esp_lifetime-1" "esp_lifetime - The ESP lifetime of phase 2 VPN connection to this VPN Customer Gateway.")
-    ("ike_lifetime-1" "ike_lifetime - The IKE lifetime of phase 2 VPN connection to this VPN Customer Gateway.")
+    ("dpd" "dpd - Enable or disable DPD is enabled for the related VPN connection.")
+    ("esp_lifetime" "esp_lifetime - The ESP lifetime of phase 2 VPN connection to this VPN Customer Gateway.")
+    ("ike_lifetime" "ike_lifetime - The IKE lifetime of phase 2 VPN connection to this VPN Customer Gateway.")
 
   ) company-terraform-resource-attributes-hash)
 
@@ -10272,33 +10273,33 @@
   ) company-terraform-resource-attributes-hash)
 
 (puthash "consul_agent_service" '(
-    ("address-1" "address - The address of the service.")
+    ("address" "address - The address of the service.")
     ("id" "id - The ID of the service, defaults to the value of name.")
-    ("name-1" "name - The name of the service.")
-    ("port-1" "port - The port of the service.")
-    ("tags-1" "tags - The tags of the service.")
+    ("name" "name - The name of the service.")
+    ("port" "port - The port of the service.")
+    ("tags" "tags - The tags of the service.")
 
   ) company-terraform-resource-attributes-hash)
 
 (puthash "consul_catalog_entry" '(
-    ("address-2" "address - The address of the service.")
-    ("node-1" "node - The ID of the service, defaults to the value of name.")
+    ("address" "address - The address of the service.")
+    ("node" "node - The ID of the service, defaults to the value of name.")
 
   ) company-terraform-resource-attributes-hash)
 
 (puthash "consul_keys" '(
-    ("datacenter-1" "datacenter - The datacenter the keys are being written to.")
+    ("datacenter" "datacenter - The datacenter the keys are being written to.")
 
   ) company-terraform-resource-attributes-hash)
 
 (puthash "consul_key_prefix" '(
-    ("datacenter-1" "datacenter - The datacenter the keys are being read/written to.")
+    ("datacenter" "datacenter - The datacenter the keys are being read/written to.")
 
   ) company-terraform-resource-attributes-hash)
 
 (puthash "consul_node" '(
-    ("address-1" "address - The address of the service.")
-    ("name-1" "name - The name of the service.")
+    ("address" "address - The address of the service.")
+    ("name" "name - The name of the service.")
 
   ) company-terraform-resource-attributes-hash)
 
@@ -10308,11 +10309,11 @@
   ) company-terraform-resource-attributes-hash)
 
 (puthash "consul_service" '(
-    ("service_id-1" "service_id - The id of the service, defaults to the value of name.")
-    ("address-1" "address - The address of the service.")
-    ("name-1" "name - The name of the service.")
-    ("port-1" "port - The port of the service.")
-    ("tags-1" "tags - The tags of the service.")
+    ("service_id" "service_id - The id of the service, defaults to the value of name.")
+    ("address" "address - The address of the service.")
+    ("name" "name - The name of the service.")
+    ("port" "port - The port of the service.")
+    ("tags" "tags - The tags of the service.")
 
   ) company-terraform-resource-attributes-hash)
 
@@ -10331,7 +10332,7 @@
   ) company-terraform-resource-attributes-hash)
 
 (puthash "datadog_user" '(
-    ("disabled-1" "disabled - Returns true if Datadog user is disabled (NOTE: Datadog does not actually delete users so this will be true for those as well)")
+    ("disabled" "disabled - Returns true if Datadog user is disabled (NOTE: Datadog does not actually delete users so this will be true for those as well)")
     ("id" "id - ID of the Datadog user")
     ("verified" "verified - Returns true if Datadog user is verified")
 
@@ -10339,7 +10340,7 @@
 
 (puthash "digitalocean_certificate" '(
     ("id" "id - The unique ID of the certificate")
-    ("name-1" "name - The name of the certificate")
+    ("name" "name - The name of the certificate")
     ("not_after" "not_after - The expiration date of the certificate")
     ("sha1_fingerprint" "sha1_fingerprint - The SHA-1 fingerprint of the certificate")
 
@@ -10352,24 +10353,24 @@
 
 (puthash "digitalocean_droplet" '(
     ("id" "id - The ID of the Droplet")
-    ("name-1" "name- The name of the Droplet")
-    ("region-1" "region - The region of the Droplet")
-    ("image-1" "image - The image of the Droplet")
-    ("ipv6-1" "ipv6 - Is IPv6 enabled")
+    ("name" "name- The name of the Droplet")
+    ("region" "region - The region of the Droplet")
+    ("image" "image - The image of the Droplet")
+    ("ipv6" "ipv6 - Is IPv6 enabled")
     ("ipv6_address" "ipv6_address - The IPv6 address")
     ("ipv6_address_private" "ipv6_address_private - The private networking IPv6 address")
     ("ipv4_address" "ipv4_address - The IPv4 address")
     ("ipv4_address_private" "ipv4_address_private - The private networking IPv4 address")
     ("locked" "locked - Is the Droplet locked")
-    ("private_networking-1" "private_networking - Is private networking enabled")
+    ("private_networking" "private_networking - Is private networking enabled")
     ("price_hourly" "price_hourly - Droplet hourly price")
     ("price_monthly" "price_monthly - Droplet monthly price")
-    ("size-1" "size - The instance size")
+    ("size" "size - The instance size")
     ("disk" "disk - The size of the instance's disk in GB")
     ("vcpus" "vcpus - The number of the instance's virtual CPUs")
     ("status" "status - The status of the droplet")
-    ("tags-1" "tags - The tags associated with the droplet")
-    ("volume_ids-1" "volume_ids - A list of the attached block storage volumes")
+    ("tags" "tags - The tags associated with the droplet")
+    ("volume_ids" "volume_ids - A list of the attached block storage volumes")
 
   ) company-terraform-resource-attributes-hash)
 
@@ -10378,9 +10379,9 @@
     ("status" "status - A status string indicating the current state of the Firewall. This can be \"waiting\", \"succeeded\", or \"failed\".")
     ("created_at" "created_at - A time value given in ISO8601 combined date and time format that represents when the Firewall was created.")
     ("pending_changes" "pending_changes - An list of object containing the fields, \"droplet_id\", \"removing\", and \"status\".  It is provided to detail exactly which Droplets are having their security policies updated.  When empty, all changes have been successfully applied.")
-    ("name-1" "name - The name of the Firewall.")
-    ("droplet_ids-1" "droplet_ids - The list of the IDs of the Droplets assigned to the Firewall.")
-    ("tags-1" "tags - The names of the Tags assigned to the Firewall.")
+    ("name" "name - The name of the Firewall.")
+    ("droplet_ids" "droplet_ids - The list of the IDs of the Droplets assigned to the Firewall.")
+    ("tags" "tags - The names of the Tags assigned to the Firewall.")
     ("inbound_rules" "inbound_rules - The inbound access rule block for the Firewall.")
     ("outbound_rules" "outbound_rules - The outbound access rule block for the Firewall.")
 
@@ -10405,15 +10406,15 @@
 
 (puthash "digitalocean_ssh_key" '(
     ("id" "id - The unique ID of the key")
-    ("name-1" "name - The name of the SSH key")
-    ("public_key-1" "public_key - The text of the public key")
+    ("name" "name - The name of the SSH key")
+    ("public_key" "public_key - The text of the public key")
     ("fingerprint" "fingerprint - The fingerprint of the SSH key")
 
   ) company-terraform-resource-attributes-hash)
 
 (puthash "digitalocean_tag" '(
     ("id" "id - The id of the tag")
-    ("name-1" "name - The name of the tag")
+    ("name" "name - The name of the tag")
 
   ) company-terraform-resource-attributes-hash)
 
@@ -10423,53 +10424,53 @@
   ) company-terraform-resource-attributes-hash)
 
 (puthash "dns_a_record_set" '(
-    ("zone-1" "zone - See Argument Reference above.")
-    ("name-1" "name - See Argument Reference above.")
-    ("addresses-1" "addresses - See Argument Reference above.")
-    ("ttl-1" "ttl - See Argument Reference above.")
+    ("zone" "zone - See Argument Reference above.")
+    ("name" "name - See Argument Reference above.")
+    ("addresses" "addresses - See Argument Reference above.")
+    ("ttl" "ttl - See Argument Reference above.")
 
   ) company-terraform-resource-attributes-hash)
 
 (puthash "dns_aaaa_record_set" '(
-    ("zone-1" "zone - See Argument Reference above.")
-    ("name-1" "name - See Argument Reference above.")
-    ("addresses-1" "addresses - See Argument Reference above.")
-    ("ttl-1" "ttl - See Argument Reference above.")
+    ("zone" "zone - See Argument Reference above.")
+    ("name" "name - See Argument Reference above.")
+    ("addresses" "addresses - See Argument Reference above.")
+    ("ttl" "ttl - See Argument Reference above.")
 
   ) company-terraform-resource-attributes-hash)
 
 (puthash "dns_cname_record" '(
-    ("zone-1" "zone - See Argument Reference above.")
-    ("name-1" "name - See Argument Reference above.")
-    ("cname-1" "cname - See Argument Reference above.")
-    ("ttl-1" "ttl - See Argument Reference above.")
+    ("zone" "zone - See Argument Reference above.")
+    ("name" "name - See Argument Reference above.")
+    ("cname" "cname - See Argument Reference above.")
+    ("ttl" "ttl - See Argument Reference above.")
 
   ) company-terraform-resource-attributes-hash)
 
 (puthash "dns_ptr_record" '(
-    ("zone-1" "zone - See Argument Reference above.")
-    ("name-1" "name - See Argument Reference above.")
-    ("ptr-1" "ptr - See Argument Reference above.")
-    ("ttl-1" "ttl - See Argument Reference above.")
+    ("zone" "zone - See Argument Reference above.")
+    ("name" "name - See Argument Reference above.")
+    ("ptr" "ptr - See Argument Reference above.")
+    ("ttl" "ttl - See Argument Reference above.")
 
   ) company-terraform-resource-attributes-hash)
 
 (puthash "dme_record" '(
-    ("name-1" "name - The name of the record")
+    ("name" "name - The name of the record")
     ("type" "type - The type of the record")
-    ("value-11" "value - The value of the record type (see below)")
-    ("ttl-1" "ttl - The TTL of the record")
-    ("gtdlocation" "gtdLocation - The GTD Location of the record on GTD enabled domains")
+    ("value" "value - The value of the record type (see below)")
+    ("ttl" "ttl - The TTL of the record")
+    ("gtdLocation" "gtdLocation - The GTD Location of the record on GTD enabled domains")
 
   ) company-terraform-resource-attributes-hash)
 
 (puthash "dnsimple_record" '(
     ("id" "id - The record ID")
-    ("name-1" "name - The name of the record")
-    ("value-1" "value - The value of the record")
-    ("type-1" "type - The type of the record")
-    ("ttl-1" "ttl - The TTL of the record")
-    ("priority-1" "priority - The priority of the record")
+    ("name" "name - The name of the record")
+    ("value" "value - The value of the record")
+    ("type" "type - The type of the record")
+    ("ttl" "ttl - The TTL of the record")
+    ("priority" "priority - The priority of the record")
     ("domain_id" "domain_id - The domain ID of the record")
     ("hostname" "hostname - The FQDN of the record")
 
@@ -10507,18 +10508,18 @@
 
 (puthash "service_v1" '(
     ("id" "id - The ID of the Service.")
-    ("name-15" "name – Name of this service.")
+    ("name" "name – Name of this service.")
     ("active_version" "active_version - The currently active version of your Fastly Service.")
-    ("domain-2" "domain – Set of Domains. See above for details.")
-    ("backend-1" "backend – Set of Backends. See above for details.")
-    ("header-1" "header – Set of Headers. See above for details.")
-    ("s3logging-1" "s3logging – Set of S3 Logging configurations. See above for details.")
-    ("papertrail-1" "papertrail – Set of Papertrail configurations. See above for details.")
-    ("response_object-1" "response_object - Set of Response Object configurations. See above for details.")
-    ("vcl-1" "vcl – Set of custom VCL configurations. See above for details.")
-    ("default_host-2" "default_host – Default host specified.")
-    ("default_ttl-1" "default_ttl - Default TTL.")
-    ("force_destroy-1" "force_destroy - Force the destruction of the Service on delete.")
+    ("domain" "domain – Set of Domains. See above for details.")
+    ("backend" "backend – Set of Backends. See above for details.")
+    ("header" "header – Set of Headers. See above for details.")
+    ("s3logging" "s3logging – Set of S3 Logging configurations. See above for details.")
+    ("papertrail" "papertrail – Set of Papertrail configurations. See above for details.")
+    ("response_object" "response_object - Set of Response Object configurations. See above for details.")
+    ("vcl" "vcl – Set of custom VCL configurations. See above for details.")
+    ("default_host" "default_host – Default host specified.")
+    ("default_ttl" "default_ttl - Default TTL.")
+    ("force_destroy" "force_destroy - Force the destruction of the Service on delete.")
 
   ) company-terraform-resource-attributes-hash)
 
@@ -10613,7 +10614,7 @@
     ("num_long_term_bytes" "num_long_term_bytes - The number of bytes in the table that are considered \"long-term storage\".")
     ("num_rows" "num_rows - The number of rows of data in this table, excluding any data in the streaming buffer.")
     ("self_link" "self_link - The URI of the created resource.")
-    ("type-1" "type - Describes the table type.")
+    ("type" "type - Describes the table type.")
 
   ) company-terraform-resource-attributes-hash)
 
@@ -10723,11 +10724,11 @@
     ("self_link" "self_link - The URI of the created resource.")
     ("tags_fingerprint" "tags_fingerprint - The unique fingerprint of the tags.")
     ("label_fingerprint" "label_fingerprint - The unique fingerprint of the labels.")
-    ("network_interface-0-address" "network_interface.0.address - The internal ip address of the instance, either manually or dynamically assigned.")
-    ("network_interface-0-access_config-0-assigned_nat_ip" "network_interface.0.access_config.0.assigned_nat_ip - If the instance has an access config, either the given external ip (in the nat_ip field) or the ephemeral (generated) ip (if you didn't provide one).")
-    ("attached_disk-0-disk_encryption_key_sha256" "attached_disk.0.disk_encryption_key_sha256 - The RFC 4648 base64 encoded SHA-256 hash of the customer-supplied encryption key that protects this resource.")
-    ("boot_disk-disk_encryption_key_sha256" "boot_disk.disk_encryption_key_sha256 - The RFC 4648 base64 encoded SHA-256 hash of the customer-supplied encryption key that protects this resource.")
-    ("disk-0-disk_encryption_key_sha256" "disk.0.disk_encryption_key_sha256 - The RFC 4648 base64 encoded SHA-256 hash of the customer-supplied encryption key that protects this resource.")
+    ("network_interface.0.address" "network_interface.0.address - The internal ip address of the instance, either manually or dynamically assigned.")
+    ("network_interface.0.access_config.0.assigned_nat_ip" "network_interface.0.access_config.0.assigned_nat_ip - If the instance has an access config, either the given external ip (in the nat_ip field) or the ephemeral (generated) ip (if you didn't provide one).")
+    ("attached_disk.0.disk_encryption_key_sha256" "attached_disk.0.disk_encryption_key_sha256 - The RFC 4648 base64 encoded SHA-256 hash of the customer-supplied encryption key that protects this resource.")
+    ("boot_disk.disk_encryption_key_sha256" "boot_disk.disk_encryption_key_sha256 - The RFC 4648 base64 encoded SHA-256 hash of the customer-supplied encryption key that protects this resource.")
+    ("disk.0.disk_encryption_key_sha256" "disk.0.disk_encryption_key_sha256 - The RFC 4648 base64 encoded SHA-256 hash of the customer-supplied encryption key that protects this resource.")
 
   ) company-terraform-resource-attributes-hash)
 
@@ -10753,7 +10754,7 @@
 
 (puthash "google_compute_network" '(
     ("gateway_ipv4" "gateway_ipv4 - The IPv4 address of the gateway.")
-    ("name-1" "name - The unique name of the network.")
+    ("name" "name - The unique name of the network.")
     ("self_link" "self_link - The URI of the created resource.")
 
   ) company-terraform-resource-attributes-hash)
@@ -10846,9 +10847,9 @@
 (puthash "google_container_cluster" '(
     ("endpoint" "endpoint - The IP address of this cluster's Kubernetes master")
     ("instance_group_urls" "instance_group_urls - List of instance group URLs which have been assigned to the cluster")
-    ("master_auth-client_certificate" "master_auth.client_certificate - Base64 encoded public certificate used by clients to authenticate to the cluster endpoint.")
-    ("master_auth-client_key" "master_auth.client_key - Base64 encoded private key used by clients to authenticate to the cluster endpoint")
-    ("master_auth-cluster_ca_certificate" "master_auth.cluster_ca_certificate - Base64 encoded public certificate that is the root of trust for the cluster")
+    ("master_auth.client_certificate" "master_auth.client_certificate - Base64 encoded public certificate used by clients to authenticate to the cluster endpoint.")
+    ("master_auth.client_key" "master_auth.client_key - Base64 encoded private key used by clients to authenticate to the cluster endpoint")
+    ("master_auth.cluster_ca_certificate" "master_auth.cluster_ca_certificate - Base64 encoded public certificate that is the root of trust for the cluster")
 
   ) company-terraform-resource-attributes-hash)
 
@@ -10880,10 +10881,10 @@
   ) company-terraform-resource-attributes-hash)
 
 (puthash "google_sql_database_instance" '(
-    ("ip_address-0-ip_address" "ip_address.0.ip_address - The IPv4 address assigned.")
-    ("ip_address-0-time_to_retire" "ip_address.0.time_to_retire - The time this IP address will be retired, in RFC 3339 format.")
+    ("ip_address.0.ip_address" "ip_address.0.ip_address - The IPv4 address assigned.")
+    ("ip_address.0.time_to_retire" "ip_address.0.time_to_retire - The time this IP address will be retired, in RFC 3339 format.")
     ("self_link" "self_link - The URI of the created resource.")
-    ("settings-version" "settings.version - Used to make sure changes to the settings block are atomic.")
+    ("settings.version" "settings.version - Used to make sure changes to the settings block are atomic.")
 
   ) company-terraform-resource-attributes-hash)
 
@@ -10924,17 +10925,17 @@
 (puthash "heroku_addon" '(
     ("id" "id - The ID of the add-on")
     ("name" "name - The add-on name")
-    ("plan-1" "plan - The plan name")
+    ("plan" "plan - The plan name")
     ("provider_id" "provider_id - The ID of the plan provider")
 
   ) company-terraform-resource-attributes-hash)
 
 (puthash "heroku_app" '(
     ("id" "id - The ID of the app. This is also the name of the application.")
-    ("name-2" "name - The name of the application. In Heroku, this is also the unique ID.")
-    ("stack-1" "stack - The application stack is what platform to run the application in.")
-    ("space-1" "space - The private space the app should run in.")
-    ("region-1" "region - The region that the app should be deployed in.")
+    ("name" "name - The name of the application. In Heroku, this is also the unique ID.")
+    ("stack" "stack - The application stack is what platform to run the application in.")
+    ("space" "space - The private space the app should run in.")
+    ("region" "region - The region that the app should be deployed in.")
     ("git_url" "git_url - The Git URL for the application. This is used for deploying new versions of the app.")
     ("web_url" "web_url - The web (HTTP) URL that the application can be accessed at by default.")
     ("heroku_hostname" "heroku_hostname - A hostname for the Heroku application, suitable for pointing DNS records.")
@@ -10955,7 +10956,7 @@
 
 (puthash "heroku_domain" '(
     ("id" "id - The ID of the of the domain record.")
-    ("hostname-1" "hostname - The hostname traffic will be served as.")
+    ("hostname" "hostname - The hostname traffic will be served as.")
     ("cname" "cname - The CNAME traffic should route to.")
 
   ) company-terraform-resource-attributes-hash)
@@ -10967,23 +10968,23 @@
 
 (puthash "heroku_pipeline" '(
     ("id" "id - The UUID of the pipeline.")
-    ("name-1" "name - The name of the pipeline.")
+    ("name" "name - The name of the pipeline.")
 
   ) company-terraform-resource-attributes-hash)
 
 (puthash "heroku_pipeline_coupling" '(
     ("id" "id - The UUID of this pipeline coupling.")
-    ("app-1" "app - The name of the application.")
-    ("pipeline-1" "pipeline - The UUID of the pipeline.")
-    ("stage-1" "stage - The stage for this coupling.")
+    ("app" "app - The name of the application.")
+    ("pipeline" "pipeline - The UUID of the pipeline.")
+    ("stage" "stage - The stage for this coupling.")
 
   ) company-terraform-resource-attributes-hash)
 
 (puthash "heroku_space" '(
     ("id" "id - The ID of the space.")
-    ("name-1" "name - The space's name.")
-    ("organization-1" "organization - The space's organization.")
-    ("region-1" "region - The space's region.")
+    ("name" "name - The space's name.")
+    ("organization" "organization - The space's organization.")
+    ("region" "region - The space's region.")
 
   ) company-terraform-resource-attributes-hash)
 
@@ -11008,7 +11009,7 @@
   ) company-terraform-resource-attributes-hash)
 
 (puthash "influxdb_user" '(
-    ("admin-1" "admin - (Bool) indication if the user is an admin or not.")
+    ("admin" "admin - (Bool) indication if the user is an admin or not.")
 
   ) company-terraform-resource-attributes-hash)
 
@@ -11071,43 +11072,43 @@
 
 (puthash "librato_alert" '(
     ("id" "id - The ID of the alert.")
-    ("name-1" "name - The name of the alert.")
-    ("description-1" "description - (Required) Description of the alert.")
-    ("active-1" "active - whether the alert is active (can be triggered). Defaults to true.")
-    ("rearm_seconds-1" "rearm_seconds - minimum amount of time between sending alert notifications, in seconds.")
-    ("services-1" "services - list of notification service IDs.")
-    ("condition-1" "condition - A trigger condition for the alert. Conditions documented below.")
+    ("name" "name - The name of the alert.")
+    ("description" "description - (Required) Description of the alert.")
+    ("active" "active - whether the alert is active (can be triggered). Defaults to true.")
+    ("rearm_seconds" "rearm_seconds - minimum amount of time between sending alert notifications, in seconds.")
+    ("services" "services - list of notification service IDs.")
+    ("condition" "condition - A trigger condition for the alert. Conditions documented below.")
 
   ) company-terraform-resource-attributes-hash)
 
 (puthash "librato_metric" '(
-    ("name-1" "name - The identifier for the metric.")
-    ("display_name-1" "display_name - The name which will be used for the metric when viewing the Metrics website.")
-    ("type-1" "type - The type of metric to create (gauge, counter, or composite).")
-    ("description-1" "description - Text that describes precisely what the metric is measuring.")
-    ("period-1" "period - Number of seconds that is the standard reporting period of the metric. Setting the period enables Metrics to detect abnormal interruptions in reporting and aids in analytics. For gauge metrics that have service-side aggregation enabled, this option will define the period that aggregation occurs on.")
+    ("name" "name - The identifier for the metric.")
+    ("display_name" "display_name - The name which will be used for the metric when viewing the Metrics website.")
+    ("type" "type - The type of metric to create (gauge, counter, or composite).")
+    ("description" "description - Text that describes precisely what the metric is measuring.")
+    ("period" "period - Number of seconds that is the standard reporting period of the metric. Setting the period enables Metrics to detect abnormal interruptions in reporting and aids in analytics. For gauge metrics that have service-side aggregation enabled, this option will define the period that aggregation occurs on.")
     ("source_lag" "source_lag -")
-    ("composite-1" "composite - The composite definition. Only used when type is composite.")
+    ("composite" "composite - The composite definition. Only used when type is composite.")
 
   ) company-terraform-resource-attributes-hash)
 
 (puthash "librato_service" '(
     ("id" "id - The ID of the alert.")
-    ("type-1" "type - The type of notificaion.")
-    ("title-1" "title - The alert title.")
-    ("settings-1" "settings - a JSON hash of settings specific to the alert type.")
+    ("type" "type - The type of notificaion.")
+    ("title" "title - The alert title.")
+    ("settings" "settings - a JSON hash of settings specific to the alert type.")
 
   ) company-terraform-resource-attributes-hash)
 
 (puthash "librato_space" '(
     ("id" "id - The ID of the space.")
-    ("name-1" "name - The name of the space.")
+    ("name" "name - The name of the space.")
 
   ) company-terraform-resource-attributes-hash)
 
 (puthash "librato_space_chart" '(
     ("id" "id - The ID of the chart.")
-    ("space_id-1" "space_id - The ID of the space this chart should be in.")
+    ("space_id" "space_id - The ID of the space this chart should be in.")
     ("title" "title - The title of the chart when it is displayed.")
 
   ) company-terraform-resource-attributes-hash)
@@ -11126,11 +11127,11 @@
   ) company-terraform-resource-attributes-hash)
 
 (puthash "mailgun_domain" '(
-    ("name-1" "name - The name of the domain.")
+    ("name" "name - The name of the domain.")
     ("smtp_login" "smtp_login - The login email for the SMTP server.")
-    ("smtp_password-1" "smtp_password - The password to the SMTP server.")
-    ("wildcard-1" "wildcard - Whether or not the domain will accept email for sub-domains.")
-    ("spam_action-1" "spam_action - The spam filtering setting.")
+    ("smtp_password" "smtp_password - The password to the SMTP server.")
+    ("wildcard" "wildcard - Whether or not the domain will accept email for sub-domains.")
+    ("spam_action" "spam_action - The spam filtering setting.")
     ("receiving_records" "receiving_records - A list of DNS records for receiving validation.   priority - The priority of the record.  record_type - The record type.  valid - \"valid\" if the record is valid.  value - The value of the record.")
     ("sending_records" "sending_records - A list of DNS records for sending validation.   name - The name of the record.  record_type - The record type.  valid - \"valid\" if the record is valid.  value - The value of the record.")
 
@@ -11234,9 +11235,9 @@
 
 (puthash "azurerm_container_service" '(
     ("id" "id - The Container Service ID.")
-    ("master_profile-fqdn" "master_profile.fqdn - FDQN for the master.")
-    ("agent_pool_profile-fqdn" "agent_pool_profile.fqdn - FDQN for the agent pool.")
-    ("diagnostics_profile-storage_uri" "diagnostics_profile.storage_uri - The URI of the storage account where diagnostics are stored.")
+    ("master_profile.fqdn" "master_profile.fqdn - FDQN for the master.")
+    ("agent_pool_profile.fqdn" "agent_pool_profile.fqdn - FDQN for the agent pool.")
+    ("diagnostics_profile.storage_uri" "diagnostics_profile.storage_uri - The URI of the storage account where diagnostics are stored.")
 
   ) company-terraform-resource-attributes-hash)
 
@@ -11330,7 +11331,7 @@
 
 (puthash "azurerm_lb" '(
     ("id" "id - The LoadBalancer ID.")
-    ("private_ip_address-1" "private_ip_address - The private IP address assigned to the load balancer, if any.")
+    ("private_ip_address" "private_ip_address - The private IP address assigned to the load balancer, if any.")
 
   ) company-terraform-resource-attributes-hash)
 
@@ -11384,7 +11385,7 @@
 (puthash "azurerm_network_interface" '(
     ("id" "id - The virtual NetworkConfiguration ID.")
     ("mac_address" "mac_address - The media access control (MAC) address of the network interface.")
-    ("private_ip_address-1" "private_ip_address - The private ip address of the network interface.")
+    ("private_ip_address" "private_ip_address - The private ip address of the network interface.")
     ("virtual_machine_id" "virtual_machine_id - Reference to a VM with which this NIC has been associated.")
     ("applied_dns_servers" "applied_dns_servers - If the VM that uses this NIC is part of an Availability Set, then this list will have the union of all DNS servers from all NICs that are part of the Availability Set")
     ("internal_fqdn" "internal_fqdn - Fully qualified DNS name supporting internal communications between VMs in the same VNet")
@@ -11422,10 +11423,10 @@
 (puthash "azurerm_subnet" '(
     ("id" "id - The subnet ID.")
     ("ip_configurations" "ip_configurations - The collection of IP Configurations with IPs within this subnet.")
-    ("name-1" "name - The name of the subnet.")
-    ("resource_group_name-1" "resource_group_name - The name of the resource group in which the subnet is created in.")
-    ("virtual_network_name-1" "virtual_network_name - The name of the virtual network in which the subnet is created in")
-    ("address_prefix-1" "address_prefix - The address prefix for the subnet")
+    ("name" "name - The name of the subnet.")
+    ("resource_group_name" "resource_group_name - The name of the resource group in which the subnet is created in.")
+    ("virtual_network_name" "virtual_network_name - The name of the virtual network in which the subnet is created in")
+    ("address_prefix" "address_prefix - The address prefix for the subnet")
 
   ) company-terraform-resource-attributes-hash)
 
@@ -11442,10 +11443,10 @@
 
 (puthash "azurerm_virtual_network" '(
     ("id" "id - The virtual NetworkConfiguration ID.")
-    ("name-2" "name - The name of the virtual network.")
-    ("resource_group_name-1" "resource_group_name - The name of the resource group in which to create the virtual network.")
-    ("location-1" "location - The location/region where the virtual network is created")
-    ("address_space-1" "address_space - The address space that is used the virtual network.")
+    ("name" "name - The name of the virtual network.")
+    ("resource_group_name" "resource_group_name - The name of the resource group in which to create the virtual network.")
+    ("location" "location - The location/region where the virtual network is created")
+    ("address_space" "address_space - The address space that is used the virtual network.")
 
   ) company-terraform-resource-attributes-hash)
 
@@ -11571,7 +11572,7 @@
   ) company-terraform-resource-attributes-hash)
 
 (puthash "azurerm_virtual_machine" '(
-    ("id-1" "id - The virtual machine ID.")
+    ("id" "id - The virtual machine ID.")
 
   ) company-terraform-resource-attributes-hash)
 
@@ -11581,7 +11582,7 @@
   ) company-terraform-resource-attributes-hash)
 
 (puthash "azurerm_virtual_machine_scale_set" '(
-    ("id-1" "id - The virtual machine scale set ID.")
+    ("id" "id - The virtual machine scale set ID.")
 
   ) company-terraform-resource-attributes-hash)
 
@@ -11592,9 +11593,9 @@
 
 (puthash "azure_data_disk" '(
     ("id" "id - The security group ID.")
-    ("name-1" "name - The name of the disk.")
-    ("label-1" "label - The identifier for the disk.")
-    ("media_link-1" "media_link - The location of the blob in storage where the VHD of this disk is created.")
+    ("name" "name - The name of the disk.")
+    ("label" "label - The identifier for the disk.")
+    ("media_link" "media_link - The location of the blob in storage where the VHD of this disk is created.")
 
   ) company-terraform-resource-attributes-hash)
 
@@ -11610,10 +11611,10 @@
 
 (puthash "azure_instance" '(
     ("id" "id - The instance ID.")
-    ("description-1" "description - The description for the associated hosted service.")
-    ("subnet-1" "subnet - The subnet the instance is connected to.")
-    ("endpoint-1" "endpoint - The complete set of configured endpoints.")
-    ("security_group-1" "security_group - The associated Network Security Group.")
+    ("description" "description - The description for the associated hosted service.")
+    ("subnet" "subnet - The subnet the instance is connected to.")
+    ("endpoint" "endpoint - The complete set of configured endpoints.")
+    ("security_group" "security_group - The associated Network Security Group.")
     ("ip_address" "ip_address - The private IP address assigned to the instance.")
     ("vip_address" "vip_address - The public IP address assigned to the instance.")
 
@@ -11626,7 +11627,7 @@
 
 (puthash "azure_security_group" '(
     ("id" "id - The security group ID.")
-    ("label-1" "label - The identifier for the security group.")
+    ("label" "label - The identifier for the security group.")
 
   ) company-terraform-resource-attributes-hash)
 
@@ -11733,14 +11734,14 @@
 
 (puthash "opc_compute_instance" '(
     ("id" "id - The id of the instance.")
-    ("attributes-1" "attributes - The full attributes of the instance, as a JSON string.")
+    ("attributes" "attributes - The full attributes of the instance, as a JSON string.")
     ("availability_domain" "availability_domain - The availability domain the instance is in.")
     ("domain" "domain - The default domain to use for the hostname and for DNS lookups.")
     ("entry" "entry - Imagelist entry number.")
     ("fingerprint" "fingerprint - SSH server fingerprint presented by the instance.")
     ("fqdn" "fqdn - The fully qualified domain name of the instance.")
     ("image_format" "image_format - The format of the image.")
-    ("ip_address-1" "ip_address - The IP Address of the instance.")
+    ("ip_address" "ip_address - The IP Address of the instance.")
     ("placement_requirements" "placement_requirements - The array of placement requirements for the instance.")
     ("platform" "platform - The OS Platform of the instance.")
     ("priority" "priority - The priority at which the instance was ran.")
@@ -11774,11 +11775,11 @@
   ) company-terraform-resource-attributes-hash)
 
 (puthash "opc_compute_ip_network" '(
-    ("name-1" "name - The name of the IP Network")
-    ("ip_address_prefix-1" "ip_address_prefix - The IPv4 address prefix, in CIDR format.")
-    ("description-1" "description - The description of the IP Network.")
-    ("ip_network_exchange-1" "ip_network_exchange - The IP Network Exchange for the IP Network")
-    ("public_napt_enabled-1" "public_napt_enabled - Whether public internet access using NAPT for VNICs without any public IP Reservation or not.")
+    ("name" "name - The name of the IP Network")
+    ("ip_address_prefix" "ip_address_prefix - The IPv4 address prefix, in CIDR format.")
+    ("description" "description - The description of the IP Network.")
+    ("ip_network_exchange" "ip_network_exchange - The IP Network Exchange for the IP Network")
+    ("public_napt_enabled" "public_napt_enabled - Whether public internet access using NAPT for VNICs without any public IP Reservation or not.")
     ("uri" "uri - Uniform Resource Identifier for the IP Network")
 
   ) company-terraform-resource-attributes-hash)
@@ -11792,11 +11793,11 @@
   ) company-terraform-resource-attributes-hash)
 
 (puthash "opc_compute_route" '(
-    ("name-1" "name The name of the route")
-    ("description-1" "description - The description of the route.")
-    ("admin_distance-1" "admin_distance - The route's administrative distance. Defaults to 0.")
-    ("ip_address_prefix-1" "ip_address_prefix - The IPv4 address prefix, in CIDR format, of the external network from which to route traffic.")
-    ("next_hop_vnic_set-1" "next_hop_vnic_set - Name of the virtual NIC set to route matching packets to. Routed flows are load-balanced among all the virtual NICs in the virtual NIC set.")
+    ("name" "name The name of the route")
+    ("description" "description - The description of the route.")
+    ("admin_distance" "admin_distance - The route's administrative distance. Defaults to 0.")
+    ("ip_address_prefix" "ip_address_prefix - The IPv4 address prefix, in CIDR format, of the external network from which to route traffic.")
+    ("next_hop_vnic_set" "next_hop_vnic_set - Name of the virtual NIC set to route matching packets to. Routed flows are load-balanced among all the virtual NICs in the virtual NIC set.")
 
   ) company-terraform-resource-attributes-hash)
 
@@ -11870,31 +11871,31 @@
   ) company-terraform-resource-attributes-hash)
 
 (puthash "openstack_blockstorage_volume_v1" '(
-    ("region-1" "region - See Argument Reference above.")
-    ("size-1" "size - See Argument Reference above.")
-    ("name-1" "name - See Argument Reference above.")
-    ("description-1" "description - See Argument Reference above.")
-    ("availability_zone-1" "availability_zone - See Argument Reference above.")
-    ("image_id-1" "image_id - See Argument Reference above.")
-    ("source_vol_id-1" "source_vol_id - See Argument Reference above.")
-    ("snapshot_id-1" "snapshot_id - See Argument Reference above.")
-    ("metadata-1" "metadata - See Argument Reference above.")
-    ("volume_type-1" "volume_type - See Argument Reference above.")
+    ("region" "region - See Argument Reference above.")
+    ("size" "size - See Argument Reference above.")
+    ("name" "name - See Argument Reference above.")
+    ("description" "description - See Argument Reference above.")
+    ("availability_zone" "availability_zone - See Argument Reference above.")
+    ("image_id" "image_id - See Argument Reference above.")
+    ("source_vol_id" "source_vol_id - See Argument Reference above.")
+    ("snapshot_id" "snapshot_id - See Argument Reference above.")
+    ("metadata" "metadata - See Argument Reference above.")
+    ("volume_type" "volume_type - See Argument Reference above.")
     ("attachment" "attachment - If a volume is attached to an instance, this attribute will display the Attachment ID, Instance ID, and the Device as the Instance sees it.")
 
   ) company-terraform-resource-attributes-hash)
 
 (puthash "openstack_blockstorage_volume_v2" '(
-    ("region-1" "region - See Argument Reference above.")
-    ("size-1" "size - See Argument Reference above.")
-    ("name-1" "name - See Argument Reference above.")
-    ("description-1" "description - See Argument Reference above.")
-    ("availability_zone-1" "availability_zone - See Argument Reference above.")
-    ("image_id-1" "image_id - See Argument Reference above.")
-    ("source_vol_id-1" "source_vol_id - See Argument Reference above.")
-    ("snapshot_id-1" "snapshot_id - See Argument Reference above.")
-    ("metadata-1" "metadata - See Argument Reference above.")
-    ("volume_type-1" "volume_type - See Argument Reference above.")
+    ("region" "region - See Argument Reference above.")
+    ("size" "size - See Argument Reference above.")
+    ("name" "name - See Argument Reference above.")
+    ("description" "description - See Argument Reference above.")
+    ("availability_zone" "availability_zone - See Argument Reference above.")
+    ("image_id" "image_id - See Argument Reference above.")
+    ("source_vol_id" "source_vol_id - See Argument Reference above.")
+    ("snapshot_id" "snapshot_id - See Argument Reference above.")
+    ("metadata" "metadata - See Argument Reference above.")
+    ("volume_type" "volume_type - See Argument Reference above.")
     ("attachment" "attachment - If a volume is attached to an instance, this attribute will display the Attachment ID, Instance ID, and the Device as the Instance sees it.")
 
   ) company-terraform-resource-attributes-hash)
@@ -11907,8 +11908,8 @@
   ) company-terraform-resource-attributes-hash)
 
 (puthash "openstack_compute_floatingip_v2" '(
-    ("region-1" "region - See Argument Reference above.")
-    ("pool-1" "pool - See Argument Reference above.")
+    ("region" "region - See Argument Reference above.")
+    ("pool" "pool - See Argument Reference above.")
     ("address" "address - The actual floating IP address itself.")
     ("fixed_ip" "fixed_ip - The fixed IP address corresponding to the floating IP.")
     ("instance_id" "instance_id - UUID of the compute instance associated with the floating IP.")
@@ -11916,377 +11917,377 @@
   ) company-terraform-resource-attributes-hash)
 
 (puthash "openstack_compute_floatingip_associate_v2" '(
-    ("region-1" "region - See Argument Reference above.")
-    ("floating_ip-1" "floating_ip - See Argument Reference above.")
-    ("instance_id-1" "instance_id - See Argument Reference above.")
-    ("fixed_ip-1" "fixed_ip - See Argument Reference above.")
+    ("region" "region - See Argument Reference above.")
+    ("floating_ip" "floating_ip - See Argument Reference above.")
+    ("instance_id" "instance_id - See Argument Reference above.")
+    ("fixed_ip" "fixed_ip - See Argument Reference above.")
 
   ) company-terraform-resource-attributes-hash)
 
 (puthash "openstack_compute_instance_v2" '(
-    ("region-1" "region - See Argument Reference above.")
-    ("name-2" "name - See Argument Reference above.")
+    ("region" "region - See Argument Reference above.")
+    ("name" "name - See Argument Reference above.")
     ("access_ip_v4" "access_ip_v4 - The first detected Fixed IPv4 address or the Floating IP.")
     ("access_ip_v6" "access_ip_v6 - The first detected Fixed IPv6 address.")
-    ("metadata-1" "metadata - See Argument Reference above.")
-    ("security_groups-1" "security_groups - See Argument Reference above.")
-    ("flavor_id-1" "flavor_id - See Argument Reference above.")
-    ("flavor_name-1" "flavor_name - See Argument Reference above.")
-    ("network-uuid" "network/uuid - See Argument Reference above.")
-    ("network-name" "network/name - See Argument Reference above.")
-    ("network-port" "network/port - See Argument Reference above.")
-    ("network-fixed_ip_v4" "network/fixed_ip_v4 - The Fixed IPv4 address of the Instance on that network.")
-    ("network-fixed_ip_v6" "network/fixed_ip_v6 - The Fixed IPv6 address of the Instance on that network.")
-    ("network-mac" "network/mac - The MAC address of the NIC on that network.")
+    ("metadata" "metadata - See Argument Reference above.")
+    ("security_groups" "security_groups - See Argument Reference above.")
+    ("flavor_id" "flavor_id - See Argument Reference above.")
+    ("flavor_name" "flavor_name - See Argument Reference above.")
+    ("network/uuid" "network/uuid - See Argument Reference above.")
+    ("network/name" "network/name - See Argument Reference above.")
+    ("network/port" "network/port - See Argument Reference above.")
+    ("network/fixed_ip_v4" "network/fixed_ip_v4 - The Fixed IPv4 address of the Instance on that network.")
+    ("network/fixed_ip_v6" "network/fixed_ip_v6 - The Fixed IPv6 address of the Instance on that network.")
+    ("network/mac" "network/mac - The MAC address of the NIC on that network.")
     ("all_metadata" "all_metadata - Contains all instance metadata, even metadata not set by Terraform.")
 
   ) company-terraform-resource-attributes-hash)
 
 (puthash "openstack_compute_keypair_v2" '(
-    ("region-1" "region - See Argument Reference above.")
-    ("name-1" "name - See Argument Reference above.")
-    ("public_key-1" "public_key - See Argument Reference above.")
+    ("region" "region - See Argument Reference above.")
+    ("name" "name - See Argument Reference above.")
+    ("public_key" "public_key - See Argument Reference above.")
 
   ) company-terraform-resource-attributes-hash)
 
 (puthash "openstack_compute_secgroup_v2" '(
-    ("region-1" "region - See Argument Reference above.")
-    ("name-1" "name - See Argument Reference above.")
-    ("description-1" "description - See Argument Reference above.")
-    ("rule-1" "rule - See Argument Reference above.")
+    ("region" "region - See Argument Reference above.")
+    ("name" "name - See Argument Reference above.")
+    ("description" "description - See Argument Reference above.")
+    ("rule" "rule - See Argument Reference above.")
 
   ) company-terraform-resource-attributes-hash)
 
 (puthash "openstack_compute_servergroup_v2" '(
-    ("region-1" "region - See Argument Reference above.")
-    ("name-1" "name - See Argument Reference above.")
-    ("policies-2" "policies - See Argument Reference above.")
+    ("region" "region - See Argument Reference above.")
+    ("name" "name - See Argument Reference above.")
+    ("policies" "policies - See Argument Reference above.")
     ("members" "members - The instances that are part of this server group.")
 
   ) company-terraform-resource-attributes-hash)
 
 (puthash "openstack_compute_volume_attach_v2" '(
-    ("region-1" "region - See Argument Reference above.")
-    ("instance_id-1" "instance_id - See Argument Reference above.")
-    ("volume_id-1" "volume_id - See Argument Reference above.")
-    ("device-1" "device - See Argument Reference above. NOTE: The correctness of this information is dependent upon the hypervisor in use. In some cases, this should not be used as an authoritative piece of information.")
+    ("region" "region - See Argument Reference above.")
+    ("instance_id" "instance_id - See Argument Reference above.")
+    ("volume_id" "volume_id - See Argument Reference above.")
+    ("device" "device - See Argument Reference above. NOTE: The correctness of this information is dependent upon the hypervisor in use. In some cases, this should not be used as an authoritative piece of information.")
 
   ) company-terraform-resource-attributes-hash)
 
 (puthash "openstack_dns_recordset_v2" '(
-    ("region-1" "region - See Argument Reference above.")
-    ("name-1" "name - See Argument Reference above.")
-    ("type-1" "type - See Argument Reference above.")
-    ("ttl-1" "ttl - See Argument Reference above.")
-    ("description-1" "description - See Argument Reference above.")
-    ("records-1" "records - See Argument Reference above.")
-    ("zone_id-1" "zone_id - See Argument Reference above.")
-    ("value_specs-1" "value_specs - See Argument Reference above.")
+    ("region" "region - See Argument Reference above.")
+    ("name" "name - See Argument Reference above.")
+    ("type" "type - See Argument Reference above.")
+    ("ttl" "ttl - See Argument Reference above.")
+    ("description" "description - See Argument Reference above.")
+    ("records" "records - See Argument Reference above.")
+    ("zone_id" "zone_id - See Argument Reference above.")
+    ("value_specs" "value_specs - See Argument Reference above.")
 
   ) company-terraform-resource-attributes-hash)
 
 (puthash "openstack_dns_zone_v2" '(
-    ("region-1" "region - See Argument Reference above.")
-    ("name-1" "name - See Argument Reference above.")
-    ("email-1" "email - See Argument Reference above.")
-    ("type-1" "type - See Argument Reference above.")
-    ("attributes-1" "attributes - See Argument Reference above.")
-    ("ttl-1" "ttl - See Argument Reference above.")
-    ("description-1" "description - See Argument Reference above.")
-    ("masters-1" "masters - See Argument Reference above.")
-    ("value_specs-1" "value_specs - See Argument Reference above.")
+    ("region" "region - See Argument Reference above.")
+    ("name" "name - See Argument Reference above.")
+    ("email" "email - See Argument Reference above.")
+    ("type" "type - See Argument Reference above.")
+    ("attributes" "attributes - See Argument Reference above.")
+    ("ttl" "ttl - See Argument Reference above.")
+    ("description" "description - See Argument Reference above.")
+    ("masters" "masters - See Argument Reference above.")
+    ("value_specs" "value_specs - See Argument Reference above.")
 
   ) company-terraform-resource-attributes-hash)
 
 (puthash "openstack_images_image_v2" '(
     ("checksum" "checksum - The checksum of the data associated with the image.")
-    ("container_format-1" "container_format - See Argument Reference above.")
+    ("container_format" "container_format - See Argument Reference above.")
     ("created_at" "created_at - The date the image was created.")
-    ("disk_format-1" "disk_format - See Argument Reference above.")
+    ("disk_format" "disk_format - See Argument Reference above.")
     ("file" "file - the trailing path after the glance endpoint that represent the location of the image or the path to retrieve it.")
     ("id" "id - A unique ID assigned by Glance.")
     ("metadata" "metadata - The metadata associated with the image. Image metadata allow for meaningfully define the image properties and tags. See http://docs.openstack.org/developer/glance/metadefs-concepts.html.")
-    ("min_disk_gb-1" "min_disk_gb - See Argument Reference above.")
-    ("min_ram_mb-1" "min_ram_mb - See Argument Reference above.")
-    ("name-1" "name - See Argument Reference above.")
+    ("min_disk_gb" "min_disk_gb - See Argument Reference above.")
+    ("min_ram_mb" "min_ram_mb - See Argument Reference above.")
+    ("name" "name - See Argument Reference above.")
     ("owner" "owner - The id of the openstack user who owns the image.")
-    ("protected-1" "protected - See Argument Reference above.")
-    ("region-1" "region - See Argument Reference above.")
+    ("protected" "protected - See Argument Reference above.")
+    ("region" "region - See Argument Reference above.")
     ("schema" "schema - The path to the JSON-schema that represent the image or image")
     ("size_bytes" "size_bytes - The size in bytes of the data associated with the image.")
     ("status" "status - The status of the image. It can be \"queued\", \"active\" or \"saving\".")
-    ("tags-1" "tags - See Argument Reference above.")
+    ("tags" "tags - See Argument Reference above.")
     ("update_at" "update_at - The date the image was last updated.")
-    ("visibility-1" "visibility - See Argument Reference above.")
+    ("visibility" "visibility - See Argument Reference above.")
 
   ) company-terraform-resource-attributes-hash)
 
 (puthash "openstack_networking_floatingip_v2" '(
-    ("region-1" "region - See Argument Reference above.")
-    ("pool-1" "pool - See Argument Reference above.")
+    ("region" "region - See Argument Reference above.")
+    ("pool" "pool - See Argument Reference above.")
     ("address" "address - The actual floating IP address itself.")
-    ("port_id-1" "port_id - ID of associated port.")
-    ("tenant_id-1" "tenant_id - the ID of the tenant in which to create the floating IP.")
-    ("fixed_ip-1" "fixed_ip - The fixed IP which the floating IP maps to.")
+    ("port_id" "port_id - ID of associated port.")
+    ("tenant_id" "tenant_id - the ID of the tenant in which to create the floating IP.")
+    ("fixed_ip" "fixed_ip - The fixed IP which the floating IP maps to.")
 
   ) company-terraform-resource-attributes-hash)
 
 (puthash "openstack_networking_network_v2" '(
-    ("region-1" "region - See Argument Reference above.")
-    ("name-1" "name - See Argument Reference above.")
-    ("shared-1" "shared - See Argument Reference above.")
-    ("tenant_id-1" "tenant_id - See Argument Reference above.")
-    ("admin_state_up-1" "admin_state_up - See Argument Reference above.")
+    ("region" "region - See Argument Reference above.")
+    ("name" "name - See Argument Reference above.")
+    ("shared" "shared - See Argument Reference above.")
+    ("tenant_id" "tenant_id - See Argument Reference above.")
+    ("admin_state_up" "admin_state_up - See Argument Reference above.")
 
   ) company-terraform-resource-attributes-hash)
 
 (puthash "openstack_networking_port_v2" '(
-    ("region-1" "region - See Argument Reference above.")
-    ("admin_state_up-1" "admin_state_up - See Argument Reference above.")
-    ("mac_address-2" "mac_address - See Argument Reference above.")
-    ("tenant_id-1" "tenant_id - See Argument Reference above.")
-    ("device_owner-1" "device_owner - See Argument Reference above.")
-    ("security_group_ids-1" "security_group_ids - See Argument Reference above.")
-    ("device_id-1" "device_id - See Argument Reference above.")
-    ("fixed_ip-1" "fixed_ip - See Argument Reference above.")
-    ("all-fixed_ips" "all fixed_ips - The collection of Fixed IP addresses on the port in the order returned by the Network v2 API.")
+    ("region" "region - See Argument Reference above.")
+    ("admin_state_up" "admin_state_up - See Argument Reference above.")
+    ("mac_address" "mac_address - See Argument Reference above.")
+    ("tenant_id" "tenant_id - See Argument Reference above.")
+    ("device_owner" "device_owner - See Argument Reference above.")
+    ("security_group_ids" "security_group_ids - See Argument Reference above.")
+    ("device_id" "device_id - See Argument Reference above.")
+    ("fixed_ip" "fixed_ip - See Argument Reference above.")
+    ("all fixed_ips" "all fixed_ips - The collection of Fixed IP addresses on the port in the order returned by the Network v2 API.")
 
   ) company-terraform-resource-attributes-hash)
 
 (puthash "openstack_networking_router_interface_v2" '(
-    ("region-1" "region - See Argument Reference above.")
-    ("router_id-1" "router_id - See Argument Reference above.")
-    ("subnet_id-1" "subnet_id - See Argument Reference above.")
-    ("port_id-1" "port_id - See Argument Reference above.")
+    ("region" "region - See Argument Reference above.")
+    ("router_id" "router_id - See Argument Reference above.")
+    ("subnet_id" "subnet_id - See Argument Reference above.")
+    ("port_id" "port_id - See Argument Reference above.")
 
   ) company-terraform-resource-attributes-hash)
 
 (puthash "openstack_networking_router_route_v2" '(
-    ("region-1" "region - See Argument Reference above.")
-    ("router_id-1" "router_id - See Argument Reference above.")
-    ("destination_cidr-1" "destination_cidr - See Argument Reference above.")
-    ("next_hop-1" "next_hop - See Argument Reference above.")
+    ("region" "region - See Argument Reference above.")
+    ("router_id" "router_id - See Argument Reference above.")
+    ("destination_cidr" "destination_cidr - See Argument Reference above.")
+    ("next_hop" "next_hop - See Argument Reference above.")
 
   ) company-terraform-resource-attributes-hash)
 
 (puthash "openstack_networking_router_v2" '(
     ("id" "id - ID of the router.")
-    ("region-1" "region - See Argument Reference above.")
-    ("name-1" "name - See Argument Reference above.")
-    ("admin_state_up-1" "admin_state_up - See Argument Reference above.")
-    ("external_gateway-1" "external_gateway - See Argument Reference above.")
-    ("tenant_id-1" "tenant_id - See Argument Reference above.")
-    ("value_specs-1" "value_specs - See Argument Reference above.")
+    ("region" "region - See Argument Reference above.")
+    ("name" "name - See Argument Reference above.")
+    ("admin_state_up" "admin_state_up - See Argument Reference above.")
+    ("external_gateway" "external_gateway - See Argument Reference above.")
+    ("tenant_id" "tenant_id - See Argument Reference above.")
+    ("value_specs" "value_specs - See Argument Reference above.")
 
   ) company-terraform-resource-attributes-hash)
 
 (puthash "openstack_networking_subnet_v2" '(
-    ("region-1" "region - See Argument Reference above.")
-    ("network_id-1" "network_id - See Argument Reference above.")
-    ("cidr-1" "cidr - See Argument Reference above.")
-    ("ip_version-1" "ip_version - See Argument Reference above.")
-    ("name-1" "name - See Argument Reference above.")
-    ("tenant_id-1" "tenant_id - See Argument Reference above.")
-    ("allocation_pools-1" "allocation_pools - See Argument Reference above.")
-    ("gateway_ip-1" "gateway_ip - See Argument Reference above.")
-    ("enable_dhcp-1" "enable_dhcp - See Argument Reference above.")
-    ("dns_nameservers-1" "dns_nameservers - See Argument Reference above.")
-    ("host_routes-1" "host_routes - See Argument Reference above.")
+    ("region" "region - See Argument Reference above.")
+    ("network_id" "network_id - See Argument Reference above.")
+    ("cidr" "cidr - See Argument Reference above.")
+    ("ip_version" "ip_version - See Argument Reference above.")
+    ("name" "name - See Argument Reference above.")
+    ("tenant_id" "tenant_id - See Argument Reference above.")
+    ("allocation_pools" "allocation_pools - See Argument Reference above.")
+    ("gateway_ip" "gateway_ip - See Argument Reference above.")
+    ("enable_dhcp" "enable_dhcp - See Argument Reference above.")
+    ("dns_nameservers" "dns_nameservers - See Argument Reference above.")
+    ("host_routes" "host_routes - See Argument Reference above.")
 
   ) company-terraform-resource-attributes-hash)
 
 (puthash "openstack_networking_secgroup_v2" '(
-    ("region-1" "region - See Argument Reference above.")
-    ("name-1" "name - See Argument Reference above.")
-    ("description-1" "description - See Argument Reference above.")
-    ("tenant_id-1" "tenant_id - See Argument Reference above.")
+    ("region" "region - See Argument Reference above.")
+    ("name" "name - See Argument Reference above.")
+    ("description" "description - See Argument Reference above.")
+    ("tenant_id" "tenant_id - See Argument Reference above.")
 
   ) company-terraform-resource-attributes-hash)
 
 (puthash "openstack_networking_secgroup_rule_v2" '(
-    ("region-1" "region - See Argument Reference above.")
-    ("direction-1" "direction - See Argument Reference above.")
-    ("ethertype-1" "ethertype - See Argument Reference above.")
-    ("protocol-1" "protocol - See Argument Reference above.")
-    ("port_range_min-1" "port_range_min - See Argument Reference above.")
-    ("port_range_max-1" "port_range_max - See Argument Reference above.")
-    ("remote_ip_prefix-1" "remote_ip_prefix - See Argument Reference above.")
-    ("remote_group_id-1" "remote_group_id - See Argument Reference above.")
-    ("security_group_id-1" "security_group_id - See Argument Reference above.")
-    ("tenant_id-1" "tenant_id - See Argument Reference above.")
+    ("region" "region - See Argument Reference above.")
+    ("direction" "direction - See Argument Reference above.")
+    ("ethertype" "ethertype - See Argument Reference above.")
+    ("protocol" "protocol - See Argument Reference above.")
+    ("port_range_min" "port_range_min - See Argument Reference above.")
+    ("port_range_max" "port_range_max - See Argument Reference above.")
+    ("remote_ip_prefix" "remote_ip_prefix - See Argument Reference above.")
+    ("remote_group_id" "remote_group_id - See Argument Reference above.")
+    ("security_group_id" "security_group_id - See Argument Reference above.")
+    ("tenant_id" "tenant_id - See Argument Reference above.")
 
   ) company-terraform-resource-attributes-hash)
 
 (puthash "openstack_lb_member_v1" '(
-    ("region-1" "region - See Argument Reference above.")
-    ("pool_id-1" "pool_id - See Argument Reference above.")
-    ("address-1" "address - See Argument Reference above.")
-    ("port-1" "port - See Argument Reference above.")
-    ("admin_state_up-1" "admin_state_up - See Argument Reference above.")
+    ("region" "region - See Argument Reference above.")
+    ("pool_id" "pool_id - See Argument Reference above.")
+    ("address" "address - See Argument Reference above.")
+    ("port" "port - See Argument Reference above.")
+    ("admin_state_up" "admin_state_up - See Argument Reference above.")
     ("weight" "weight - The load balancing weight of the member. This is currently unable to be set through Terraform.")
 
   ) company-terraform-resource-attributes-hash)
 
 (puthash "openstack_lb_monitor_v1" '(
-    ("region-1" "region - See Argument Reference above.")
-    ("type-1" "type - See Argument Reference above.")
-    ("delay-1" "delay - See Argument Reference above.")
-    ("timeout-1" "timeout - See Argument Reference above.")
-    ("max_retries-1" "max_retries - See Argument Reference above.")
-    ("url_path-1" "url_path - See Argument Reference above.")
-    ("http_method-1" "http_method - See Argument Reference above.")
-    ("expected_codes-1" "expected_codes - See Argument Reference above.")
-    ("admin_state_up-1" "admin_state_up - See Argument Reference above.")
-    ("tenant_id-1" "tenant_id - See Argument Reference above.")
+    ("region" "region - See Argument Reference above.")
+    ("type" "type - See Argument Reference above.")
+    ("delay" "delay - See Argument Reference above.")
+    ("timeout" "timeout - See Argument Reference above.")
+    ("max_retries" "max_retries - See Argument Reference above.")
+    ("url_path" "url_path - See Argument Reference above.")
+    ("http_method" "http_method - See Argument Reference above.")
+    ("expected_codes" "expected_codes - See Argument Reference above.")
+    ("admin_state_up" "admin_state_up - See Argument Reference above.")
+    ("tenant_id" "tenant_id - See Argument Reference above.")
 
   ) company-terraform-resource-attributes-hash)
 
 (puthash "openstack_lb_pool_v1" '(
-    ("region-1" "region - See Argument Reference above.")
-    ("name-1" "name - See Argument Reference above.")
-    ("protocol-1" "protocol - See Argument Reference above.")
-    ("subnet_id-1" "subnet_id - See Argument Reference above.")
-    ("lb_method-1" "lb_method - See Argument Reference above.")
-    ("lb_provider-1" "lb_provider - See Argument Reference above.")
-    ("tenant_id-2" "tenant_id - See Argument Reference above.")
+    ("region" "region - See Argument Reference above.")
+    ("name" "name - See Argument Reference above.")
+    ("protocol" "protocol - See Argument Reference above.")
+    ("subnet_id" "subnet_id - See Argument Reference above.")
+    ("lb_method" "lb_method - See Argument Reference above.")
+    ("lb_provider" "lb_provider - See Argument Reference above.")
+    ("tenant_id" "tenant_id - See Argument Reference above.")
     ("monitor_id" "monitor_id - See Argument Reference above.")
-    ("member-1" "member - See Argument Reference above.")
+    ("member" "member - See Argument Reference above.")
 
   ) company-terraform-resource-attributes-hash)
 
 (puthash "openstack_lb_vip_v1" '(
-    ("region-1" "region - See Argument Reference above.")
-    ("name-1" "name - See Argument Reference above.")
-    ("subnet_id-1" "subnet_id - See Argument Reference above.")
-    ("protocol-1" "protocol - See Argument Reference above.")
-    ("port-1" "port - See Argument Reference above.")
-    ("pool_id-1" "pool_id - See Argument Reference above.")
-    ("tenant_id-1" "tenant_id - See Argument Reference above.")
-    ("address-1" "address - See Argument Reference above.")
-    ("description-1" "description - See Argument Reference above.")
-    ("persistence-1" "persistence - See Argument Reference above.")
-    ("conn_limit-1" "conn_limit - See Argument Reference above.")
-    ("floating_ip-1" "floating_ip - See Argument Reference above.")
-    ("admin_state_up-1" "admin_state_up - See Argument Reference above.")
+    ("region" "region - See Argument Reference above.")
+    ("name" "name - See Argument Reference above.")
+    ("subnet_id" "subnet_id - See Argument Reference above.")
+    ("protocol" "protocol - See Argument Reference above.")
+    ("port" "port - See Argument Reference above.")
+    ("pool_id" "pool_id - See Argument Reference above.")
+    ("tenant_id" "tenant_id - See Argument Reference above.")
+    ("address" "address - See Argument Reference above.")
+    ("description" "description - See Argument Reference above.")
+    ("persistence" "persistence - See Argument Reference above.")
+    ("conn_limit" "conn_limit - See Argument Reference above.")
+    ("floating_ip" "floating_ip - See Argument Reference above.")
+    ("admin_state_up" "admin_state_up - See Argument Reference above.")
     ("port_id" "port_id - Port UUID for this VIP at associated floating IP (if any).")
 
   ) company-terraform-resource-attributes-hash)
 
 (puthash "openstack_lb_loadbalancer_v2" '(
-    ("region-1" "region - See Argument Reference above.")
-    ("vip_subnet_id-1" "vip_subnet_id - See Argument Reference above.")
-    ("name-1" "name - See Argument Reference above.")
-    ("description-1" "description - See Argument Reference above.")
-    ("tenant_id-1" "tenant_id - See Argument Reference above.")
-    ("vip_address-1" "vip_address - See Argument Reference above.")
-    ("admin_state_up-1" "admin_state_up - See Argument Reference above.")
-    ("flavor-1" "flavor - See Argument Reference above.")
-    ("loadbalancer_provider-1" "loadbalancer_provider - See Argument Reference above.")
-    ("security_group_ids-1" "security_group_ids - See Argument Reference above.")
+    ("region" "region - See Argument Reference above.")
+    ("vip_subnet_id" "vip_subnet_id - See Argument Reference above.")
+    ("name" "name - See Argument Reference above.")
+    ("description" "description - See Argument Reference above.")
+    ("tenant_id" "tenant_id - See Argument Reference above.")
+    ("vip_address" "vip_address - See Argument Reference above.")
+    ("admin_state_up" "admin_state_up - See Argument Reference above.")
+    ("flavor" "flavor - See Argument Reference above.")
+    ("loadbalancer_provider" "loadbalancer_provider - See Argument Reference above.")
+    ("security_group_ids" "security_group_ids - See Argument Reference above.")
     ("vip_port_id" "vip_port_id - The Port ID of the Load Balancer IP.")
 
   ) company-terraform-resource-attributes-hash)
 
 (puthash "openstack_lb_listener_v2" '(
     ("id" "id - The unique ID for the Listener.")
-    ("protocol-1" "protocol - See Argument Reference above.")
-    ("protocol_port-1" "protocol_port - See Argument Reference above.")
-    ("tenant_id-1" "tenant_id - See Argument Reference above.")
-    ("name-1" "name - See Argument Reference above.")
+    ("protocol" "protocol - See Argument Reference above.")
+    ("protocol_port" "protocol_port - See Argument Reference above.")
+    ("tenant_id" "tenant_id - See Argument Reference above.")
+    ("name" "name - See Argument Reference above.")
     ("default_port_id" "default_port_id - See Argument Reference above.")
-    ("description-1" "description - See Argument Reference above.")
-    ("connection_limit-1" "connection_limit - See Argument Reference above.")
-    ("default_tls_container_ref-1" "default_tls_container_ref - See Argument Reference above.")
-    ("sni_container_refs-1" "sni_container_refs - See Argument Reference above.")
-    ("admin_state_up-1" "admin_state_up - See Argument Reference above.")
+    ("description" "description - See Argument Reference above.")
+    ("connection_limit" "connection_limit - See Argument Reference above.")
+    ("default_tls_container_ref" "default_tls_container_ref - See Argument Reference above.")
+    ("sni_container_refs" "sni_container_refs - See Argument Reference above.")
+    ("admin_state_up" "admin_state_up - See Argument Reference above.")
 
   ) company-terraform-resource-attributes-hash)
 
 (puthash "openstack_lb_pool_v2" '(
     ("id" "id - The unique ID for the pool.")
-    ("tenant_id-1" "tenant_id - See Argument Reference above.")
-    ("name-1" "name - See Argument Reference above.")
-    ("description-1" "description - See Argument Reference above.")
-    ("protocol-1" "protocol - See Argument Reference above.")
-    ("lb_method-1" "lb_method - See Argument Reference above.")
-    ("persistence-1" "persistence - See Argument Reference above.")
-    ("admin_state_up-1" "admin_state_up - See Argument Reference above.")
+    ("tenant_id" "tenant_id - See Argument Reference above.")
+    ("name" "name - See Argument Reference above.")
+    ("description" "description - See Argument Reference above.")
+    ("protocol" "protocol - See Argument Reference above.")
+    ("lb_method" "lb_method - See Argument Reference above.")
+    ("persistence" "persistence - See Argument Reference above.")
+    ("admin_state_up" "admin_state_up - See Argument Reference above.")
 
   ) company-terraform-resource-attributes-hash)
 
 (puthash "openstack_lb_member_v2" '(
     ("id" "id - The unique ID for the member.")
-    ("name-1" "name - See Argument Reference above.")
-    ("weight-1" "weight - See Argument Reference above.")
-    ("admin_state_up-1" "admin_state_up - See Argument Reference above.")
-    ("tenant_id-1" "tenant_id - See Argument Reference above.")
-    ("subnet_id-1" "subnet_id - See Argument Reference above.")
-    ("pool_id-1" "pool_id - See Argument Reference above.")
-    ("address-1" "address - See Argument Reference above.")
-    ("protocol_port-1" "protocol_port - See Argument Reference above.")
+    ("name" "name - See Argument Reference above.")
+    ("weight" "weight - See Argument Reference above.")
+    ("admin_state_up" "admin_state_up - See Argument Reference above.")
+    ("tenant_id" "tenant_id - See Argument Reference above.")
+    ("subnet_id" "subnet_id - See Argument Reference above.")
+    ("pool_id" "pool_id - See Argument Reference above.")
+    ("address" "address - See Argument Reference above.")
+    ("protocol_port" "protocol_port - See Argument Reference above.")
 
   ) company-terraform-resource-attributes-hash)
 
 (puthash "openstack_lb_monitor_v2" '(
     ("id" "id - The unique ID for the monitor.")
-    ("tenant_id-1" "tenant_id - See Argument Reference above.")
-    ("type-1" "type - See Argument Reference above.")
-    ("delay-1" "delay - See Argument Reference above.")
-    ("timeout-1" "timeout - See Argument Reference above.")
-    ("max_retries-1" "max_retries - See Argument Reference above.")
-    ("url_path-1" "url_path - See Argument Reference above.")
-    ("http_method-1" "http_method - See Argument Reference above.")
-    ("expected_codes-1" "expected_codes - See Argument Reference above.")
-    ("admin_state_up-1" "admin_state_up - See Argument Reference above.")
+    ("tenant_id" "tenant_id - See Argument Reference above.")
+    ("type" "type - See Argument Reference above.")
+    ("delay" "delay - See Argument Reference above.")
+    ("timeout" "timeout - See Argument Reference above.")
+    ("max_retries" "max_retries - See Argument Reference above.")
+    ("url_path" "url_path - See Argument Reference above.")
+    ("http_method" "http_method - See Argument Reference above.")
+    ("expected_codes" "expected_codes - See Argument Reference above.")
+    ("admin_state_up" "admin_state_up - See Argument Reference above.")
 
   ) company-terraform-resource-attributes-hash)
 
 (puthash "openstack_fw_firewall_v1" '(
-    ("region-1" "region - See Argument Reference above.")
-    ("policy_id-1" "policy_id - See Argument Reference above.")
-    ("name-1" "name - See Argument Reference above.")
-    ("description-1" "description - See Argument Reference above.")
-    ("admin_state_up-1" "admin_state_up - See Argument Reference above.")
-    ("tenant_id-1" "tenant_id - See Argument Reference above.")
-    ("associated_routers-1" "associated_routers - See Argument Reference above.")
-    ("no_routers-1" "no_routers - See Argument Reference above.")
+    ("region" "region - See Argument Reference above.")
+    ("policy_id" "policy_id - See Argument Reference above.")
+    ("name" "name - See Argument Reference above.")
+    ("description" "description - See Argument Reference above.")
+    ("admin_state_up" "admin_state_up - See Argument Reference above.")
+    ("tenant_id" "tenant_id - See Argument Reference above.")
+    ("associated_routers" "associated_routers - See Argument Reference above.")
+    ("no_routers" "no_routers - See Argument Reference above.")
 
   ) company-terraform-resource-attributes-hash)
 
 (puthash "openstack_fw_policy_v1" '(
-    ("region-1" "region - See Argument Reference above.")
-    ("name-1" "name - See Argument Reference above.")
-    ("description-1" "description - See Argument Reference above.")
-    ("audited-1" "audited - See Argument Reference above.")
-    ("shared-1" "shared - See Argument Reference above.")
+    ("region" "region - See Argument Reference above.")
+    ("name" "name - See Argument Reference above.")
+    ("description" "description - See Argument Reference above.")
+    ("audited" "audited - See Argument Reference above.")
+    ("shared" "shared - See Argument Reference above.")
 
   ) company-terraform-resource-attributes-hash)
 
 (puthash "openstack_fw_rule_v1" '(
-    ("region-1" "region - See Argument Reference above.")
-    ("name-1" "name - See Argument Reference above.")
-    ("description-1" "description - See Argument Reference above.")
-    ("protocol-1" "protocol - See Argument Reference above.")
-    ("action-1" "action - See Argument Reference above.")
-    ("ip_version-1" "ip_version - See Argument Reference above.")
-    ("source_ip_address-1" "source_ip_address - See Argument Reference above.")
-    ("destination_ip_address-1" "destination_ip_address - See Argument Reference above.")
-    ("source_port-1" "source_port - See Argument Reference above.")
-    ("destination_port-1" "destination_port - See Argument Reference above.")
-    ("enabled-1" "enabled - See Argument Reference above.")
-    ("tenant_id-1" "tenant_id - See Argument Reference above.")
+    ("region" "region - See Argument Reference above.")
+    ("name" "name - See Argument Reference above.")
+    ("description" "description - See Argument Reference above.")
+    ("protocol" "protocol - See Argument Reference above.")
+    ("action" "action - See Argument Reference above.")
+    ("ip_version" "ip_version - See Argument Reference above.")
+    ("source_ip_address" "source_ip_address - See Argument Reference above.")
+    ("destination_ip_address" "destination_ip_address - See Argument Reference above.")
+    ("source_port" "source_port - See Argument Reference above.")
+    ("destination_port" "destination_port - See Argument Reference above.")
+    ("enabled" "enabled - See Argument Reference above.")
+    ("tenant_id" "tenant_id - See Argument Reference above.")
 
   ) company-terraform-resource-attributes-hash)
 
 (puthash "openstack_objectstorage_container_v1" '(
-    ("region-1" "region - See Argument Reference above.")
-    ("name-1" "name - See Argument Reference above.")
-    ("container_read-1" "container_read - See Argument Reference above.")
-    ("container_sync_to-1" "container_sync_to - See Argument Reference above.")
-    ("container_sync_key-1" "container_sync_key - See Argument Reference above.")
-    ("container_write-1" "container_write - See Argument Reference above.")
-    ("metadata-1" "metadata - See Argument Reference above.")
-    ("content_type-1" "content_type - See Argument Reference above.")
+    ("region" "region - See Argument Reference above.")
+    ("name" "name - See Argument Reference above.")
+    ("container_read" "container_read - See Argument Reference above.")
+    ("container_sync_to" "container_sync_to - See Argument Reference above.")
+    ("container_sync_key" "container_sync_key - See Argument Reference above.")
+    ("container_write" "container_write - See Argument Reference above.")
+    ("metadata" "metadata - See Argument Reference above.")
+    ("content_type" "content_type - See Argument Reference above.")
 
   ) company-terraform-resource-attributes-hash)
 
@@ -12301,46 +12302,46 @@
   ) company-terraform-resource-attributes-hash)
 
 (puthash "ovh_vrack_publiccloud_attachment" '(
-    ("vrack_id-1" "vrack_id - See Argument Reference above.")
-    ("project_id-1" "project_id - See Argument Reference above.")
+    ("vrack_id" "vrack_id - See Argument Reference above.")
+    ("project_id" "project_id - See Argument Reference above.")
 
   ) company-terraform-resource-attributes-hash)
 
 (puthash "ovh_publiccloud_private_network" '(
-    ("project_id-1" "project_id - See Argument Reference above.")
-    ("name-1" "name - See Argument Reference above.")
+    ("project_id" "project_id - See Argument Reference above.")
+    ("name" "name - See Argument Reference above.")
     ("vland_id" "vland_id - See Argument Reference above.")
-    ("regions-1" "regions - See Argument Reference above.")
+    ("regions" "regions - See Argument Reference above.")
     ("regions_status" "regions_status - A map representing the status of the network per region.")
-    ("regions_status-region" "regions_status/region - The id of the region.")
-    ("regions_status-status" "regions_status/status - The status of the network in the region.")
+    ("regions_status/region" "regions_status/region - The id of the region.")
+    ("regions_status/status" "regions_status/status - The status of the network in the region.")
     ("status" "status - the status of the network. should be normally set to 'ACTIVE'.")
     ("type" "type - the type of the network. Either 'private' or 'public'.")
 
   ) company-terraform-resource-attributes-hash)
 
 (puthash "ovh_publiccloud_private_network_subnet" '(
-    ("project_id-1" "project_id - See Argument Reference above.")
-    ("network_id-1" "network_id - See Argument Reference above.")
+    ("project_id" "project_id - See Argument Reference above.")
+    ("network_id" "network_id - See Argument Reference above.")
     ("dhcp_id" "dhcp_id - See Argument Reference above.")
-    ("start-1" "start - See Argument Reference above.")
-    ("end-1" "end - See Argument Reference above.")
-    ("network-1" "network - See Argument Reference above.")
-    ("region-1" "region - See Argument Reference above.")
-    ("no_gateway-1" "no_gateway - See Argument Reference above.")
+    ("start" "start - See Argument Reference above.")
+    ("end" "end - See Argument Reference above.")
+    ("network" "network - See Argument Reference above.")
+    ("region" "region - See Argument Reference above.")
+    ("no_gateway" "no_gateway - See Argument Reference above.")
     ("cidr" "cidr - Ip Block representing the subnet cidr.")
     ("ip_pools" "ip_pools - List of ip pools allocated in the subnet.")
-    ("ip_pools-network" "ip_pools/network - Global network with cidr.")
-    ("ip_pools-region" "ip_pools/region - Region where this subnet is created.")
-    ("ip_pools-dhcp" "ip_pools/dhcp - DHCP enabled.")
-    ("ip_pools-end" "ip_pools/end - Last ip for this region.")
-    ("ip_pools-start" "ip_pools/start - First ip for this region.")
+    ("ip_pools/network" "ip_pools/network - Global network with cidr.")
+    ("ip_pools/region" "ip_pools/region - Region where this subnet is created.")
+    ("ip_pools/dhcp" "ip_pools/dhcp - DHCP enabled.")
+    ("ip_pools/end" "ip_pools/end - Last ip for this region.")
+    ("ip_pools/start" "ip_pools/start - First ip for this region.")
 
   ) company-terraform-resource-attributes-hash)
 
 (puthash "ovh_publiccloud_user" '(
-    ("project_id-1" "project_id - See Argument Reference above.")
-    ("description-1" "description - See Argument Reference above.")
+    ("project_id" "project_id - See Argument Reference above.")
+    ("description" "description - See Argument Reference above.")
     ("username" "username - the username generated for the user. This username can be used with the Openstack API.")
     ("password" "password - (Sensitive) the password generated for the user. The password can be used with the Openstack API. This attribute is sensitive and will only be retrieve once during creation.")
     ("status" "status - the status of the user. should be normally set to 'ok'.")
@@ -12351,14 +12352,14 @@
 
 (puthash "packet_device" '(
     ("id" "id - The ID of the device")
-    ("hostname-1" "hostname- The hostname of the device")
-    ("project_id-1" "project_id- The ID of the project the device belongs to")
-    ("facility-1" "facility - The facility the device is in")
-    ("plan-1" "plan - The hardware config of the device")
+    ("hostname" "hostname- The hostname of the device")
+    ("project_id" "project_id- The ID of the project the device belongs to")
+    ("facility" "facility - The facility the device is in")
+    ("plan" "plan - The hardware config of the device")
     ("network" "network - The private and public v4 and v6 IPs assigned to the device")
     ("locked" "locked - Whether the device is locked")
-    ("billing_cycle-1" "billing_cycle - The billing cycle of the device (monthly or hourly)")
-    ("operating_system-1" "operating_system - The operating system running on the device")
+    ("billing_cycle" "billing_cycle - The billing cycle of the device (monthly or hourly)")
+    ("operating_system" "operating_system - The operating system running on the device")
     ("status" "status - The status of the device")
     ("created" "created - The timestamp for when the device was created")
     ("updated" "updated - The timestamp for the last time the device was updated")
@@ -12367,7 +12368,7 @@
 
 (puthash "packet_project" '(
     ("id" "id - The unique ID of the project")
-    ("payment_method-1" "payment_method - The unique ID of the payment method on file to use for services created in this project.")
+    ("payment_method" "payment_method - The unique ID of the payment method on file to use for services created in this project.")
     ("created" "created - The timestamp for when the Project was created")
     ("updated" "updated - The timestamp for the last time the Project was updated")
 
@@ -12375,8 +12376,8 @@
 
 (puthash "packet_ssh_key" '(
     ("id" "id - The unique ID of the key")
-    ("name-1" "name - The name of the SSH key")
-    ("public_key-1" "public_key - The text of the public key")
+    ("name" "name - The name of the SSH key")
+    ("public_key" "public_key - The text of the public key")
     ("fingerprint" "fingerprint - The fingerprint of the SSH key")
     ("created" "created - The timestamp for when the SSH key was created")
     ("updated" "updated - The timestamp for the last time the SSH key was updated")
@@ -12386,14 +12387,14 @@
 (puthash "packet_volume" '(
     ("id" "id - The unique ID of the volume")
     ("name" "name - The name of the volume")
-    ("description-1" "description - The description of the volume")
-    ("size-1" "size - The size in GB of the volume")
-    ("plan-1" "plan - Performance plan the volume is on")
-    ("billing_cycle-1" "billing_cycle - The billing cycle, defaults to hourly")
-    ("facility-1" "facility - The facility slug the volume resides in")
+    ("description" "description - The description of the volume")
+    ("size" "size - The size in GB of the volume")
+    ("plan" "plan - Performance plan the volume is on")
+    ("billing_cycle" "billing_cycle - The billing cycle, defaults to hourly")
+    ("facility" "facility - The facility slug the volume resides in")
     ("state" "state - The state of the volume")
     ("locked" "locked - Whether the volume is locked or not")
-    ("project_id-1" "project_id - The project id the volume is in")
+    ("project_id" "project_id - The project id the volume is in")
     ("created" "created - The timestamp for when the volume was created")
     ("updated" "updated - The timestamp for the last time the volume was updated")
 
@@ -12405,7 +12406,7 @@
   ) company-terraform-resource-attributes-hash)
 
 (puthash "pagerduty_escalation_policy" '(
-    ("id-1" "id - The ID of the escalation policy.")
+    ("id" "id - The ID of the escalation policy.")
 
   ) company-terraform-resource-attributes-hash)
 
@@ -12437,8 +12438,8 @@
   ) company-terraform-resource-attributes-hash)
 
 (puthash "pagerduty_team_membership" '(
-    ("user_id-1" "user_id - The ID of the user belonging to the team.")
-    ("team_id-1" "team_id - The team ID the user belongs to.")
+    ("user_id" "user_id - The ID of the user belonging to the team.")
+    ("team_id" "team_id - The team ID the user belongs to.")
 
   ) company-terraform-resource-attributes-hash)
 
@@ -12602,7 +12603,7 @@
   ) company-terraform-resource-attributes-hash)
 
 (puthash "rundeck_project" '(
-    ("name-1" "name - The unique name that identifies the project, as set in the arguments.")
+    ("name" "name - The unique name that identifies the project, as set in the arguments.")
     ("ui_url" "ui_url - The URL of the index page for this project in the Rundeck UI.")
 
   ) company-terraform-resource-attributes-hash)
@@ -12613,7 +12614,7 @@
 
 (puthash "rundeck_public_key" '(
     ("url" "url - The URL at which the key material can be retrieved from the key store by other clients.")
-    ("key_material-1" "key_material - If key_material is omitted in the configuration, it becomes an attribute that exposes the key material already stored at the given path.")
+    ("key_material" "key_material - If key_material is omitted in the configuration, it becomes an attribute that exposes the key material already stored at the given path.")
 
   ) company-terraform-resource-attributes-hash)
 
@@ -12681,7 +12682,7 @@
   ) company-terraform-resource-attributes-hash)
 
 (puthash "tls_private_key" '(
-    ("algorithm-1" "algorithm - The algorithm that was selected for the key.")
+    ("algorithm" "algorithm - The algorithm that was selected for the key.")
     ("private_key_pem" "private_key_pem - The private key data in PEM format.")
     ("public_key_pem" "public_key_pem - The public key data in PEM format.")
     ("public_key_openssh" "public_key_openssh - The public key data in OpenSSH authorized_keys format, if the selected private key format is compatible. All RSA keys are supported, and ECDSA keys with curves \"P256\", \"P384\" and \"P251\" are supported. This attribute is empty if an incompatible ECDSA curve is selected.")
@@ -12743,11 +12744,11 @@
 
 (puthash "ultradns_record" '(
     ("id" "id - The record ID")
-    ("name-1" "name - The name of the record")
-    ("rdata-1" "rdata - An array containing the values of the record")
-    ("type-1" "type - The type of the record")
-    ("ttl-1" "ttl - The TTL of the record")
-    ("zone-1" "zone - The domain of the record")
+    ("name" "name - The name of the record")
+    ("rdata" "rdata - An array containing the values of the record")
+    ("type" "type - The type of the record")
+    ("ttl" "ttl - The TTL of the record")
+    ("zone" "zone - The domain of the record")
     ("hostname" "hostname - The FQDN of the record")
 
   ) company-terraform-resource-attributes-hash)
@@ -12798,15 +12799,15 @@
     ("id" "id - The instance ID.")
     ("uuid" "uuid - The instance UUID.")
     ("moid" "moid - The instance MOID (Managed Object Reference ID).")
-    ("name-2" "name - See Argument Reference above.")
-    ("vcpu-1" "vcpu - See Argument Reference above.")
-    ("memory-1" "memory - See Argument Reference above.")
-    ("datacenter-1" "datacenter - See Argument Reference above.")
-    ("network_interface-label" "network_interface/label - See Argument Reference above.")
-    ("network_interface-ipv4_address" "network_interface/ipv4_address - See Argument Reference above.")
-    ("network_interface-ipv4_prefix_length" "network_interface/ipv4_prefix_length - See Argument Reference above.")
-    ("network_interface-ipv6_address" "network_interface/ipv6_address - Assigned static IPv6 address.")
-    ("network_interface-ipv6_prefix_length" "network_interface/ipv6_prefix_length - Prefix length of assigned static IPv6 address.")
+    ("name" "name - See Argument Reference above.")
+    ("vcpu" "vcpu - See Argument Reference above.")
+    ("memory" "memory - See Argument Reference above.")
+    ("datacenter" "datacenter - See Argument Reference above.")
+    ("network_interface/label" "network_interface/label - See Argument Reference above.")
+    ("network_interface/ipv4_address" "network_interface/ipv4_address - See Argument Reference above.")
+    ("network_interface/ipv4_prefix_length" "network_interface/ipv4_prefix_length - See Argument Reference above.")
+    ("network_interface/ipv6_address" "network_interface/ipv6_address - Assigned static IPv6 address.")
+    ("network_interface/ipv6_prefix_length" "network_interface/ipv6_prefix_length - Prefix length of assigned static IPv6 address.")
 
   ) company-terraform-resource-attributes-hash)
 
@@ -13739,8 +13740,8 @@
 
 (puthash "alicloud_instance_types" '(
     ("id" "id - ID of the instance type.")
-    ("cpu_core_count-1" "cpu_core_count - Number of CPU cores.")
-    ("memory_size-1" "memory_size - Size of memory, measured in GB.")
+    ("cpu_core_count" "cpu_core_count - Number of CPU cores.")
+    ("memory_size" "memory_size - Size of memory, measured in GB.")
     ("family" "family - The instance type family.")
 
   ) company-terraform-data-attributes-hash)
@@ -13766,7 +13767,7 @@
     ("id" "id - ID of the zone.")
     ("local_name" "local_name - Name of the zone in the local language.")
     ("available_instance_types" "available_instance_types - Instance types allowed.")
-    ("available_resource_creation-1" "available_resource_creation - Type of resource that can be created.")
+    ("available_resource_creation" "available_resource_creation - Type of resource that can be created.")
     ("available_disk_categories" "available_disk_categories - Set of supported disk categories.")
 
   ) company-terraform-data-attributes-hash)
@@ -13833,10 +13834,10 @@
   ) company-terraform-data-attributes-hash)
 
 (puthash "aws_availability_zone" '(
-    ("name-1" "name - The name of the selected availability zone.")
+    ("name" "name - The name of the selected availability zone.")
     ("region" "region - The region where the selected availability zone resides. This is always the region selected on the provider, since this data source searches only within that region.")
     ("name_suffix" "name_suffix - The part of the AZ name that appears after the region name, uniquely identifying the AZ within its region.")
-    ("state-1" "state - The current state of the AZ.")
+    ("state" "state - The current state of the AZ.")
 
   ) company-terraform-data-attributes-hash)
 
@@ -14149,7 +14150,7 @@
 
 (puthash "aws_kinesis_stream" '(
     ("arn" "arn - The Amazon Resource Name (ARN) of the Kinesis Stream (same as id).")
-    ("name-1" "name - The name of the Kinesis Stream.")
+    ("name" "name - The name of the Kinesis Stream.")
     ("creation_timestamp" "creation_timestamp - The approximate UNIX timestamp that the stream was created.")
     ("status" "status - The current status of the stream. The stream status is one of CREATING, DELETING, ACTIVE, or UPDATING.")
     ("retention_period" "retention_period - Length of time (in hours) data records are accessible after they are added to the stream.")
@@ -14181,7 +14182,7 @@
 
 (puthash "aws_prefix_list" '(
     ("id" "id - The ID of the selected prefix list.")
-    ("name-1" "name - The name of the selected prefix list.")
+    ("name" "name - The name of the selected prefix list.")
     ("cidr_blocks" "cidr_blocks - The list of CIDR blocks for the AWS service associated with the prefix list.")
 
   ) company-terraform-data-attributes-hash)
@@ -14192,9 +14193,9 @@
   ) company-terraform-data-attributes-hash)
 
 (puthash "aws_region" '(
-    ("name-1" "name - The name of the selected region.")
-    ("current-1" "current - true if the selected region is the one configured on the provider, or false otherwise.")
-    ("endpoint-1" "endpoint - The endpoint for the selected region.")
+    ("name" "name - The name of the selected region.")
+    ("current" "current - true if the selected region is the one configured on the provider, or false otherwise.")
+    ("endpoint" "endpoint - The endpoint for the selected region.")
 
   ) company-terraform-data-attributes-hash)
 
@@ -14230,7 +14231,7 @@
     ("server_side_encryption" "server_side_encryption - If the object is stored using server-side encryption (KMS or Amazon S3-managed encryption key), this field includes the chosen encryption and algorithm used.")
     ("sse_kms_key_id" "sse_kms_key_id - If present, specifies the ID of the Key Management Service (KMS) master encryption key that was used for the object.")
     ("storage_class" "storage_class - Storage class information of the object. Available for all objects except for Standard storage class objects.")
-    ("version_id-1" "version_id - The latest version ID of the object returned.")
+    ("version_id" "version_id - The latest version ID of the object returned.")
     ("website_redirect_location" "website_redirect_location - If the bucket is configured as a website, redirects requests for this object to another object in the same bucket or to an external URL. Amazon S3 stores the value of this header in the object metadata.")
     ("tags" "tags  - A mapping of tags assigned to the object.")
 
@@ -14292,7 +14293,7 @@
     ("address1" "address1 - The first line of the address associated with the account.")
     ("address2" "address2 - The second line of the address associated with the account.")
     ("cc_email" "cc_email - An optionally specified email address used in the CC line of invoices.")
-    ("id-1" "id - The Circonus ID of the selected Account.")
+    ("id" "id - The Circonus ID of the selected Account.")
     ("city" "city - The city part of the address associated with the account.")
     ("contact_groups" "contact_groups - A list of IDs for each contact group in the account.")
     ("country" "country - The country of the user's address.")
@@ -14309,7 +14310,7 @@
   ) company-terraform-data-attributes-hash)
 
 (puthash "circonus_collector" '(
-    ("id-1" "id - The Circonus ID of the selected Collector.")
+    ("id" "id - The Circonus ID of the selected Collector.")
     ("details" "details - A list of details about the individual Collector instances that make up the group of collectors.  See below for a list of attributes within each collector.")
     ("latitude" "latitude - The latitude of the selected Collector.")
     ("longitude" "longitude - The longitude of the selected Collector.")
@@ -14396,7 +14397,7 @@
   ) company-terraform-data-attributes-hash)
 
 (puthash "consul_catalog_nodes" '(
-    ("datacenter-1" "datacenter - The datacenter the keys are being read from to.")
+    ("datacenter" "datacenter - The datacenter the keys are being read from to.")
     ("node_ids" "node_ids - A list of the Consul node IDs.")
     ("node_names" "node_names - A list of the Consul node names.")
     ("nodes" "nodes - A list of nodes and details about each Consul agent.  The list of per-node attributes is detailed below.")
@@ -14404,29 +14405,29 @@
   ) company-terraform-data-attributes-hash)
 
 (puthash "consul_catalog_service" '(
-    ("datacenter-1" "datacenter - The datacenter the keys are being read from to.")
-    ("name-1" "name - The name of the service")
-    ("tag-1" "tag - The name of the tag used to filter the list of nodes in service.")
+    ("datacenter" "datacenter - The datacenter the keys are being read from to.")
+    ("name" "name - The name of the service")
+    ("tag" "tag - The name of the tag used to filter the list of nodes in service.")
     ("service" "service - A list of nodes and details about each endpoint advertising a service.  Each element in the list is a map of attributes that correspond to each individual node.  The list of per-node attributes is detailed below.")
 
   ) company-terraform-data-attributes-hash)
 
 (puthash "consul_catalog_services" '(
-    ("datacenter-1" "datacenter - The datacenter the keys are being read from to.")
+    ("datacenter" "datacenter - The datacenter the keys are being read from to.")
     ("names" "names - A list of the Consul services found.  This will always contain the list of services found.")
-    ("services-lt-service-gt-" "services.<service> - For each name given, the corresponding attribute is a Terraform map of services and their tags.  The value is an alphanumerically sorted, whitespace delimited set of tags associated with the service.")
+    ("services.<service>" "services.<service> - For each name given, the corresponding attribute is a Terraform map of services and their tags.  The value is an alphanumerically sorted, whitespace delimited set of tags associated with the service.")
     ("tags" "tags - A map of the tags found for each service.  If more than one service shares the same tag, unique service names will be joined by whitespace (this is the inverse of services and can be used to lookup the services that match a single tag).")
 
   ) company-terraform-data-attributes-hash)
 
 (puthash "consul_keys" '(
-    ("datacenter-1" "datacenter - The datacenter the keys are being read from to.")
-    ("var-lt-name-gt-" "var.<name> - For each name given, the corresponding attribute has the value of the key.")
+    ("datacenter" "datacenter - The datacenter the keys are being read from to.")
+    ("var.<name>" "var.<name> - For each name given, the corresponding attribute has the value of the key.")
 
   ) company-terraform-data-attributes-hash)
 
 (puthash "digitalocean_image" '(
-    ("name-1" "name - See Argument Reference above.")
+    ("name" "name - See Argument Reference above.")
     ("image" "image - The id of the image.")
     ("min_disk_size" "min_disk_size: The minimum 'disk' required for the image.")
     ("private" "private - Is image a public image or not. Public images represents Linux distributions or Application, while non-public images represent snapshots and backups and are only available within your account.")
@@ -14715,8 +14716,8 @@
 
 (puthash "openstack_networking_network_v2" '(
     ("admin_state_up" "admin_state_up - (Optional) The administrative state of the network.")
-    ("name-1" "name - See Argument Reference above.")
-    ("region-1" "region - See Argument Reference above.")
+    ("name" "name - See Argument Reference above.")
+    ("region" "region - See Argument Reference above.")
     ("shared" "shared - (Optional)  Specifies whether the network resource can be accessed by any tenant or not.")
 
   ) company-terraform-data-attributes-hash)
@@ -14728,12 +14729,12 @@
   ) company-terraform-data-attributes-hash)
 
 (puthash "pagerduty_escalation_policy" '(
-    ("name-1" "name - The short name of the found escalation policy.")
+    ("name" "name - The short name of the found escalation policy.")
 
   ) company-terraform-data-attributes-hash)
 
 (puthash "pagerduty_schedule" '(
-    ("name-1" "name - The short name of the found schedule.")
+    ("name" "name - The short name of the found schedule.")
 
   ) company-terraform-data-attributes-hash)
 
@@ -14743,7 +14744,7 @@
   ) company-terraform-data-attributes-hash)
 
 (puthash "pagerduty_vendor" '(
-    ("name-1" "name - The short name of the found vendor.")
+    ("name" "name - The short name of the found vendor.")
     ("type" "type - The generic service type for this vendor.")
 
   ) company-terraform-data-attributes-hash)
@@ -14754,7 +14755,7 @@
   ) company-terraform-data-attributes-hash)
 
 (puthash "scaleway_bootscript" '(
-    ("architecture-1" "architecture - architecture of the Bootscript, e.g. arm or x86_64")
+    ("architecture" "architecture - architecture of the Bootscript, e.g. arm or x86_64")
     ("organization" "organization - uuid of the organization owning this Bootscript")
     ("public" "public - is this a public bootscript")
     ("boot_cmd_args" "boot_cmd_args - command line arguments used for booting")
@@ -14765,7 +14766,7 @@
   ) company-terraform-data-attributes-hash)
 
 (puthash "scaleway_image" '(
-    ("architecture-1" "architecture - architecture of the Image, e.g. arm or x86_64")
+    ("architecture" "architecture - architecture of the Image, e.g. arm or x86_64")
     ("organization" "organization - uuid of the organization owning this Image")
     ("public" "public - is this a public bootscript")
     ("creation_date" "creation_date - date when image was created")
@@ -14773,8 +14774,8 @@
   ) company-terraform-data-attributes-hash)
 
 (puthash "template_file" '(
-    ("template-1" "template - See Argument Reference above.")
-    ("vars-1" "vars - See Argument Reference above.")
+    ("template" "template - See Argument Reference above.")
+    ("vars" "vars - See Argument Reference above.")
     ("rendered" "rendered - The final rendered template.")
 
   ) company-terraform-data-attributes-hash)
@@ -14785,8 +14786,8 @@
   ) company-terraform-data-attributes-hash)
 
 (puthash "terraform_remote_state" '(
-    ("backend-1" "backend - See Argument Reference above.")
-    ("config-1" "config - See Argument Reference above.")
+    ("backend" "backend - See Argument Reference above.")
+    ("config" "config - See Argument Reference above.")
 
   ) company-terraform-data-attributes-hash)
 

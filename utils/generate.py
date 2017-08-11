@@ -118,13 +118,17 @@ def get_resource_params(name, docpath):
             if ul.name == 'ul':
                 lis = ul.find_all('li', recursive=False)
                 for li in lis:
-                    aas = li.find_all('a')
-                    if len(aas) is 0:
-                        continue
-                    if aas[0].get('name') is not None:
-                        argname = aas[0]['name']
+                    code = li.find_all('code')
+                    if len(code) > 0:
+                        argname = code[0].get_text()
                     else:
-                        argname = li.get_text().split('-')[0].strip()
+                        aas = li.find_all('a')
+                        if len(aas) is 0:
+                            continue
+                        if aas[0].get('name') is not None:
+                            argname = aas[0]['name']
+                        else:
+                            argname = li.get_text().split('-')[0].strip()
                     argdoc = li.get_text().replace("\n", " ").strip()
                     arglist.append({'name': argname, 'doc': argdoc.translate(escaping)})
                 break
@@ -141,13 +145,17 @@ def get_resource_params(name, docpath):
             if ul.name == 'ul':
                 lis = ul.find_all('li', recursive=False)
                 for li in lis:
-                    aas = li.find_all('a')
-                    if len(aas) is 0:
-                        continue
-                    if aas[0].get('name') is not None:
-                        attrname = aas[0]['name']
+                    code = li.find_all('code')
+                    if len(code) > 0:
+                        attrname = code[0].get_text()
                     else:
-                        attrname = li.get_text().split('-')[0].strip()
+                        aas = li.find_all('a')
+                        if len(aas) is 0:
+                            continue
+                        if aas[0].get('name') is not None:
+                            attrname = aas[0]['name']
+                        else:
+                            attrname = li.get_text().split('-')[0].strip()
                     attrdoc = li.get_text().replace("\n", " ").strip()
                     attrlist.append({'name': attrname, 'doc': attrdoc.translate(escaping)})
                 break
@@ -278,7 +286,7 @@ def prepare_file():
         file.write(header + data + footer)
     
 get_providers()
-#for p in ['rundeck']:
+#for p in ['aws']:
 for p in provider_list:
     gather_all_by_provider(p)
 get_interpolation_functions()
