@@ -53,22 +53,27 @@
 (defconst company-terraform-perdir-resource-cache
   (make-hash-table :test 'equal))
 
-(defun company-terraform-get-resource-cache (&optional dir)
+(defun company-terraform-get-resource-cache (kind &optional dir)
   "Return several dictionaries gathering names used in the project.
-Searches for blocks in DIR or buffer's directory if DIR is nil.
-If available, uses a cached version which lasts serval seconds."
-  (let* ((dir (or dir (file-name-directory (buffer-file-name))))
-         (v (gethash dir company-terraform-perdir-resource-cache))
-         (cache-time (car v))
-         (resource-data (cdr v)))
-    (if (and v
-             (< (- (float-time) cache-time) 20))
-        resource-data
-      (progn
-        (message "Regenerating company-terraform resource cache for %s..." dir)
-        (let ((resource-data (company-terraform--scan-resources dir)))
-          (puthash dir (cons (float-time) resource-data) company-terraform-perdir-resource-cache)
-          resource-data)))))
+KIND specifies the block type requested and mey be 'resource,
+'data or 'variable.  Searches for blocks in DIR or buffer's
+directory if DIR is nil.  If available, uses a cached version
+which lasts serval seconds."
+  (nth (cond ((eq kind 'data) 0)
+             ((eq kind 'resource) 1)
+             ((eq kind 'variable) 2))
+       (let* ((dir (or dir (file-name-directory (buffer-file-name))))
+              (v (gethash dir company-terraform-perdir-resource-cache))
+              (cache-time (car v))
+              (resource-data (cdr v)))
+         (if (and v
+                  (< (- (float-time) cache-time) 20))
+             resource-data
+           (progn
+             (message "Regenerating company-terraform resource cache for %s..." dir)
+             (let ((resource-data (company-terraform--scan-resources dir)))
+               (puthash dir (cons (float-time) resource-data) company-terraform-perdir-resource-cache)
+               resource-data))))))
 
 (defun company-terraform-get-context ()
   "Guess the context in terraform description where point is."
@@ -191,7 +196,7 @@ function's result is interpreted."
          ((eq pathlen 1)
           ;; Complete function name or resource type.
           (company-terraform--filterdoc prefix (list company-terraform-interpolation-functions
-                                                     (hash-table-keys (nth 1 (company-terraform-get-resource-cache)))
+                                                     (hash-table-keys (company-terraform-get-resource-cache 'resource))
                                                      company-terraform-interpolation-extra) t))
          ((equal head "count")
           (if (eq pathlen 2)
@@ -201,13 +206,12 @@ function's result is interpreted."
           (let ((data-type (nth 1 path)))
             (cond ((eq pathlen 2)
                    ;; Complete data source type.
-                   (company-terraform--filter last (hash-table-keys (nth 0 (company-terraform-get-resource-cache)))))
+                   (company-terraform--filter last (hash-table-keys (company-terraform-get-resource-cache 'data))))
                   ((eq pathlen 3)
                    ;; Complete data name.
                    (company-terraform--filter
                     last
-                    (gethash data-type
-                             (nth 0 (company-terraform-get-resource-cache)))))
+                    (gethash data-type (company-terraform-get-resource-cache 'data))))
                   ;; Complete data arguments/attributes
                   ((or (eq pathlen 4)
                        (and (eq pathlen 5)
@@ -219,16 +223,14 @@ function's result is interpreted."
          ((equal head "var")
           (if (eq pathlen 2)
               ;; Complete variable name.
-              (company-terraform--filter last
-                                         (nth 2 (company-terraform-get-resource-cache)))))
+              (company-terraform--filter last (company-terraform-get-resource-cache 'variable))))
          (t ; This path is directly referencing a standard resource
           (let ((resource-type (nth 0 path)))
             (cond ((eq pathlen 2)
                    ;; Complete resource name.
                    (company-terraform--filter
                     last
-                    (gethash resource-type
-                             (nth 1 (company-terraform-get-resource-cache)))))
+                    (gethash resource-type (company-terraform-get-resource-cache 'resource))))
                   ((or (eq pathlen 3)
                        (and (eq pathlen 4)
                             (company-terraform-is-resource-n (nth 2 path))))
