@@ -35,18 +35,14 @@
           (insert-file-contents file))
         (goto-char 1)
         (while (re-search-forward "\\(resource\\|data\\)[[:space:]\n]*\"\\([^\"]*\\)\"[[:space:]\n]*\"\\([^\"]*\\)\"[[:space:]\n]*{" nil t)
-          (let ((kind (match-string-no-properties 1))
-                (type (match-string-no-properties 2))
-                (name (match-string-no-properties 3)))
-            (cond
-             ((equal kind "data")
-              (message "data"))
-                                        ;TODO: Data scanning
-             ((equal kind "resource")
-              (message "resource" )
-              (when (eq 'empty (gethash type resources 'empty))
-                (puthash type '() resources))
-              (push name (gethash type resources))))))))
+          (let* ((kind (match-string-no-properties 1))
+                 (type (match-string-no-properties 2))
+                 (name (match-string-no-properties 3))
+                 (hash (cond ((equal kind "data") datas)
+                             ((equal kind "resource") resources))))
+            (when (eq 'empty (gethash type hash 'empty))
+              (puthash type '() hash))
+            (push name (gethash type hash))))))
     (list datas resources)))
 
 (defconst company-terraform-perdir-resource-cache
@@ -60,7 +56,7 @@
              (< (- (float-time) cache-time) 20))
         resdata
       (progn
-        (message "cache invalid")
+        (message "Regenerating company-terraform resource cache for %s..." dir)
         (let ((resdata (company-terraform-scan-resources dir)))
           (puthash dir (cons (float-time) resdata) company-terraform-perdir-resource-cache)
           resdata)))))
@@ -169,22 +165,35 @@ function's result is interpreted."
      ((equal (car context) 'interpolation)
       (let ((a (split-string (nth 1 context) "\\.")))
         (cond
+         ; Complete function name or resource type.
          ((eq (length a) 1)
           (company-terraform-filterdoc prefix (list company-terraform-interpolation-functions
                                                     company-terraform-resources-list
                                                     company-terraform-interpolation-extra) t))
+         ; Complete data source type.
          ((and (eq (length a) 2)
                (equal (nth 0 a) "data"))
           (company-terraform-filterdoc (nth 1 a) company-terraform-data-list))
+         ; Complete resource name.
          ((and (eq (length a) 2))
           (company-terraform-filter
            (nth 1 a)
            (gethash (nth 0 a)
                     (nth 1 (company-terraform-get-resource-cache
                             (file-name-directory (buffer-file-name)))))))
+         ; Complete data name.
+         ((and (eq (length a) 3)
+               (equal (nth 0 a) "data"))
+          (company-terraform-filter
+           (nth 2 a)
+           (gethash (nth 1 a)
+                    (nth 0 (company-terraform-get-resource-cache
+                            (file-name-directory (buffer-file-name)))))))
+         ; Complete resource arguments/attributes
          ((and (eq (length a) 3))
           (company-terraform-filterdoc (nth 2 a) (list (gethash (nth 0 a) company-terraform-resource-arguments-hash)
                                                        (gethash (nth 0 a) company-terraform-resource-attributes-hash)) t))
+         ; Complete data arguments/attributes
          ((and (eq (length a) 4)
                (equal (nth 0 a) "data"))
           (company-terraform-filterdoc (nth 3 a) (list (gethash (nth 1 a) company-terraform-data-arguments-hash)
