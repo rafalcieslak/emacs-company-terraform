@@ -8,12 +8,15 @@ Company backend for terraform files.
 
 Autompletes:
 
- - Arguments in data and resoruce blocks
+ - Arguments and meta-parameters in data and resource blocks
  - Resource type in data and resource declarations
- - Built-in functions in interpolations
- - Resource and data types in interpolations
- - Resource and data arguments and attributes in interpolations
- - Some top-level keywords
+ - Top-level keywords
+ - In interpolations:
+   - Built-in functions
+   - Resource and data types and names, conveniently limited to those existing in your project
+   - Resource and data arguments and attributes
+   - Variable names
+   - Meta-parameters and keywords
 
 ## Usage
 
