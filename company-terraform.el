@@ -33,8 +33,11 @@
          (variables '()))
     (dolist (file files)
       (with-temp-buffer
-        (ignore-errors
-          (insert-file-contents file))
+        (if (find-buffer-visiting file)
+            ;; If this file is being edited, use the current (possibly unsaved) version.
+            (insert (with-current-buffer (find-buffer-visiting file) (buffer-string)))
+          ;; Otherwise just open the file from file system.
+          (ignore-errors (insert-file-contents file)))
         (goto-char 1) ; Start by searching for data and resource blocks.
         (while (re-search-forward "\\(resource\\|data\\)[[:space:]\n]*\"\\([^\"]*\\)\"[[:space:]\n]*\"\\([^\"]*\\)\"[[:space:]\n]*{" nil t)
           (let* ((kind (intern (match-string-no-properties 1)))
