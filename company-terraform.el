@@ -147,16 +147,19 @@ function's result is interpreted."
     (propertize text 'doc doc)))
 
 (defun company-terraform--filterdoc (prefix lists &optional multi)
-  "Filters for the PREFIX a list (or a list of LISTS, if MULTI is not nil) of name-doc pairs."
+  "Filters candidates for a PREFIX.
+The candidates are provided either as a single list of a list of
+LISTS if MULTI is non-nil.  Each candidate is either a single
+string of a pair of string and documentation."
   (if (not multi) (setq lists (list lists)))
-    (cl-loop for l in lists
-      append (cl-loop for item in l
-                      if (stringp item)
-                        if (string-prefix-p prefix item)
-                          collect item
-                        end
-                      else if (string-prefix-p prefix (car item))
-                        collect (company-terraform--make-candidate item))))
+  (cl-loop
+   for l in lists
+     append (cl-loop
+       for item in l
+         if (and (stringp item) (string-prefix-p prefix item))
+           collect item
+         else if (string-prefix-p prefix (car item))
+           collect (company-terraform--make-candidate item))))
 
 (defun company-terraform-is-resource-n (string)
   "True iff STRING is an integer or a literal * character."
