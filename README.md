@@ -1,4 +1,4 @@
-# company-terraform
+# company-terraform [![MELPA](https://melpa.org/packages/company-terraform-badge.svg)](https://melpa.org/#/company-terraform)     [![MELPA Stable](https://stable.melpa.org/packages/company-terraform-badge.svg)](https://stable.melpa.org/#/company-terraform)
 
 Company backend for terraform files.
 
