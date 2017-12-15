@@ -7,7 +7,7 @@
 ;; Package-Requires: ((emacs "24.4") (company "0.8.12") (terraform-mode "0.06"))
 ;; Created: 10 August 2017
 ;; Keywords: abbrev, convenience, terraform, company
-;; URL: https://github.com/rafalcieslak/company-terraform
+;; URL: https://github.com/rafalcieslak/emacs-company-terraform
 
 ;;; Commentary:
 
