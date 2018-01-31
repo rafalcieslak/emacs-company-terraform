@@ -154,11 +154,11 @@ string of a pair of string and documentation."
   (if (not multi) (setq lists (list lists)))
   (cl-loop
    for l in lists
-     append (cl-loop
-       for item in l
-         if (and (stringp item) (string-prefix-p prefix item))
+   append (cl-loop
+           for item in l
+           if (and (stringp item) (string-prefix-p prefix item))
            collect item
-         else if (string-prefix-p prefix (car item))
+           else if (and (listp item) (string-prefix-p prefix (car item)))
            collect (company-terraform--make-candidate item))))
 
 (defun company-terraform-is-resource-n (string)
