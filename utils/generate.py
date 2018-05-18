@@ -93,21 +93,29 @@ s = requests.Session()
 def get_providers():
     page = s.get("https://www.terraform.io/docs/providers/index.html")
     assert(page.status_code is 200)
-    soup = BeautifulSoup(page.content, 'html.parser')
-    li = soup.find_all('li', class_='active')[0]
-    lis = li.find_all('li')
-    for li in lis:
-        href = li.a['href']
-        provider = href.split('/')[3]
-        provider_list.append(provider)
-    
+    fixed = page.content.replace(b"<p><td><a href=", b"<p><tr><td><a href=")
+    soup = BeautifulSoup(fixed, 'html.parser')
+    div_inner = soup.find_all('div', id="inner")[0]
+    table = div_inner.find_all('table')[0]
+    as_ = table.find_all('a')
+    for a in as_:
+        href = a.get('href', "")
+        if href:
+            provider = href.split('/')[3]
+            if provider == 'null':
+                continue  # Null module has invalid documentation
+            provider_list.append(provider)
+
 
 def get_resources_by_provider(provider):
     page = s.get("https://www.terraform.io/docs/providers/%s/index.html" % provider)
     assert(page.status_code is 200)
     soup = BeautifulSoup(page.content, 'html.parser')
     uls = soup.find_all('ul', class_='nav-visible')
-    return [(a.get_text(), a['href']) for ul in uls for a in ul.find_all('a')]
+    result = [(a.get_text(), a['href']) for ul in uls for a in ul.find_all('a')]
+    return [r for r in result
+            if ' ' not in r[0]
+            or r[0] == 'Data Source']
 
 def arghelper(kind, soup):
     arglist = []
@@ -138,7 +146,14 @@ def arghelper(kind, soup):
             ul = get_sibling(ul)
     return arglist
 
+
 def get_resource_params(name, docpath):
+    blacklist = [
+        'vault_aws_auth_backend_role_tag'  # This resource has a completely
+                                           # broken docpage.
+    ]
+    if name in blacklist:
+        return
     page = s.get("https://www.terraform.io%s" % docpath)
     kind = {'r': 'resource', 'd': 'data', 'external': 'data', 'http': 'data'}[docpath.split('/')[-2]]
     assert(page.status_code is 200)
@@ -183,22 +198,23 @@ def get_interpolation_functions():
         funcparam = funcsig[len(funcname):]
         funcdoc = li.get_text().replace("\n", " ").strip()
         functions_list.append({'name': funcname, 'doc': funcdoc.translate(escaping), 'param': funcparam})
-    
-    
+
 
 def gather_all_by_provider(provider):
     global resource_list
     print("Gathering resources for %s" % provider)
     resources = get_resources_by_provider(provider)
     for name, docpath in resources:
-        print(name)
+        print("- " + name)
         params = get_resource_params(name, docpath)
-        resource_list.append(params)
+        if params is not None:
+            resource_list.append(params)
+
 
 def prepare_file():
     print("Generating file...")
     data = ""
-    
+
     # First, build up bare resource list.
     reslist = ""
     for resource in resource_list:
@@ -207,7 +223,7 @@ def prepare_file():
                 'name': resource['name'],
                 'doc': resource['doc']}
     data += "(defconst company-terraform-resources-list '(\n" + reslist + "   ))\n\n"
-    
+
     # Then, resource argument hashes.
     for resource in resource_list:
         if resource['type'] == 'resource':
@@ -231,7 +247,7 @@ def prepare_file():
             data += "(puthash \"%(name)s\" '(\n%(attrlist)s\n  ) company-terraform-resource-attributes-hash)\n\n" % {
                 'name': resource['name'],
                 'attrlist': attrlist}
-            
+
     # Data list.
     reslist = ""
     for resource in resource_list:
@@ -240,7 +256,7 @@ def prepare_file():
                 'name': resource['name'],
                 'doc': resource['doc']}
     data += "(defconst company-terraform-data-list '(\n" + reslist + "   ))\n\n"
-    
+
     # Then, data argument hashes.
     for resource in resource_list:
         if resource['type'] == 'data':
@@ -271,10 +287,10 @@ def prepare_file():
             'name':func['name'],
             'doc': func['doc']}
     data += "(defconst company-terraform-interpolation-functions  '(\n" + funclist + "   ))\n\n"
-        
+
     with open("company-terraform-data.el", "w") as file:
         file.write(header + data + footer)
-    
+
 get_providers()
 for p in provider_list:
     gather_all_by_provider(p)
