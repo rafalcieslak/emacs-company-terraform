@@ -30,7 +30,8 @@
   (let* ((files (directory-files dir t "\\.tf$"))
          (datas     (make-hash-table :test 'equal))
          (resources (make-hash-table :test 'equal))
-         (variables '()))
+         (variables '())
+         (locals '()))
     (dolist (file files)
       (with-temp-buffer
         (if (find-buffer-visiting file)
@@ -51,8 +52,15 @@
             (push name (gethash type hash-to-use))))
         (goto-char 1) ; Then search for variable blocks.
         (while (re-search-forward "variable[[:space:]\n]*\"\\([^\"]*\\)\"[[:space:]\n]*{" nil t)
-          (push (match-string-no-properties 1) variables))))
-    (list datas resources variables)))
+          (push (match-string-no-properties 1) variables))
+        (goto-char 1) ; Then search for locals
+        (while (re-search-forward "locals[[:space:]\n]*{" nil t)
+          (let ((end (save-excursion (backward-char) (forward-sexp) (point))))
+            ;; TODO: This will also find sub-keys for locals which are nested dicts.
+            (while (re-search-forward "\n[[:space:]]*\\([^[:space:]\n#]*\\)[[:space:]]*=" end t)
+              (push (match-string-no-properties 1) locals))
+            ))))
+    (list datas resources variables locals)))
 
 (defconst company-terraform-perdir-resource-cache
   (make-hash-table :test 'equal))
@@ -66,7 +74,8 @@ which lasts serval seconds."
   (nth (cl-case kind
          ('data 0)
          ('resource 1)
-         ('variable 2))
+         ('variable 2)
+         ('local 3))
        (let* ((dir (or dir (file-name-directory (buffer-file-name))))
               (v (gethash dir company-terraform-perdir-resource-cache))
               (cache-time (car v))
@@ -201,6 +210,9 @@ string of a pair of string and documentation."
         (`("var" ,x)
          ;; Complete variable name.
          (company-terraform--filterdoc x (company-terraform-get-resource-cache 'variable)))
+        (`("local" ,x)
+         ;; Complete locals name.
+         (company-terraform--filterdoc x (company-terraform-get-resource-cache 'local)))
         (`("data" ,x)
          ;; Complete data source type.
          (company-terraform--filterdoc x (hash-table-keys (company-terraform-get-resource-cache 'data))))
