@@ -31,8 +31,10 @@
          (datas     (make-hash-table :test 'equal))
          (resources (make-hash-table :test 'equal))
          (variables '())
+         (outputs '())
          (locals '())
-         (modules '()))
+         (modules '())
+         (modules-with-dirs (make-hash-table :test 'equal)))
     (dolist (file files)
       (with-temp-buffer
         (if (find-buffer-visiting file)
@@ -54,6 +56,9 @@
         (goto-char 1) ; Then search for variable blocks.
         (while (re-search-forward "variable[[:space:]\n]*\"\\([^\"]*\\)\"[[:space:]\n]*{" nil t)
           (push (match-string-no-properties 1) variables))
+        (goto-char 1) ; Then search for output blocks.
+        (while (re-search-forward "output[[:space:]\n]*\"\\([^\"]*\\)\"[[:space:]\n]*{" nil t)
+          (push (match-string-no-properties 1) outputs))
         (goto-char 1) ; Then search for locals
         (while (re-search-forward "locals[[:space:]\n]*{" nil t)
           (let ((end (save-excursion (backward-char) (forward-sexp) (point))))
@@ -63,8 +68,17 @@
             ))
         (goto-char 1) ; Then search for modules
         (while (re-search-forward "module[[:space:]\n]*\"\\([^\"]*\\)\"[[:space:]\n]*{" nil t)
-          (push (match-string-no-properties 1) modules))))
-    (list datas resources variables locals modules)))
+          (let ((module-name (match-string-no-properties 1))
+                (end (save-excursion (backward-char) (forward-sexp) (point))))
+            (push module-name modules)
+            ;; Search for module source path
+            (while (re-search-forward "\n[[:space:]]*source[[:space:]]*=[[:space:]]*\"\\([^\"]*\\)\"" end t)
+              (let* ((module-dir-hash (secure-hash 'md5 (concat "1." module-name ";" (match-string-no-properties 1))))
+                     (module-dir (concat dir ".terraform/modules/" module-dir-hash)))
+                ;; TODO: If the dir does not exist, use data straight from source dir
+                (puthash module-name module-dir modules-with-dirs)))
+            ))))
+    (list datas resources variables outputs locals modules modules-with-dirs)))
 
 (defconst company-terraform-perdir-resource-cache
   (make-hash-table :test 'equal))
@@ -79,8 +93,10 @@ which lasts serval seconds."
          ('data 0)
          ('resource 1)
          ('variable 2)
-         ('local 3)
-         ('module 4))
+         ('output 3)
+         ('local 4)
+         ('module 5)
+         ('module-dir 6))
        (let* ((dir (or dir (file-name-directory (buffer-file-name))))
               (v (gethash dir company-terraform-perdir-resource-cache))
               (cache-time (car v))
@@ -127,7 +143,7 @@ which lasts serval seconds."
      ((and (eq ?{ (char-after curr-ppos))
            (save-excursion
              (goto-char curr-ppos)
-             (re-search-backward "\\(resource\\|data\\)[[:space:]\n]*\"\\([^\"]*\\)\"[[:space:]\n]*\"[^\"]*\"[[:space:]\n]*\\=" nil t)))
+             (re-search-backward "\\(resource\\|data\\|module\\)[[:space:]\n]*\"\\([^\"]*\\)\"[[:space:]\n]*\\(\"[^\"]*\"[[:space:]\n]*\\)?\\=" nil t)))
       
       (list 'block (intern (match-string-no-properties 1)) (match-string-no-properties 2)))
      ;; Top level
@@ -199,6 +215,10 @@ string of a pair of string and documentation."
                                     (list (gethash type company-terraform-data-arguments-hash)
                                           company-terraform-data-extra)
                                     t))
+     (`(block module ,module-name)
+      (company-terraform--filterdoc prefix (company-terraform-get-resource-cache
+                                            'variable
+                                            (gethash module-name (company-terraform-get-resource-cache 'module-dir)))))
      (`(interpolation ,pathstr)
       ;; Within interpolation
       (pcase (split-string pathstr "\\.")
@@ -235,6 +255,13 @@ string of a pair of string and documentation."
                                        (list (gethash data-type company-terraform-data-arguments-hash)
                                              (gethash data-type company-terraform-data-attributes-hash))
                                        t))
+        (`("module" ,module-name ,x)
+         ;; Complete module output
+         (company-terraform--filterdoc x
+                                       (company-terraform-get-resource-cache
+                                        'output
+                                        (gethash module-name (company-terraform-get-resource-cache 'module-dir)))
+                                       ))
         (`(,resource-type ,x)
          ;; Complete resource name.
          (company-terraform--filterdoc x
