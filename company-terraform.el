@@ -31,7 +31,8 @@
          (datas     (make-hash-table :test 'equal))
          (resources (make-hash-table :test 'equal))
          (variables '())
-         (locals '()))
+         (locals '())
+         (modules '()))
     (dolist (file files)
       (with-temp-buffer
         (if (find-buffer-visiting file)
@@ -59,8 +60,11 @@
             ;; TODO: This will also find sub-keys for locals which are nested dicts.
             (while (re-search-forward "\n[[:space:]]*\\([^[:space:]\n#]*\\)[[:space:]]*=" end t)
               (push (match-string-no-properties 1) locals))
-            ))))
-    (list datas resources variables locals)))
+            ))
+        (goto-char 1) ; Then search for modules
+        (while (re-search-forward "module[[:space:]\n]*\"\\([^\"]*\\)\"[[:space:]\n]*{" nil t)
+          (push (match-string-no-properties 1) modules))))
+    (list datas resources variables locals modules)))
 
 (defconst company-terraform-perdir-resource-cache
   (make-hash-table :test 'equal))
@@ -75,7 +79,8 @@ which lasts serval seconds."
          ('data 0)
          ('resource 1)
          ('variable 2)
-         ('local 3))
+         ('local 3)
+         ('module 4))
        (let* ((dir (or dir (file-name-directory (buffer-file-name))))
               (v (gethash dir company-terraform-perdir-resource-cache))
               (cache-time (car v))
@@ -213,6 +218,9 @@ string of a pair of string and documentation."
         (`("local" ,x)
          ;; Complete locals name.
          (company-terraform--filterdoc x (company-terraform-get-resource-cache 'local)))
+        (`("module" ,x)
+         ;; Complete module name.
+         (company-terraform--filterdoc x (company-terraform-get-resource-cache 'module)))
         (`("data" ,x)
          ;; Complete data source type.
          (company-terraform--filterdoc x (hash-table-keys (company-terraform-get-resource-cache 'data))))
