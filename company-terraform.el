@@ -298,7 +298,7 @@ Read `company-mode` function docs for the semantics of this function."
 (defun company-terraform-init ()
   "Add terraform to the company backends."
   (interactive)
-  (add-to-list 'company-backends 'company-terraform))
+  (add-to-list 'company-backends '(company-terraform :with company-yasnippet)))
 
 (provide 'company-terraform)
 
