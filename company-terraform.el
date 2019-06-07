@@ -123,11 +123,17 @@ which lasts serval seconds."
              (goto-char string-ppos)
              (re-search-backward "\\(resource\\|data\\)[[:space:]\n]*\\=" nil t)))
       (list 'object-type (intern (match-string-no-properties 1))))
-     ;; String interpolation
-     ((and (> nest-level 0)
-           string-state
-           (save-excursion
-             (re-search-backward "\\${[^\"]*\\=" nil t)))
+     ((or
+       ;; String interpolation
+       (and (> nest-level 0)
+            string-state
+            (save-excursion
+              (re-search-backward "\\${[^\"]*\\=" nil t)))
+       ;; Assignment expression
+       (and (> nest-level 0)
+            (save-excursion
+              (re-search-backward "=[^\n=\"]*\\=" nil t)))
+       )
       (list 'interpolation
             (buffer-substring
              (point)
