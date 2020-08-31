@@ -75,8 +75,10 @@
             (while (re-search-forward "\n[[:space:]]*source[[:space:]]*=[[:space:]]*\"\\([^\"]*\\)\"" end t)
               (let* ((module-dir-hash (secure-hash 'md5 (concat "1." module-name ";" (match-string-no-properties 1))))
                      (module-dir (concat dir ".terraform/modules/" module-dir-hash)))
-                ;; TODO: If the dir does not exist, use data straight from source dir
-                (puthash module-name module-dir modules-with-dirs)))
+                ;; If the dir does not exist, use data straight from source dir
+                (if (file-directory-p module-dir)
+                    (puthash module-name module-dir modules-with-dirs)
+                  (puthash module-name (concat dir (match-string-no-properties 1)) modules-with-dirs))))
             ))))
     (list datas resources variables outputs locals modules modules-with-dirs)))
 
