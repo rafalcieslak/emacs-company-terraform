@@ -148,7 +148,8 @@ which lasts serval seconds."
                  (skip-syntax-backward "w")
                  (point))))))
      ;; Inside resource/data block
-     ((and (eq ?{ (char-after curr-ppos))
+     ((and (not string-state)
+           (eq ?{ (char-after curr-ppos))
            (save-excursion
              (goto-char curr-ppos)
              (re-search-backward "\\(resource\\|data\\|module\\)[[:space:]\n]*\"\\([^\"]*\\)\"[[:space:]\n]*\\(\"[^\"]*\"[[:space:]\n]*\\)?\\=" nil t)))
